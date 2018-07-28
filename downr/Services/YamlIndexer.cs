@@ -1,14 +1,15 @@
 ﻿namespace downr.Services
 {
-    using System.Collections.Generic;
-    using Microsoft.Extensions.Logging;
-
-    using downr.Models;
+    using System;
     using System.IO;
     using System.Linq;
-    using YamlDotNet.Serialization;
     using System.Text;
-    using System;
+    using System.Collections.Generic;
+
+    using YamlDotNet.Serialization;
+    using Microsoft.Extensions.Logging;
+
+    using downr.Models;   
 
     public class YamlIndexer : IYamlIndexer
     {
@@ -32,12 +33,13 @@
 
         private IList<Metadata> LoadMetadata(string contentPath)
         {
-            List<Metadata> list = Directory.GetDirectories(contentPath)
-                              .Select(dir => Path.Combine(dir, "index.md"))
-                              .Select(ParseMetadata)
-                              .Where(m => m != null)
-                              .OrderByDescending(x => x.Date)
-                              .ToList();
+            List<Metadata> list = Directory
+                .GetDirectories(contentPath)
+                .Select(dir => Path.Combine(dir, "index.md"))
+                .Select(ParseMetadata)
+                .Where(m => m != null)
+                .OrderByDescending(x => x.Date)
+                .ToList();
 
             this.logger.LogInformation("Loaded {0} posts", list.Count);
 
@@ -48,7 +50,7 @@
         {
             var deserializer = new Deserializer();
 
-            using (var rdr = File.OpenText(indexFile))
+            using (StreamReader rdr = new StreamReader(indexFile, Encoding.Default))
             {
                 var line = rdr.ReadLine();
 
@@ -71,12 +73,9 @@
                     var yaml = stringBuilder.ToString();
                     var result = deserializer.Deserialize<Dictionary<string, string>>(new StringReader(yaml));
 
-                    // convert the dictionary into a model
-                    var slug = result["slug"];
-
                     var metadata = new Metadata
                     {
-                        Slug = slug,
+                        Slug = result["slug"],
                         Title = result["title"],
                         Date = DateTime.Parse(result["date"]),
                         Content = htmlContent
@@ -84,6 +83,8 @@
 
                     return metadata;
                 }
+
+                rdr.Close();
             }
 
             return null;

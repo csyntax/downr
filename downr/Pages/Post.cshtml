@@ -1,0 +1,9 @@
+﻿@page "{id}"
+@model PostModel
+@{
+    ViewData["Title"] = "Article";
+}
+
+<h1>@Model.Article.Title</h1>
+
+@Model.Article.Content

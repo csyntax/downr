@@ -1,14 +1,16 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
-
-<hr />
 
 <ol>
     @foreach (var post in Model.Posts)
     {
-    <li>@post.Title</li>
+    <li>
+        <a asp-page="./Post" asp-route-id="@post.Slug">
+            @post.Title
+        </a>
+    </li>
     }
 </ol>
