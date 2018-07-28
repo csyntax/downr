@@ -15,7 +15,7 @@
     {
         private readonly ILogger logger;
 
-        public ICollection<Metadata> Metadata { get; set; } // private set
+        public ICollection<Metadata> Metadata { get; set; }
 
         public YamlIndexer(ILogger<YamlIndexer> logger)
         {
@@ -24,7 +24,8 @@
 
         public void IndexContentFiles(string contentPath)
         {
-            //this.Metadata = new HashSet<Metadata>();
+            var subDirectories = Directory.GetDirectories(contentPath);
+            var deserializer = new Deserializer();
 
             this.logger.LogInformation("Loading post content...");
 
