@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  downr:
+    image: ${DOCKER_REGISTRY}downr
+    build:
+      context: .
+      dockerfile: downr\Dockerfile

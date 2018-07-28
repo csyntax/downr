@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "downr", "src\downr.csproj", "{541F4458-DE4D-4F75-AB18-F8EF5454E824}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "downr", "downr\downr.csproj", "{854D877A-DA2A-4ADA-A8B9-92C3B08E194F}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{40932D2B-ACAB-4DCE-94B1-D196F7BD1148}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{541F4458-DE4D-4F75-AB18-F8EF5454E824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{541F4458-DE4D-4F75-AB18-F8EF5454E824}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{541F4458-DE4D-4F75-AB18-F8EF5454E824}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{541F4458-DE4D-4F75-AB18-F8EF5454E824}.Release|Any CPU.Build.0 = Release|Any CPU
+		{854D877A-DA2A-4ADA-A8B9-92C3B08E194F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{854D877A-DA2A-4ADA-A8B9-92C3B08E194F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{854D877A-DA2A-4ADA-A8B9-92C3B08E194F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{854D877A-DA2A-4ADA-A8B9-92C3B08E194F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40932D2B-ACAB-4DCE-94B1-D196F7BD1148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40932D2B-ACAB-4DCE-94B1-D196F7BD1148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40932D2B-ACAB-4DCE-94B1-D196F7BD1148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40932D2B-ACAB-4DCE-94B1-D196F7BD1148}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6B39A8DA-EF65-4FF9-9612-3FE591887B30}
 	EndGlobalSection
 EndGlobal
