@@ -5,6 +5,7 @@ namespace downr
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -28,8 +29,11 @@ namespace downr
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
         }
         
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IYamlIndexer yamlIndexer)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(this.configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
@@ -44,9 +48,13 @@ namespace downr
 
             app.UseMvc();
 
-            var contentPath = Path.Combine(env.WebRootPath, "..", "Posts");
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var contentPath = Path.Combine(env.WebRootPath, "..", "Posts");
+                var yamlIndexer = serviceScope.ServiceProvider.GetRequiredService<IYamlIndexer>();
 
-            yamlIndexer.IndexContentFiles(contentPath);
+                yamlIndexer.IndexContentFiles(contentPath);
+            }
         }
     }
 }
