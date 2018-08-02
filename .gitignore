@@ -1,0 +1,16 @@
+wwwroot/
+[Pp]ublish/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+node_modules/
+bower_components/
