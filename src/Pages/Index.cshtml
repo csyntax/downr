@@ -8,7 +8,9 @@
     @foreach(var post in Model.Posts)
     {
         <li>
-            <a href="@post.Slug">@post.Title</a>
+            <a asp-page="./Post" asp-route-id="@post.Slug">
+                @post.Title
+            </a>
         </li>
     }
 </ul>

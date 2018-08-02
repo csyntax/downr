@@ -1,11 +1,12 @@
 ﻿namespace downr.Pages
 {
+    using System.Linq;
     using System.Collections.Generic;
 
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
     using downr.Models;
-    using downr.Services; 
+    using downr.Services;
 
     public class IndexModel : PageModel
     {
@@ -20,7 +21,7 @@
 
         public void OnGet()
         {
-            this.Posts = this.yamlIndexer.Metadata;
+            this.Posts = this.yamlIndexer.Metadata.ToList();
         }
     }
 }

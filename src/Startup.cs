@@ -30,6 +30,7 @@ namespace downr
 
             services.AddSingleton(this.configuration);
 
+            services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
 
             services.Configure<WebEncoderOptions>(options =>
