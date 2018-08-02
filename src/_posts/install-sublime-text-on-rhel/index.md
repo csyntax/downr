@@ -4,7 +4,7 @@ slug: install-sublime-text-on-rhel
 date: 24-04-2018
 ---
 
-![Install Sublime Text on Red Hat Enterprise Linux](/install-sublime-text-on-rhel/media/header.jpg)
+![Install Sublime Text on Red Hat Enterprise Linux](media/header.jpg)
 
 *Sublime Text* is a sophisticated text editor for code, markup and prose.
 You’ll love the slick user interface, extraordinary features and amazing performance. 

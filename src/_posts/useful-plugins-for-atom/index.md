@@ -4,15 +4,18 @@ slug: useful-plugins-for-atom
 date: 23-06-2016
 ---
 
-![Полезни плъгини за Atom](/useful-plugins-for-atom/media/header.png)
+![Полезни плъгини за Atom](media/header.png)
 
-Доста хора ме питат за добри плъгини за Atom, които да улесняват писането на код и въобще употребата на Atom. Тук бих искал да споделя  някои от плъгините, които изполавам и ми помагат значително. Смятам, че изброените по-долу пакети превръщат Atom в прекрасно IDE.
+Доста хора ме питат за добри плъгини за Atom, които да улесняват писането на код и въобще употребата на Atom. 
+Тук бих искал да споделя  някои от плъгините, които изполавам и ми помагат значително. 
+Смятам, че изброените по-долу пакети превръщат *Atom* в прекрасно *IDE*.
 
 ## Linter
-![Linter](/useful-plugins-for-atom/media/linter.gif)
+![Linter](media/linter.gif)
 
 ## linter-eslint
-Linter за JavaScript синтаксис. Ако искате да използвате специфична конфигурация за вашия Linter, просто си създайте `.eslintrc.json` в главната директория на вашия проект и след това направете вашите настройки там.
+Linter за JavaScript синтаксис. Ако искате да използвате специфична конфигурация за вашия Linter,
+просто си създайте `.eslintrc.json` в главната директория на вашия проект и след това направете вашите настройки там.
 
 ```javascript
 {
@@ -47,10 +50,10 @@ Linter за JavaScript синтаксис. Ако искате да използ
 Аutocomplete е подходящ плъгин за подръжка на пътищата във вашия проект.
 Само започнете с `./` и продължете да навигирате.
 
-![autocomplete-project-paths](/useful-plugins-for-atom/media/paths.gif)
+![autocomplete-project-paths](media/paths.gif)
 
 ## Script
-Изпълнение на скриптови файлове директно в Atom (подобно на Sublime).
-Перфектен за работа с JavaScript и Python.
+Изпълнение на скриптови файлове директно в *Atom* (подобно на *Sublime*).
+Перфектен за работа с _JavaScript_ и _Python_.
 
-![Script](/useful-plugins-for-atom/media/script.gif)
+![Script](media/script.gif)

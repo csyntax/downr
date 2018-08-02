@@ -4,7 +4,7 @@ slug: list-of-wordpress-themes
 date: 18-08-2015
 ---
 
-![List of WordPress themes](/list-of-wordpress-themes/media/header.jpg)
+![List of WordPress themes](media/header.jpg)
 
 Преди няколко дни ползвах **WordPress** и ми се наложи да се поразровя в интернет за безплатни
 и в същото време качествени и със хубав дизайн теми за **WordPress**.

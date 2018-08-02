@@ -4,7 +4,7 @@ slug: bizarre-in-javascript
 date: 02-06-2015
 ---
 
-![Bizarre in JS](/bizarre-in-javascript/media/header.png)
+![Bizarre in JS](media/header.png)
 
 JavaScript, понякога е доста отзивчив, а понякога доста нетърпим.
 В тази статия ще ви покажа доста, на кратко някой от най-извесните странни поведения на JavaScript.

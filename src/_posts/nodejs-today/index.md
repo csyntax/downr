@@ -4,7 +4,7 @@ slug: nodejs-today
 date: 25-09-2015
 ---
 
-![Node.js today](/nodejs-today/media/header.jpg)
+![Node.js today](media/header.jpg)
 
 Въпреки че минаха много години от както Node.js се появи на бял свят през 2009 година,
 той продължава да печели симпатии като платформа за разработване на приложения,

@@ -4,6 +4,7 @@ namespace downr
     using System.Text.Unicode;
     using System.Text.Encodings.Web;
 
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,9 @@ namespace downr
     using Microsoft.Extensions.DependencyInjection;
 
     using downr.Services;
+    using Microsoft.Extensions.FileProviders;
+    using System.Linq;
+    using Microsoft.AspNetCore.StaticFiles;
 
     public class Startup
     {
@@ -59,6 +63,20 @@ namespace downr
             app.UseMvc();
 
             app.UseStaticFiles();
+
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings.Remove(".md");
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "_posts")),
+                RequestPath = "/posts",
+                ContentTypeProvider = provider,
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
+                }
+            });
 
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {

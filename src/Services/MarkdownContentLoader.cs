@@ -8,7 +8,7 @@ namespace downr.Services
 {
     public class MarkdownContentLoader : IMarkdownContentLoader
     {
-        public string GetContentToRender(string path)
+        public string GetContentToRender(string path, string slug)
         {
             using (var reader = new StreamReader(path, Encoding.UTF8))
             {
@@ -20,6 +20,18 @@ namespace downr.Services
 
                 var htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(html);
+
+                var nodes = htmlDoc.DocumentNode.SelectNodes("//img[@src]");
+
+                if (nodes != null)
+                {
+                    foreach (HtmlNode node in nodes)
+                    {
+                        var src = node.Attributes["src"].Value;
+                        src = src.Replace("media/", string.Format("/posts/{0}/media/", slug));
+                        node.SetAttributeValue("src", src);
+                    }
+                }
 
                 html = htmlDoc.DocumentNode.OuterHtml;
 

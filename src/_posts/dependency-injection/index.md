@@ -4,7 +4,7 @@ slug: dependency-injection
 date: 27-01-2017
 ---
 
-![Dependency Injection](/dependency-injection/media/header.jpg)
+![Dependency Injection](media/header.jpg)
 
 Луд умора няма. Онзи ден нямане какво да правя реших – абе дай да си направя един простичък Dependency Injector. И преди да опиша какво е това, мисля, че е по-добре да разясня какво е *"обръщане на контрола" (Inversion of Control)* и *"инжектиране на зависимости" (dependency injection)*.
 

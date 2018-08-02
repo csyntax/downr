@@ -4,7 +4,7 @@ slug: why-nginx-practically-better-than-apache
 date: 20-07-2018
 ---
 
-![NGINX vs Apache](/nginx-vs-apache/media/nginx-vs-apache.png)
+![NGINX vs Apache](media/nginx-vs-apache.png)
 
 **Apache** is a free, open-source _HTTP_ server for _Unix-like_ operating systems and _Windows_.
 It was designed to be a secure, efficient and extensible server that provides HTTP services in sync with the prevailing HTTP standards.
@@ -138,7 +138,9 @@ _NGINX_ then distributes the load amongst the upstream servers by generating a h
 
 ## Conclusion
 
-Both **Apache** and **NGINX** can’t be replaced by each other, they have their strong and weak points. However, **NGINX** offers a powerful, flexible, scalable and secure technology for reliably and efficiently powering modern websites and web applications.
+Both **Apache** and **NGINX** can’t be replaced by each other, they have their strong and weak points.
+However, **NGINX** offers a powerful, flexible, scalable and secure technology 
+for reliably and efficiently powering modern websites and web applications.
 __What is your take? Let us know via the feedback form below.__
 
-![NGINX vs Apache requests per second](/nginx-vs-apache/media/nginx-apache-reqs-sec.png)
+![NGINX vs Apache requests per second](media/nginx-apache-reqs-sec.png)

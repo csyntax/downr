@@ -4,7 +4,7 @@ slug: microsoft-announcing-sql-server-on-linux
 date: 14-03-2016
 ---
 
-![Microsoft пуска SQL Server за Linux](/microsoft-announcing-sql-server-on-linux/media/header.png)
+![Microsoft пуска SQL Server за Linux](media/header.png)
 
 Microsoft официално обяви, че **MS SQL Server** ще бъде наличен вече не само за Windows
 но и за Linux към средата на 2017г.

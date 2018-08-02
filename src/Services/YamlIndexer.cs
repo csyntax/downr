@@ -4,10 +4,12 @@
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Globalization;
     using System.Collections.Generic;
 
     using Microsoft.Extensions.Logging;
 
+    using HtmlAgilityPack;
     using YamlDotNet.Serialization;
 
     using downr.Models;
@@ -51,13 +53,13 @@
         {
             var deserializer = new Deserializer();
 
-            using (var rdr = File.OpenText(indexFile))
+            using (var reader = new StreamReader(indexFile, Encoding.UTF8))
             {
-                var line = rdr.ReadLine();
+                var line = reader.ReadLine();
 
                 if (line == "---")
                 {
-                    line = rdr.ReadLine();
+                    line = reader.ReadLine();
 
                     var stringBuilder = new StringBuilder();
 
@@ -65,21 +67,22 @@
                     {
                         stringBuilder.Append(line);
                         stringBuilder.Append("\n");
-                        line = rdr.ReadLine();
+                        line = reader.ReadLine();
                     }
 
                     var yaml = stringBuilder.ToString();
                     var result = deserializer.Deserialize<Dictionary<string, string>>(new StringReader(yaml));
-   
+                    var htmlContent = this.contentLoader.GetContentToRender(indexFile, result["slug"]);
+                   
                     var metadata = new Metadata
                     {
                         Slug = result["slug"],
                         Title = result["title"],
-                        Date = DateTime.Parse(result["date"]),
-                        Content = this.contentLoader.GetContentToRender(indexFile)
+                        Date = DateTime.ParseExact(result["date"], "dd-mm-yyyy", CultureInfo.InvariantCulture),
+                        Content = htmlContent
                     };
 
-                    rdr.Close();
+                    reader.Close();
 
                     return metadata;
                 }

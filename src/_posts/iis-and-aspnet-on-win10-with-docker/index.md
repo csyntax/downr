@@ -4,7 +4,7 @@ slug: iis-and-aspnet-on-win10-with-docker
 date: 10-04-2017
 ---
 
-![IIS and ASP.NET on Windows 10 with Docker](/iis-and-aspnet-on-win10-with-docker/media/header.png)
+![IIS and ASP.NET on Windows 10 with Docker](media/header.png)
 
 Ако използвате Windows 10 Pro или Windows 10 Enterprise, 
 тогава без проблем можем да използваме Windows Nano Server и Windows Server Core, 
