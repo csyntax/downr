@@ -1,27 +1,17 @@
-﻿namespace downr.Pages
-{ 
-    using System.Linq;
-    using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-    using Microsoft.AspNetCore.Mvc.RazorPages;
-
-    using downr.Models;
-    using downr.Services;
-
+namespace downr.Pages
+{
     public class IndexModel : PageModel
     {
-        private readonly IYamlIndexer yamlIndexer;
-
-        public IndexModel(IYamlIndexer yamlIndexer)
-        {
-            this.yamlIndexer = yamlIndexer;
-        }
-
-        public IList<Metadata> Posts { get; private set; }
-
         public void OnGet()
         {
-            this.Posts = this.yamlIndexer.Metadata.ToList();
+
         }
     }
 }

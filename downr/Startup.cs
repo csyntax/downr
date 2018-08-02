@@ -1,42 +1,45 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace downr
 {
-    using System;
-    using System.IO;
-
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-
-    using downr.Services;
-
     public class Startup
     {
-        private readonly IConfiguration configuration;
 
         public Startup(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            /*services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });*/
 
-            services.AddSingleton(this.configuration);
 
-            services.AddSingleton<IYamlIndexer, YamlIndexer>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
-        
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
-            loggerFactory.AddConsole(this.configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
 
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -45,15 +48,13 @@ namespace downr
             }
 
             app.UseStaticFiles();
+            //app.UseCookiePolicy();
 
             app.UseMvc();
 
-            using (var serviceScope = app.ApplicationServices.CreateScope())
+            if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {
-                var contentPath = Path.Combine(env.WebRootPath, "..", "Posts");
-                var yamlIndexer = serviceScope.ServiceProvider.GetRequiredService<IYamlIndexer>();
-
-                yamlIndexer.IndexContentFiles(contentPath);
+                env.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
             }
         }
     }

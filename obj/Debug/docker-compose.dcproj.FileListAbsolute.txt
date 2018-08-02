@@ -1,0 +1,2 @@
+C:\Users\csyntax\Documents\GitHub\downr\downr\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
+C:\Users\csyntax\Documents\GitHub\downr\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache

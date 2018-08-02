@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  downr:
+    image: downr:dev
+    build:
+      target: base
+    environment:
+      - NUGET_PACKAGES=C:\.nuget\packages
+      #- NUGET_FALLBACK_PACKAGES=$container_paths_to_fallback_packages_downr$
+    volumes:
+      - C:\Users\csyntax\Documents\GitHub\downr\downr:C:\app
+      - C:\Users\csyntax\onecoremsvsmon:C:\remote_debugger:ro
+#$nuget_volume_mapping_downr$
+    entrypoint: cmd /c "set DISABLE_PERFORMANCE_DEBUGGER=1 & C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646"
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "\"C:\\Program Files\\dotnet\\dotnet.exe\""
+      #com.microsoft.visualstudio.debuggee.arguments: " $debuggee_arguments_probing_paths_downr$ bin\\Debug\\netcoreapp2.1\\downr.dll"
+      com.microsoft.visualstudio.debuggee.workingdirectory: "C:\\app"
+      com.microsoft.visualstudio.debuggee.killprogram: "C:\\remote_debugger\\x64\\utils\\KillProcess.exe dotnet.exe"
