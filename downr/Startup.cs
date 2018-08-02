@@ -12,30 +12,26 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace downr
 {
+    using downr.Services;
+
     public class Startup
     {
+        private readonly IConfiguration configuration;
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+           this.configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            /*services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });*/
-
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSingleton(this.configuration);
+
+            services.AddSingleton<IYamlIndexer, YamlIndexer>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -48,7 +44,6 @@ namespace downr
             }
 
             app.UseStaticFiles();
-            //app.UseCookiePolicy();
 
             app.UseMvc();
 
