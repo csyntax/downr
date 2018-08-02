@@ -1,0 +1,14 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<ul>
+    @foreach(var post in Model.Posts)
+    {
+        <li>
+            <a href="@post.Slug">@post.Title</a>
+        </li>
+    }
+</ul>
