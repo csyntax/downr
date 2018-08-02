@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace downr
 {
+    using System.IO;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Builder;
+
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
     using downr.Services;
 
     public class Startup
@@ -32,8 +30,14 @@ namespace downr
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory,
+            IYamlIndexer yamlIndexer)
         {
+            loggerFactory.AddConsole(this.configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,6 +55,12 @@ namespace downr
             {
                 env.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
             }
+
+            var logger = loggerFactory.CreateLogger<Startup>();
+            var contentPath = Path.Combine(env.WebRootPath, "..", "_posts");
+
+            logger.LogInformation($"Content path: '{contentPath}'");
+            yamlIndexer.IndexContentFiles(contentPath);
         }
     }
 }
