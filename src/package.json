@@ -1,0 +1,7 @@
+{
+  "name": "downr",
+  "version": "0.0.1",
+  "description": "dirt-simple markdown blog system built using asp.net core",
+  "author": "Ivan Ivanov",
+  "license": "Apache-2.0"
+}

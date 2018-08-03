@@ -1,23 +1,23 @@
 namespace downr
 {
     using System.IO;
+    using System.Linq;
     using System.Text.Unicode;
     using System.Text.Encodings.Web;
 
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.StaticFiles;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.WebEncoders;
+    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     using downr.Services;
-    using Microsoft.Extensions.FileProviders;
-    using System.Linq;
-    using Microsoft.AspNetCore.StaticFiles;
 
     public class Startup
     {
@@ -69,7 +69,7 @@ namespace downr
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "_posts")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.WebRootPath, "..", "_posts")),
                 RequestPath = "/posts",
                 ContentTypeProvider = provider,
                 OnPrepareResponse = ctx =>

@@ -88,46 +88,5 @@
 
             return list;
         }
-
-        private Metadata ParseMetadata(string indexFile)
-        {
-            using (var reader = new StreamReader(indexFile, Encoding.UTF8))
-            {
-                var deserializer = new Deserializer();
-                var line = reader.ReadLine();
-
-                if (line == "---")
-                {
-                    line = reader.ReadLine();
-
-                    var stringBuilder = new StringBuilder();
-
-                    while (line != "---")
-                    {
-                        stringBuilder.Append(line);
-                        stringBuilder.Append("\n");
-                        line = reader.ReadLine();
-                    }
-
-                    var yaml = stringBuilder.ToString();
-                    var result = deserializer.Deserialize<Dictionary<string, string>>(new StringReader(yaml));
-                    
-                    var metadata = new Metadata
-                    {
-                        Slug = result["slug"],
-                        Title = result["title"],
-                        Date = DateTime.ParseExact(result["date"], "dd-MM-yyyy", CultureInfo.InvariantCulture),
-                        Categories = result["categories"]?.Split(',').Select(c => c.Trim()).ToArray() ?? new string[0],
-                        Content = this.contentLoader.RenderContent(indexFile, result["slug"])
-                    };
-
-                    reader.Close();
-
-                    return metadata;
-                }
-            }
-
-            return null;
-        }
     }
 }

@@ -1,9 +1,25 @@
 ﻿@page "{id}"
 @model PostModel
 @{
-    ViewData["Title"] = "Article";
+    ViewData["Title"] = Model.Article.Title;
 }
 
-<h1>@Model.Article.Title</h1>
+<header>
+    <div class="well">
+        <h1>@Model.Article.Title</h1>
+        <hr />
+        <a asp-route="blog-post" asp-route-slug="@Model.Article.Slug" class="btn btn-primary">
+            <span class="glyphicon glyphicon-link"></span>
+            @Model.Article.Date.ToLocalTime().ToString("dd-MM-yyyy")
+        </a>
+
+        @foreach (var category in Model.Article.Categories)
+        {
+            <a href="#" class="btn btn-primary pull-right">
+                <span class="glyphicon glyphicon-pushpin"></span> @category
+            </a>
+        }
+    </div>
+</header>
 
 @Html.Raw(Model.Article.Content)
