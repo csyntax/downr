@@ -6,7 +6,7 @@
 
     public interface IYamlIndexer
     {
-        ICollection<Metadata> Metadata { get; }
+        ICollection<Metadata> Metadata { get; set; }
 
         void IndexContentFiles(string contentPath);
     }

@@ -2,6 +2,6 @@
 {
     public interface IMarkdownContentLoader
     {
-        string GetContentToRender(string path, string slug);
+        string RenderContent(string path, string slug);
     }
 }

@@ -2,6 +2,7 @@
 title:  Странностите в JavaScript
 slug: bizarre-in-javascript
 date: 02-06-2015
+categories: JavaScript
 ---
 
 ![Bizarre in JS](media/header.png)

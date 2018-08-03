@@ -2,6 +2,7 @@
 title: Списък с WordPress теми
 slug: list-of-wordpress-themes
 date: 18-08-2015
+categories: HTML, CSS, JavaScript
 ---
 
 ![List of WordPress themes](media/header.jpg)

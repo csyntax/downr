@@ -2,6 +2,7 @@
 title: Какво е Dependency Injection?
 slug: dependency-injection
 date: 27-01-2017
+categories: .NET, ASP.NET
 ---
 
 ![Dependency Injection](media/header.jpg)

@@ -2,6 +2,7 @@
 title: R2-D2 направен със CSS3
 slug: r2-d2-build-with-css3
 date: 27-09-2015
+categories: HTML, CSS, JavaScript
 ---
 
 Днес попаднах на още един проект от *Enrappture*, но този път не на доста познатите ни супергерои,

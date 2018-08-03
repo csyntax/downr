@@ -2,6 +2,7 @@
 title: HTML5 routing в Angular.js
 slug: html5-routing-in-angularjs
 date: 20-01-2016
+categories: JavaScript
 ---
 
 Наскоро ми се наложи да използвам HTML5 routing в Angular.js и най-главният проблем

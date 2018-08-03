@@ -2,6 +2,7 @@
 title: JavaScript, let срещу var
 slug: javascript-let-vs-var
 date: 30-01-2016
+categories: JavaScript
 ---
 
 Стандарният начин в JavaScript за деклараиране на променлива е чрез ключовата дума *var*.

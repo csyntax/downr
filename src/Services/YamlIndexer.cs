@@ -9,7 +9,6 @@
 
     using Microsoft.Extensions.Logging;
 
-    using HtmlAgilityPack;
     using YamlDotNet.Serialization;
 
     using downr.Models;
@@ -19,7 +18,7 @@
         private readonly ILogger<YamlIndexer> logger;
         private readonly IMarkdownContentLoader contentLoader;
 
-        public ICollection<Metadata> Metadata { get; private set; }
+        public ICollection<Metadata> Metadata { get; set; }
 
         public YamlIndexer(ILogger<YamlIndexer> logger, IMarkdownContentLoader contentLoader)
         {
@@ -36,10 +35,51 @@
         {
             this.logger.LogInformation("Loading post content...");
 
+            Func<string, Metadata> parseMetadata = delegate (string indexFile)
+            {
+                using (var reader = new StreamReader(indexFile, Encoding.UTF8))
+                {
+                    var deserializer = new Deserializer();
+                    var line = reader.ReadLine();
+
+                    if (line == "---")
+                    {
+                        line = reader.ReadLine();
+
+                        var stringBuilder = new StringBuilder();
+
+                        while (line != "---")
+                        {
+                            stringBuilder.Append(line);
+                            stringBuilder.Append("\n");
+                            line = reader.ReadLine();
+                        }
+
+                        var yaml = stringBuilder.ToString();
+                        var result = deserializer.Deserialize<Dictionary<string, string>>(new StringReader(yaml));
+
+                        var metadata = new Metadata
+                        {
+                            Slug = result["slug"],
+                            Title = result["title"],
+                            Date = DateTime.ParseExact(result["date"], "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                            Categories = result["categories"]?.Split(',').Select(c => c.Trim()).ToArray() ?? new string[0],
+                            Content = this.contentLoader.RenderContent(indexFile, result["slug"])
+                        };
+
+                        reader.Close();
+
+                        return metadata;
+                    }
+                }
+
+                return null;
+            };
+
             var list = Directory
                         .GetDirectories(contentPath)
                         .Select(dir => Path.Combine(dir, "index.md"))
-                        .Select(ParseMetadata)
+                        .Select(parseMetadata)
                         .Where(m => m != null)
                         .OrderByDescending(x => x.Date)
                         .ToList();
@@ -51,10 +91,9 @@
 
         private Metadata ParseMetadata(string indexFile)
         {
-            var deserializer = new Deserializer();
-
             using (var reader = new StreamReader(indexFile, Encoding.UTF8))
             {
+                var deserializer = new Deserializer();
                 var line = reader.ReadLine();
 
                 if (line == "---")
@@ -72,14 +111,14 @@
 
                     var yaml = stringBuilder.ToString();
                     var result = deserializer.Deserialize<Dictionary<string, string>>(new StringReader(yaml));
-                    var htmlContent = this.contentLoader.GetContentToRender(indexFile, result["slug"]);
-                   
+                    
                     var metadata = new Metadata
                     {
                         Slug = result["slug"],
                         Title = result["title"],
-                        Date = DateTime.ParseExact(result["date"], "dd-mm-yyyy", CultureInfo.InvariantCulture),
-                        Content = htmlContent
+                        Date = DateTime.ParseExact(result["date"], "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        Categories = result["categories"]?.Split(',').Select(c => c.Trim()).ToArray() ?? new string[0],
+                        Content = this.contentLoader.RenderContent(indexFile, result["slug"])
                     };
 
                     reader.Close();

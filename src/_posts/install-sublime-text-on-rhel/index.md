@@ -2,6 +2,7 @@
 title: Install Sublime Text on Red Hat Enterprise Linux
 slug: install-sublime-text-on-rhel
 date: 24-04-2018
+categories: Linux
 ---
 
 ![Install Sublime Text on Red Hat Enterprise Linux](media/header.jpg)

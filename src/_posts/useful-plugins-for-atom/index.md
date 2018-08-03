@@ -2,6 +2,7 @@
 title: Полезни плъгини за Atom
 slug: useful-plugins-for-atom
 date: 23-06-2016
+categories: HTML, CSS, JavaScript
 ---
 
 ![Полезни плъгини за Atom](media/header.png)
