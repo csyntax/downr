@@ -1,10 +1,8 @@
 {
   "name": "downr",
-  "description": "dirt-simple markdown blog system built using asp.net core",
+  "description": "Dirt-simple markdown blog system built using ASP.NET Core",
   "main": "",
-  "authors": [
-    "Ivan Ivanov"
-  ],
+  "authors": [ "Ivan Ivanov", "Brady Gaster" ],
   "license": "Apache-2.0",
   "homepage": "https://github.com/csyntax/downr",
   "private": true,
@@ -12,9 +10,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "wwwroot/lib",
-    "test",
-    "tests"
+    "wwwroot/libs",
   ],
   "dependencies": {
     "semantic": "semantic-ui#^2.3.3",

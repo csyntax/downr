@@ -4,13 +4,15 @@
     ViewData["Title"] = "Home";
 }
 
-<ul>
-    @foreach(var post in Model.Posts)
-    {
-        <li>
-            <a asp-page="./Post" asp-route-id="@post.Slug">
-                @post.Title
-            </a>
-        </li>
-    }
-</ul>
+<section class="ui raised segment">
+    <ul>
+        @foreach (var post in Model.Posts)
+        {
+            <li>
+                <a asp-page="./Post" asp-route-slug="@post.Slug">
+                    @post.Title
+                </a>
+            </li>
+        }
+    </ul>
+</section>

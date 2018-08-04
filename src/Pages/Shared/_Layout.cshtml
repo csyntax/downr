@@ -10,26 +10,7 @@
         <link rel="stylesheet" href="~/css/site.css">
     </head>
     <body>
-       <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a asp-page="/Index" class="navbar-brand">downr</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-page="/Index">Home</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>-->
-
-        <div class="ui borderless main menu fixed">
+        <nav class="ui borderless menu fixed">
             <div class="ui container">
                 <a href="/" class="header item">
                     <img class="logo" src="~/images/logo.svg">
@@ -38,17 +19,15 @@
                 <a asp-page="./Index" class="item">Publications</a>
                 @await Component.InvokeAsync("TagCloud")
             </div>
+        </nav>
+
+        <div class="ui main grid container">
+            <div class="twelve wide column">
+                @RenderBody()
+            </div>
         </div>
 
-        <div class="main container">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; 2018 - downr</p>
-            </footer>
-        </div>
-
-    <!--<environment include="Development">
+                <!--<environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -68,10 +47,10 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>-->
-    
-        <script src="~/libs/jquery/dist/jquery.slim.min.js"></script>
-        <script src="~/libs/semantic/dist/semantic.min.js"></script>
 
-        @RenderSection("Scripts", required: false)
-    </body>
+                <script src="~/libs/jquery/dist/jquery.slim.min.js"></script>
+                <script src="~/libs/semantic/dist/semantic.min.js"></script>
+
+                @RenderSection("Scripts", required: false)
+</body>
 </html>

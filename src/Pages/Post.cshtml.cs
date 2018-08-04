@@ -18,9 +18,9 @@ namespace downr.Pages
 
         public Metadata Article { get; private set; }
 
-        public void OnGet(string id)
+        public void OnGet(string slug)
         {
-            this.Article = this.yamlIndexer.Metadata.FirstOrDefault(x => x.Slug == id);
+            this.Article = this.yamlIndexer.Metadata.FirstOrDefault(x => x.Slug == slug);
         }
     }
 }

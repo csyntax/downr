@@ -20,7 +20,8 @@
 
         public ICollection<Metadata> Metadata { get; set; }
 
-        public YamlIndexer(ILogger<YamlIndexer> logger, IMarkdownContentLoader contentLoader)
+        public YamlIndexer(ILogger<YamlIndexer> logger, 
+            IMarkdownContentLoader contentLoader)
         {
             this.logger = logger;
             this.contentLoader = contentLoader;

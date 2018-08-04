@@ -30,10 +30,15 @@ namespace downr
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AddPageRoute("/Index", "/Posts");
+                options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
+            });
 
             services.AddSingleton(this.configuration);
-
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
 
@@ -61,22 +66,7 @@ namespace downr
             }
 
             app.UseMvc();
-
             app.UseStaticFiles();
-
-            var provider = new FileExtensionContentTypeProvider();
-            provider.Mappings.Remove(".md");
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.WebRootPath, "..", "_posts")),
-                RequestPath = "/posts",
-                ContentTypeProvider = provider,
-                OnPrepareResponse = ctx =>
-                {
-                    ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
-                }
-            });
 
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {
@@ -85,6 +75,20 @@ namespace downr
 
             var logger = loggerFactory.CreateLogger<Startup>();
             var contentPath = Path.Combine(env.WebRootPath, "..", "_posts");
+
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings.Remove(".md");
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(contentPath),
+                RequestPath = "/posts",
+                ContentTypeProvider = provider,
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
+                }
+            });           
 
             logger.LogInformation($"Content path: '{contentPath}'");
             yamlIndexer.IndexContentFiles(contentPath);
