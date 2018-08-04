@@ -14,8 +14,6 @@
             {
                 var pipeline = new MarkdownPipelineBuilder()
                     .UseYamlFrontMatter()
-                    .UseFigures()
-                    .UseEmojiAndSmiley()
                     .Build();
 
                 var html = Markdown.ToHtml(reader.ReadToEnd(), pipeline);
@@ -34,6 +32,7 @@
                         src = src.Replace("media/", string.Format("/posts/{0}/media/", slug));
 
                         node.SetAttributeValue("src", src);
+                        node.SetAttributeValue("class", "ui image");
                     }
                 }
 

@@ -25,9 +25,43 @@
             <div class="twelve wide column">
                 @RenderBody()
             </div>
+            <div class="four wide column">
+                <div class="ui card">
+                    <div class="image">
+                        <img src="~/images/man.svg">
+                    </div>
+                    <div class="content">
+                        <h4 class="header">Ivan Ivanov</h4>
+
+                        <a class="twitter-follow-button" href="https://twitter.com/csyntaxdev">
+                            Follow @@csyntaxdev
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-                <!--<environment include="Development">
+        <script>
+            window.twttr = (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0],
+                    t = window.twttr || {};
+                if (d.getElementById(id)) return t;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "https://platform.twitter.com/widgets.js";
+                fjs.parentNode.insertBefore(js, fjs);
+
+                t._e = [];
+                t.ready = function (f) {
+                    t._e.push(f);
+                };
+
+                return t;
+            }(document, "script", "twitter-wjs"));
+        </script>
+
+
+        <!--<environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -48,9 +82,9 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>-->
 
-                <script src="~/libs/jquery/dist/jquery.slim.min.js"></script>
-                <script src="~/libs/semantic/dist/semantic.min.js"></script>
+        <script src="~/libs/jquery/dist/jquery.slim.min.js"></script>
+        <script src="~/libs/semantic/dist/semantic.min.js"></script>
 
-                @RenderSection("Scripts", required: false)
-</body>
+        @RenderSection("Scripts", required: false)
+    </body>
 </html>

@@ -30,13 +30,14 @@ namespace downr
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddMvc().AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AddPageRoute("/Index", "/Posts");
-                options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
-            });
+            services
+                .AddMvc()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AddPageRoute("/Index", "/Posts");
+                    options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSingleton(this.configuration);
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
