@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-runtime AS base
+FROM microsoft/dotnet:2.1-runtime-deps AS base
 WORKDIR /app
 EXPOSE 80
 
@@ -15,4 +15,4 @@ RUN dotnet publish downr.csproj -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "downr.dll"]
+ENTRYPOINT ["./downr"]

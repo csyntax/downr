@@ -35,7 +35,8 @@
                     <img class="logo" src="~/images/logo.svg">
                     downr
                 </a>
-                <a href="#" class="item">Home</a>
+                <a asp-page="./Index" class="item">Publications</a>
+                @await Component.InvokeAsync("TagCloud")
             </div>
         </div>
 

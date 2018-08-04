@@ -84,7 +84,7 @@
                         .OrderByDescending(x => x.Date)
                         .ToList();
 
-            this.logger.LogInformation("Loaded {0} posts", list.Count);
+            this.logger.LogInformation($"Loaded {list.Count} posts");
 
             return list;
         }
