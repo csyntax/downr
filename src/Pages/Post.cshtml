@@ -2,6 +2,8 @@
 @model PostModel
 @{
     ViewData["Title"] = Model.Article.Title;
+
+    var prevNext = Model.GetPreviousAndNextPosts(Model.Article.Slug);
 }
 
 <article class="ui raised segment">
@@ -26,4 +28,24 @@
     </header>
 
     @Html.Raw(Model.Article.Content)
+
+    <div class="ui horizontal secondary segments">
+        <div class="ui segment">
+            @if (prevNext.previous != null)
+            {
+            <a asp-page="./Post" asp-route-slug="@prevNext.previous.Slug" class="ui left floated blue button">
+                <i class="arrow left icon"></i>
+                @prevNext.previous.Title
+            </a>
+            }
+
+            @if (prevNext.next != null)
+            {
+            <a asp-page="./Post" asp-route-slug="@prevNext.next.Slug" class="ui right floated blue button">
+                <i class="arrow right icon"></i>
+                @prevNext.next.Title
+            </a>
+            }
+        </div>
+    </div>
 </article>

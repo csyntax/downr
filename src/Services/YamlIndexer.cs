@@ -18,7 +18,7 @@
         private readonly ILogger<YamlIndexer> logger;
         private readonly IMarkdownContentLoader contentLoader;
 
-        public ICollection<Metadata> Metadata { get; set; }
+        public ICollection<Metadata> Metadata { get; private set; }
 
         public YamlIndexer(ILogger<YamlIndexer> logger, 
             IMarkdownContentLoader contentLoader)
