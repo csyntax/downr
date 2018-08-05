@@ -1,0 +1,28 @@
+﻿@page "{name}"
+@model CategoryModel
+@{
+    ViewData["Title"] = Model.Tag;
+
+    var count = Model.Posts.Count
+;}
+
+<div class="ui raised segment">
+    <div class="ui blue inverted segment">
+        @if(count == 1)
+        {
+            <h2>@count Post tagged with @Model.Tag</h2>
+        }
+        else
+        {
+            <h2>@count Posts tagged with @Model.Tag</h2>
+        }
+    </div>
+    @foreach(var post in Model.Posts)
+    {
+        <div class="ui raised segment">
+            <a asp-page="./Post" asp-route-slug="@post.Slug">
+                <h4>@post.Title</h4>
+            </a>
+        </div>
+     }
+</div>

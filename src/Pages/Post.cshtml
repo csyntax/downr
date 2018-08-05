@@ -19,7 +19,7 @@
                 </a>
                 @foreach (var category in Model.Article.Categories)
                 {
-                    <a href="#" class="ui right floated blue button">
+                    <a asp-page="./Category" asp-route-name="@category" class="ui right floated blue button">
                         <i class="right chevron icon"></i> @category
                     </a>
                 }

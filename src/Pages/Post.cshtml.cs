@@ -3,11 +3,11 @@ namespace downr.Pages
     using System;
     using System.Linq;
 
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
     using downr.Models;
     using downr.Services;
-    
 
     public class PostModel : PageModel
     {
@@ -20,9 +20,16 @@ namespace downr.Pages
 
         public Metadata Article { get; private set; }
 
-        public void OnGet(string slug)
+        public IActionResult OnGet(string slug)
         {
             this.Article = this.yamlIndexer.Metadata.FirstOrDefault(x => x.Slug == slug);
+
+            if(this.Article is null)
+            {
+                return this.RedirectToPage("./Index");
+            }
+
+            return this.Page();
         }
 
         public (Metadata previous, Metadata next) GetPreviousAndNextPosts(string slug)

@@ -13,8 +13,8 @@ namespace downr
 
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.WebEncoders;
-    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.DependencyInjection;
 
     using downr.Services;
@@ -36,8 +36,8 @@ namespace downr
                 {
                     options.Conventions.AddPageRoute("/Index", "/Posts");
                     options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                    options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
+                });
 
             services.AddSingleton(this.configuration);
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
