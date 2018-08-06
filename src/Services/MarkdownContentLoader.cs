@@ -16,7 +16,7 @@
                     .UseYamlFrontMatter()
                     .Build();
 
-                var html = Markdown.ToHtml(reader.ReadToEnd(), pipeline);
+                var html = Markdown.ToHtml(reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' '), pipeline);
                 var htmlDoc = new HtmlDocument();
 
                 htmlDoc.LoadHtml(html);

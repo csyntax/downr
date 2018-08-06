@@ -15,7 +15,7 @@
             <div class="ui segment">
                 <a asp-page="./Post" asp-route-slug="@Model.Article.Slug" class="ui left floated green button">
                     <i class="calendar outline icon"></i>
-                    @Model.Article.Date.ToLocalTime().ToString("dd MM yyyy")
+                    @Model.Article.Date.ToLocalTime().ToString("dd MMMM yyyy")
                 </a>
                 @foreach (var category in Model.Article.Categories)
                 {

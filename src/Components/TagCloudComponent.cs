@@ -20,11 +20,11 @@
         public ViewViewComponentResult Invoke()
         {
             string[] tags = this.yamlIndexer
-                .Metadata
-                .SelectMany(c => c.Categories)
-                .GroupBy(c => c)
-                .Select(c => c.Key)
-                .ToArray();
+                    .Metadata
+                    .SelectMany(c => c.Categories)
+                    .GroupBy(c => c)
+                    .Select(c => c.Key)
+                    .ToArray();
 
             return this.View(tags);
         }

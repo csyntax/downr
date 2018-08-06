@@ -30,7 +30,7 @@ namespace downr.Pages
                 .SelectMany(c => c.Categories)
                 .GroupBy(c => c)
                 .Select(c => c.Key)
-                .FirstOrDefault(c => c.Equals(name));
+                .FirstOrDefault(c => c.ToLower().Equals(name));
 
             if (this.Tag is null)
             {

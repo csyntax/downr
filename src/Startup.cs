@@ -5,20 +5,20 @@ namespace downr
     using System.Text.Unicode;
     using System.Text.Encodings.Web;
 
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.StaticFiles;
 
     using Microsoft.Extensions.Logging;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.Extensions.WebEncoders;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.DependencyInjection;
 
     using downr.Services;
-
+    
     public class Startup
     {
         private readonly IConfiguration configuration;
@@ -42,6 +42,11 @@ namespace downr
             services.AddSingleton(this.configuration);
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
+
+            services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+            });
 
             services.Configure<WebEncoderOptions>(options =>
             {

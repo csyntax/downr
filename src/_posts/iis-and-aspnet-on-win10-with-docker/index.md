@@ -2,7 +2,7 @@
 title: IIS и ASP.NET на Windows 10 с Docker
 slug: iis-and-aspnet-on-win10-with-docker
 date: 10-04-2017
-categories: .NET, ASP.NET, Docker, Winodows
+categories: .NET, ASP.NET, Docker, Windows
 ---
 
 ![IIS and ASP.NET on Windows 10 with Docker](media/header.png)
