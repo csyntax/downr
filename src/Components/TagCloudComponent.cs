@@ -20,7 +20,7 @@
         public ViewViewComponentResult Invoke()
         {
             string[] tags = this.yamlIndexer
-                    .Metadata
+                    .Documents
                     .SelectMany(c => c.Categories)
                     .GroupBy(c => c)
                     .Select(c => c.Key)

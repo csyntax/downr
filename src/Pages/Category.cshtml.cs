@@ -19,14 +19,14 @@ namespace downr.Pages
             this.yamlIndexer = yamlIndexer;
         }
 
-        public List<Metadata> Posts { get; private set; }
+        public IList<Document> Posts { get; private set; }
 
         public string Tag { get; private set; }
 
         public IActionResult OnGet(string name)
         {
             this.Tag = this.yamlIndexer
-                .Metadata
+                .Documents
                 .SelectMany(c => c.Categories)
                 .GroupBy(c => c)
                 .Select(c => c.Key)
@@ -37,7 +37,7 @@ namespace downr.Pages
                 return this.RedirectToPage("./Index");
             }
 
-            this.Posts = this.yamlIndexer.Metadata.Where(p => p.Categories.Contains(this.Tag)).ToList();
+            this.Posts = this.yamlIndexer.Documents.Where(p => p.Categories.Contains(this.Tag)).ToList();
 
             return this.Page();
         }

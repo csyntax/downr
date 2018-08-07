@@ -18,11 +18,11 @@ namespace downr.Pages
             this.yamlIndexer = yamlIndexer;
         }
 
-        public Metadata Article { get; private set; }
+        public Document Article { get; private set; }
 
         public IActionResult OnGet(string slug)
         {
-            this.Article = this.yamlIndexer.Metadata.FirstOrDefault(x => x.Slug == slug);
+            this.Article = this.yamlIndexer.Documents.FirstOrDefault(x => x.Slug == slug);
 
             if(this.Article is null)
             {
@@ -32,11 +32,11 @@ namespace downr.Pages
             return this.Page();
         }
 
-        public (Metadata previous, Metadata next) GetPreviousAndNextPosts(string slug)
+        public (Document previous, Document next) GetPreviousAndNextPosts(string slug)
         {
-            (Metadata previous, Metadata next) result = (null, null);
+            (Document previous, Document next) result = (null, null);
 
-            var metadataArray = this.yamlIndexer.Metadata.ToArray();
+            var metadataArray = this.yamlIndexer.Documents.ToArray();
 
             int index = Array.FindIndex(metadataArray, x => x.Slug == slug);
 

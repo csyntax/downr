@@ -18,7 +18,7 @@
         private readonly ILogger<YamlIndexer> logger;
         private readonly IMarkdownContentLoader contentLoader;
 
-        public ICollection<Metadata> Metadata { get; private set; }
+        public ICollection<Document> Documents { get; private set; }
 
         public YamlIndexer(ILogger<YamlIndexer> logger, 
             IMarkdownContentLoader contentLoader)
@@ -29,14 +29,14 @@
 
         public void IndexContentFiles(string contentPath)
         {
-            this.Metadata = LoadMetadata(contentPath);
+            this.Documents = LoadMetadata(contentPath);
         }
 
-        private List<Metadata> LoadMetadata(string contentPath)
+        private IList<Document> LoadMetadata(string contentPath)
         {
             this.logger.LogInformation("Loading post content...");
 
-            Func<string, Metadata> parseMetadata = delegate (string indexFile)
+            Func<string, Document> parseMetadata = delegate (string indexFile)
             {
                 using (var reader = new StreamReader(indexFile, Encoding.UTF8))
                 {
@@ -59,7 +59,7 @@
                         var yaml = stringBuilder.ToString();
                         var result = deserializer.Deserialize<Dictionary<string, string>>(new StringReader(yaml));
 
-                        var metadata = new Metadata
+                        var metadata = new Document
                         {
                             Slug = result["slug"],
                             Title = result["title"],

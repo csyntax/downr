@@ -21,7 +21,7 @@
             this.yamlIndexer = yamlIndexer;
         }
 
-        public IList<Metadata> Posts { get; private set; }
+        public IList<Document> Posts { get; private set; }
 
         public int CurrentPage { get; private set; }
 
@@ -55,11 +55,11 @@
 
         public void OnGet([FromQuery(Name = "page")] int page = 1, int perPage = PostsPerPageDefaultValue)
         {
-            int pagesCount = (int) Math.Ceiling(this.yamlIndexer.Metadata.Count() / (decimal) perPage);
+            int pagesCount = (int) Math.Ceiling(this.yamlIndexer.Documents.Count() / (decimal) perPage);
 
             //this.Posts = this.yamlIndexer.Metadata.ToList();
 
-            IList<Metadata> posts = this.yamlIndexer.Metadata.Skip(perPage * (page - 1)).Take(perPage).ToList();
+            IList<Document> posts = this.yamlIndexer.Documents.Skip(perPage * (page - 1)).Take(perPage).ToList();
 
             this.Posts = posts;
             this.CurrentPage = page;
