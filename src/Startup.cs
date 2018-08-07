@@ -3,12 +3,14 @@ namespace downr
     using System.IO;
     using System.Linq;
     using System.Text.Unicode;
+    using System.IO.Compression;
     using System.Text.Encodings.Web;
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.StaticFiles;
+    using Microsoft.AspNetCore.ResponseCompression;
 
     using Microsoft.Extensions.Logging;
     using Microsoft.AspNetCore.Routing;
@@ -30,6 +32,19 @@ namespace downr
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] 
+                {
+                    "text/plain",
+                    "text/css",
+                    "text/html",
+                    "image/svg+xml",
+                    "application/javascript"
+                });
+            });
+
             services
                 .AddMvc()
                 .AddRazorPagesOptions(options =>
@@ -42,6 +57,11 @@ namespace downr
             services.AddSingleton(this.configuration);
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
+
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Fastest;
+            });
 
             services.Configure<RouteOptions>(options =>
             {
@@ -73,6 +93,7 @@ namespace downr
 
             app.UseMvc();
             app.UseStaticFiles();
+            app.UseResponseCompression();
 
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {
