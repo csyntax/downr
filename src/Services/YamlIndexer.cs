@@ -65,10 +65,13 @@
                         var metadata = new Document
                         {
                             Slug = slug,
-                            Title = result["title"],
-                            Date = DateTime.ParseExact(result["date"], "dd-MM-yyyy", CultureInfo.InvariantCulture),
-                            Categories = result["categories"]?.Split(',').Select(c => c.Trim()).ToArray() ?? new string[0],
-                            Content = this.contentLoader.RenderContent(indexFile, result["slug"])
+                            Title = result[Constants.Publication.Title],
+                            Date = DateTime.ParseExact(result[Constants.Publication.Date], "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                            Categories = result[Constants.Publication.Categories]?
+                                        .Split(',')
+                                        .Select(c => c.Trim())
+                                        .ToArray() ?? new string[0],
+                            Content = this.contentLoader.RenderContent(indexFile, slug)
                         };
 
                         reader.Close();

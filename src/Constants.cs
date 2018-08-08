@@ -16,5 +16,23 @@
         {
             get => Path.Combine(Directory.GetCurrentDirectory(), "_posts");
         }
+
+        internal static class Publication
+        {
+            public static string Title
+            {
+                get => nameof(Document.Title).ToLower();
+            }
+
+            public static string Date
+            {
+                get => nameof(Document.Date).ToLower();
+            }
+
+            public static string Categories
+            {
+                get => nameof(Document.Categories).ToLower();
+            }
+        }
     }
 }
