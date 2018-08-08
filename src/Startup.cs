@@ -1,6 +1,5 @@
 namespace downr
 {
-    using System.IO;
     using System.Linq;
     using System.Text.Unicode;
     using System.IO.Compression;
@@ -74,7 +73,7 @@ namespace downr
             });
         }
 
-        public void Configure(IApplicationBuilder app, 
+        public void Configure(IApplicationBuilder app,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
             IYamlIndexer yamlIndexer)
@@ -97,27 +96,24 @@ namespace downr
 
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {
-                env.WebRootPath = Constants.webRootPath;
+                env.WebRootPath = Constants.WebRootPath;
             }
-
-            var logger = loggerFactory.CreateLogger<Startup>();
 
             var provider = new FileExtensionContentTypeProvider();
             provider.Mappings.Remove(".md");
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Constants.contentPath),
+                FileProvider = new PhysicalFileProvider(Constants.ContentPath),
                 RequestPath = "/posts",
                 ContentTypeProvider = provider,
                 OnPrepareResponse = ctx =>
                 {
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
                 }
-            });  
+            });
 
-            logger.LogInformation($"Content path: '{Constants.contentPath}'");
-            yamlIndexer.IndexContentFiles(Constants.contentPath);
+            yamlIndexer.IndexContentFiles(Constants.ContentPath);
         }
     }
 }

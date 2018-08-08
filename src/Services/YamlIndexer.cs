@@ -34,6 +34,7 @@
 
         private IList<Document> LoadMetadata(string contentPath)
         {
+            this.logger.LogInformation($"Content path: '{contentPath}'");
             this.logger.LogInformation("Loading post content...");
 
             Func<string, Document> parseMetadata = delegate (string indexFile)
@@ -64,7 +65,6 @@
                         var metadata = new Document
                         {
                             Slug = slug,
-                            //Slug = result["slug"],
                             Title = result["title"],
                             Date = DateTime.ParseExact(result["date"], "dd-MM-yyyy", CultureInfo.InvariantCulture),
                             Categories = result["categories"]?.Split(',').Select(c => c.Trim()).ToArray() ?? new string[0],
