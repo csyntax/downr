@@ -57,9 +57,7 @@
         {
             int pagesCount = (int) Math.Ceiling(this.yamlIndexer.Documents.Count() / (decimal) perPage);
 
-            //this.Posts = this.yamlIndexer.Metadata.ToList();
-
-            IList<Document> posts = this.yamlIndexer.Documents.Skip(perPage * (page - 1)).Take(perPage).ToList();
+            var posts = this.yamlIndexer.Documents.Skip(perPage * (page - 1)).Take(perPage).ToList();
 
             this.Posts = posts;
             this.CurrentPage = page;

@@ -24,6 +24,11 @@
                 get => nameof(Document.Title).ToLower();
             }
 
+            public static string Slug
+            {
+                get => nameof(Document.Slug).ToLower();
+            }
+
             public static string Date
             {
                 get => nameof(Document.Date).ToLower();

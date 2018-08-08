@@ -25,6 +25,7 @@
         {
             this.logger = logger;
             this.contentLoader = contentLoader;
+            this.Documents = new List<Document>();
         }
 
         public void IndexContentFiles(string contentPath)
@@ -56,6 +57,7 @@
                         {
                             stringBuilder.Append(line);
                             stringBuilder.Append("\n");
+
                             line = reader.ReadLine();
                         }
 

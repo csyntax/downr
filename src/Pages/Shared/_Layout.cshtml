@@ -1,12 +1,13 @@
 ﻿<!doctype html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>@ViewData["Title"] - downr</title>
 
         <link rel="stylesheet" href="~/libs/semantic/dist/semantic.min.css">
+        <link rel="stylesheet" href="~/libs/highlightjs/styles/default.css">
         <link rel="stylesheet" href="~/css/site.css">
     </head>
     <body>
@@ -60,30 +61,17 @@
             }(document, "script", "twitter-wjs"));
         </script>
 
-
-        <!--<environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>-->
-
         <script src="~/libs/jquery/dist/jquery.slim.min.js"></script>
         <script src="~/libs/semantic/dist/semantic.min.js"></script>
+        <script src="~/libs/highlightjs/highlight.pack.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('pre code').each(function (i, block) {
+                    hljs.highlightBlock(block);
+                });
+            });
+        </script>
 
         @RenderSection("Scripts", required: false)
     </body>

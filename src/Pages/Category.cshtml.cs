@@ -30,9 +30,9 @@ namespace downr.Pages
                 .SelectMany(c => c.Categories)
                 .GroupBy(c => c)
                 .Select(c => c.Key)
-                .FirstOrDefault(c => c.ToLower().Equals(name));
+                .FirstOrDefault(c => c.ToLower() == name.ToLower());
 
-            if (this.Tag is null)
+            if (this.Tag == null)
             {
                 return this.RedirectToPage("./Index");
             }

@@ -24,7 +24,7 @@ namespace downr.Pages
         {
             this.Article = this.yamlIndexer.Documents.FirstOrDefault(x => x.Slug == slug);
 
-            if(this.Article is null)
+            if (this.Article == null)
             {
                 return this.RedirectToPage("./Index");
             }

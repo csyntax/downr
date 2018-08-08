@@ -29,7 +29,7 @@
                     {
                         var src = node.Attributes["src"].Value;
 
-                        src = src.Replace("media/", string.Format("/posts/{0}/media/", slug));
+                        src = src.Replace("media/", $"/posts/{slug}/media/");
 
                         node.SetAttributeValue("src", src);
                         node.SetAttributeValue("class", "ui image");

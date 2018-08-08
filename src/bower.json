@@ -2,7 +2,10 @@
   "name": "downr",
   "description": "Dirt-simple markdown blog system built using ASP.NET Core",
   "main": "",
-  "authors": [ "Ivan Ivanov", "Brady Gaster" ],
+  "authors": [
+    "Ivan Ivanov",
+    "Brady Gaster"
+  ],
   "license": "Apache-2.0",
   "homepage": "https://github.com/csyntax/downr",
   "private": true,
@@ -10,10 +13,11 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "wwwroot/libs",
+    "wwwroot/libs"
   ],
   "dependencies": {
     "semantic": "semantic-ui#^2.3.3",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "highlightjs": "^9.12.0"
   }
 }
