@@ -43,6 +43,8 @@
                     var deserializer = new Deserializer();
                     var line = reader.ReadLine();
 
+                    string slug = Path.GetFileName(Path.GetDirectoryName(indexFile));
+
                     if (line == "---")
                     {
                         line = reader.ReadLine();
@@ -57,11 +59,12 @@
                         }
 
                         var yaml = stringBuilder.ToString();
-                        var result = deserializer.Deserialize<Dictionary<string, string>>(new StringReader(yaml));
+                        var result = deserializer.Deserialize<IDictionary<string, string>>(new StringReader(yaml));
 
                         var metadata = new Document
                         {
-                            Slug = result["slug"],
+                            Slug = slug,
+                            //Slug = result["slug"],
                             Title = result["title"],
                             Date = DateTime.ParseExact(result["date"], "dd-MM-yyyy", CultureInfo.InvariantCulture),
                             Categories = result["categories"]?.Split(',').Select(c => c.Trim()).ToArray() ?? new string[0],
@@ -82,6 +85,7 @@
                         .Select(dir => Path.Combine(dir, "index.md"))
                         .Select(parseMetadata)
                         .Where(m => m != null)
+                        .Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0)
                         .OrderByDescending(x => x.Date)
                         .ToList();
 
