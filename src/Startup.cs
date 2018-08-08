@@ -97,28 +97,27 @@ namespace downr
 
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {
-                env.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                env.WebRootPath = Constants.webRootPath;
             }
 
             var logger = loggerFactory.CreateLogger<Startup>();
-            var contentPath = Path.Combine(env.WebRootPath, "..", "_posts");
 
             var provider = new FileExtensionContentTypeProvider();
             provider.Mappings.Remove(".md");
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(contentPath),
+                FileProvider = new PhysicalFileProvider(Constants.contentPath),
                 RequestPath = "/posts",
                 ContentTypeProvider = provider,
                 OnPrepareResponse = ctx =>
                 {
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
                 }
-            });           
+            });  
 
-            logger.LogInformation($"Content path: '{contentPath}'");
-            yamlIndexer.IndexContentFiles(contentPath);
+            logger.LogInformation($"Content path: '{Constants.contentPath}'");
+            yamlIndexer.IndexContentFiles(Constants.contentPath);
         }
     }
 }
