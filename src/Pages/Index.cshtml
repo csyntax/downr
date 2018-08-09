@@ -5,16 +5,13 @@
 }
 
 <section class="ui raised segment">
-    <ul>
-        @foreach (var post in Model.Posts)
-        {
-            <li>
-                <a asp-page="./Post" asp-route-slug="@post.Slug">
-                    @post.Title
-                </a>
-            </li>
-        }
-    </ul>
+    @foreach (var post in Model.Posts)
+    {
+        <div class="ui very padded vertical clearing segment">
+            <a asp-page="./Post" asp-route-slug="@post.Slug"><h3>@post.Title</h3></a>
+            <div class="ui right floated button">@post.Date.ToLocalTime().ToString("dd MMMM yyyy")</div>
+        </div>
+    }
 
     @if (Model.PagesCount > 0)
     {
