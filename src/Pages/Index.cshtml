@@ -18,26 +18,26 @@
 
     @if (Model.PagesCount > 0)
     {
-    <div class="ui pagination menu">
-        <a href="/?page=@Model.PreviousPage" class="item">
-            <i class="chevron circle left icon"></i>
-        </a>
+        <div class="ui pagination menu">
+            <a href="/?page=@Model.PreviousPage" class="item">
+                <i class="chevron circle left icon"></i>
+            </a>
 
-        @for (int i = 1; i <= Model.PagesCount; i++)
-        {
-            if (i == Model.CurrentPage)
+            @for (int i = 1; i <= Model.PagesCount; i++)
             {
-                <a href="/?page=@i" class="active item">@i</a>
+                if (i == Model.CurrentPage)
+                {
+                    <a href="/?page=@i" class="active item">@i</a>
+                }
+                else
+                {
+                    <a href="/?page=@i" class="item">@i</a>
+                }
             }
-            else
-            {
-                <a href="/?page=@i" class="item">@i</a>
-            }
-        }
 
-        <a href="/?page=@Model.NextPage" class="item">
-            <i class="chevron circle right icon"></i>
-        </a>
-    </div>
+            <a href="/?page=@Model.NextPage" class="item">
+                <i class="chevron circle right icon"></i>
+            </a>
+        </div>
     }
 </section>

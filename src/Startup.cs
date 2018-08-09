@@ -19,7 +19,7 @@ namespace downr
     using Microsoft.Extensions.DependencyInjection;
 
     using downr.Services;
-    
+
     public class Startup
     {
         private readonly IConfiguration configuration;
