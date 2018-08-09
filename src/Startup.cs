@@ -1,24 +1,14 @@
 namespace downr
 {
-    using System.Linq;
-    using System.Text.Unicode;
-    using System.IO.Compression;
-    using System.Text.Encodings.Web;
-
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.StaticFiles;
-    using Microsoft.AspNetCore.ResponseCompression;
 
     using Microsoft.Extensions.Logging;
-    using Microsoft.AspNetCore.Routing;
-    using Microsoft.Extensions.WebEncoders;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.DependencyInjection;
 
     using downr.Services;
+    using downr.Middleware;
 
     public class Startup
     {
@@ -31,18 +21,9 @@ namespace downr
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddResponseCompression(options =>
-            {
-                options.Providers.Add<GzipCompressionProvider>();
-                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] 
-                {
-                    "text/plain",
-                    "text/css",
-                    "text/html",
-                    "image/svg+xml",
-                    "application/javascript"
-                });
-            });
+            services.AddSingleton(this.configuration);
+
+            services.AddDownr();
 
             services
                 .AddMvc()
@@ -52,31 +33,9 @@ namespace downr
                     options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
                     options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
                 });
-
-            services.AddSingleton(this.configuration);
-            services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
-            services.AddSingleton<IYamlIndexer, YamlIndexer>();
-
-            services.Configure<GzipCompressionProviderOptions>(options =>
-            {
-                options.Level = CompressionLevel.Fastest;
-            });
-
-            services.Configure<RouteOptions>(options =>
-            {
-                options.LowercaseUrls = true;
-            });
-
-            services.Configure<WebEncoderOptions>(options =>
-            {
-                options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
-            });
         }
 
-        public void Configure(IApplicationBuilder app,
-            IHostingEnvironment env,
-            ILoggerFactory loggerFactory,
-            IYamlIndexer yamlIndexer)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(this.configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -94,26 +53,7 @@ namespace downr
             app.UseStaticFiles();
             app.UseResponseCompression();
 
-            if (string.IsNullOrWhiteSpace(env.WebRootPath))
-            {
-                env.WebRootPath = Constants.WebRootPath;
-            }
-
-            var provider = new FileExtensionContentTypeProvider();
-            provider.Mappings.Remove(".md");
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Constants.ContentPath),
-                RequestPath = "/posts",
-                ContentTypeProvider = provider,
-                OnPrepareResponse = ctx =>
-                {
-                    ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
-                }
-            });
-
-            yamlIndexer.IndexContentFiles(Constants.ContentPath);
+            app.UseDownr(env);
         }
     }
 }
