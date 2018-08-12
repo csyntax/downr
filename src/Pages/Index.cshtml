@@ -7,9 +7,17 @@
 <section class="ui raised segment">
     @foreach (var post in Model.Posts)
     {
-        <div class="ui vertical segment">
-            <a asp-page="./Post" asp-route-slug="@post.Slug"><h3>@post.Title</h3></a>
-            <!--<div class="ui right floated button">@post.Date.ToLocalTime().ToString("dd MMMM yyyy")</div>-->
+        <div class="ui padded vertical segment">
+            <a asp-page="./Post" asp-route-slug="@post.Slug">
+                <h3>@post.Title</h3>
+            </a>
+            <br>
+            <div class="ui left floated">
+                <time datetime="@post.Date">@post.Date.ToLocalTime().ToString("dd MMMM yyyy")</time>
+            </div>
+            <div class="ui left floated">
+                
+            </div>
         </div>
     }
 
