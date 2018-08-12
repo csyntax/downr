@@ -42,8 +42,8 @@
             @if (prevNext.next != null)
             {
             <a asp-page="./Post" asp-route-slug="@prevNext.next.Slug" class="ui right floated blue button">
-                <i class="arrow right icon"></i>
                 @prevNext.next.Title
+                <i class="arrow right icon"></i>
             </a>
             }
         </div>

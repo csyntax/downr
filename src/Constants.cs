@@ -1,7 +1,6 @@
 ﻿namespace downr
 {
-    using Path = System.IO.Path;
-    using Directory = System.IO.Directory;
+    using System.IO;
 
     using downr.Models;
 

@@ -27,9 +27,7 @@
                 {
                     foreach (var node in nodes)
                     {
-                        var src = node.Attributes["src"].Value;
-
-                        src = src.Replace("media/", $"/posts/{slug}/media/");
+                        var src = node.Attributes["src"].Value.Replace("media/", $"/posts/{slug}/media/");
 
                         node.SetAttributeValue("src", src);
                         node.SetAttributeValue("class", "ui image");

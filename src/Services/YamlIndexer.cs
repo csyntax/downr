@@ -20,8 +20,7 @@
 
         public ICollection<Document> Documents { get; private set; }
 
-        public YamlIndexer(ILogger<YamlIndexer> logger, 
-            IMarkdownContentLoader contentLoader)
+        public YamlIndexer(ILogger<YamlIndexer> logger, IMarkdownContentLoader contentLoader)
         {
             this.logger = logger;
             this.contentLoader = contentLoader;
@@ -30,11 +29,8 @@
 
         public void IndexContentFiles(string contentPath)
         {
-            this.Documents = LoadMetadata(contentPath);
-        }
+            //this.Documents = LoadMetadata(contentPath);
 
-        private IList<Document> LoadMetadata(string contentPath)
-        {
             this.logger.LogInformation($"Content path: '{contentPath}'");
             this.logger.LogInformation("Loading post content...");
 
@@ -85,18 +81,23 @@
                 return null;
             };
 
-            var list = Directory
-                        .GetDirectories(contentPath)
-                        .Select(dir => Path.Combine(dir, "index.md"))
-                        .Select(parseMetadata)
-                        .Where(m => m != null)
-                        .Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0)
-                        .OrderByDescending(x => x.Date)
-                        .ToList();
+            this.Documents = Directory
+                .GetDirectories(contentPath)
+                .Select(dir => Path.Combine(dir, "index.md"))
+                .Select(parseMetadata)
+                .Where(m => m != null)
+                .Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0)
+                .OrderByDescending(x => x.Date)
+                .ToList();
+        }
 
-            this.logger.LogInformation($"Loaded {list.Count} posts");
+       /* private IList<Document> LoadMetadata(string contentPath)
+        {
+         
+
+            //var list = 
 
             return list;
-        }
+        }*/
     }
 }
