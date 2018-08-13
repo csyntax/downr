@@ -1,9 +1,11 @@
 ---
 title: Firebase CRUD Operations in Angular
 slug: firebase-crud-in-angular
-categories: HTML, CSS, JavaScript
+categories: Angular, JavaScript
 date: 20-08-2018
 ---
+
+![Firebase CRUD Operations in Angular](media/header.png)
 
 Now let’s explore how to get started with the realtime database in *Angular* applications using the *AngularFire2* library. 
 Firebase makes it very easy to get up and running very quickly with populating and performing operations on the database.
