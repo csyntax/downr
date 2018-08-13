@@ -1,24 +1,19 @@
 namespace downr.Pages
 {
-    using System;
-    using System.Linq;
     using System.Collections.Generic;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
 
     using downr.Models;
-    using downr.Services;
     using downr.Services.Posts;
 
     public class CategoryModel : PageModel
     {
-        private readonly IYamlIndexer yamlIndexer;
         private readonly IPostService postService;
 
-        public CategoryModel(IYamlIndexer yamlIndexer, IPostService postService)
+        public CategoryModel(IPostService postService)
         {
-            this.yamlIndexer = yamlIndexer;
             this.postService = postService;
         }
 

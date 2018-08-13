@@ -1,10 +1,6 @@
 namespace downr.Pages
 {
-    using System;
-    using System.Linq;
     using System.Diagnostics;
-    using System.Threading.Tasks;
-    using System.Collections.Generic;
     
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
