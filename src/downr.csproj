@@ -1,7 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <DebugType>portable</DebugType>
     <OutputType>Exe</OutputType>
+    <AssemblyName>downr</AssemblyName>
+    <PackageId>downr</PackageId>
+    <RootNamespace>downr</RootNamespace>
     <RazorCompileOnBuild>True</RazorCompileOnBuild>
     <RazorCompileOnPublish>True</RazorCompileOnPublish>
   </PropertyGroup>
