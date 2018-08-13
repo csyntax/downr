@@ -12,17 +12,19 @@ namespace downr.Pages
     public class PostModel : PageModel
     {
         private readonly IYamlIndexer yamlIndexer;
+        private readonly PostService postService;
         
-        public PostModel(IYamlIndexer yamlIndexer)
+        public PostModel(IYamlIndexer yamlIndexer, PostService postService)
         {
             this.yamlIndexer = yamlIndexer;
+            this.postService = postService;
         }
 
         public Document Article { get; private set; }
 
         public IActionResult OnGet(string slug)
         {
-            this.Article = this.yamlIndexer.Documents.FirstOrDefault(x => x.Slug == slug);
+            this.Article = this.postService.GetBySlug(slug);
 
             if (this.Article == null)
             {
@@ -32,7 +34,7 @@ namespace downr.Pages
             return this.Page();
         }
 
-        public (Document previous, Document next) GetPreviousAndNextPosts(string slug)
+       /* public (Document previous, Document next) GetPreviousAndNextPosts(string slug)
         {
             (Document previous, Document next) result = (null, null);
 
@@ -51,6 +53,6 @@ namespace downr.Pages
             }
 
             return result;
-        }
+        }*/
     }
 }

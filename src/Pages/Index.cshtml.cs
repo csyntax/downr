@@ -1,67 +1,30 @@
 ﻿namespace downr.Pages
 {
-    using System;
-    using System.Linq;
     using System.Collections.Generic;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
 
     using downr.Models;
     using downr.Services;
 
-    public class IndexModel : PageModel
+    public class IndexModel : PaginationModel
     {
-        private readonly IYamlIndexer yamlIndexer;
+        private readonly PostService postService;
 
-        private const int PostsPerPageDefaultValue = 5;
-
-        public IndexModel(IYamlIndexer yamlIndexer)
+        public IndexModel(PostService postService)
         {
-            this.yamlIndexer = yamlIndexer;
+            this.postService = postService;
         }
 
-        public IList<Document> Posts { get; private set; }
+        public List<Document> Posts { get; private set; }
 
-        public int CurrentPage { get; private set; }
-
-        public int PagesCount { get; private set; }
-
-        public int NextPage
+        public void OnGet([FromQuery(Name = "page")] int page = 1)
         {
-            get
-            {
-                if (this.CurrentPage >= this.PagesCount)
-                {
-                    return 1;
-                }
+            var pagedPosts = this.postService.GetPagedList(page);
 
-                return this.CurrentPage + 1;
-            }
-        }
-
-        public int PreviousPage
-        {
-            get
-            {
-                if (this.CurrentPage <= 1)
-                {
-                    return this.PagesCount;
-                }
-
-                return this.CurrentPage - 1;
-            }
-        }
-
-        public void OnGet([FromQuery(Name = "page")] int page = 1, int perPage = PostsPerPageDefaultValue)
-        {
-            int pagesCount = (int) Math.Ceiling(this.yamlIndexer.Documents.Count() / (decimal) perPage);
-
-            var posts = this.yamlIndexer.Documents.Skip(perPage * (page - 1)).Take(perPage).ToList();
-
-            this.Posts = posts;
-            this.CurrentPage = page;
-            this.PagesCount = pagesCount;
+            this.Posts = pagedPosts.posts;
+            this.CurrentPage = pagedPosts.currentPage;
+            this.PagesCount = pagedPosts.pagesCount;
         }
     }
 }

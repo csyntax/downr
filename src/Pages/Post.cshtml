@@ -1,9 +1,12 @@
 ﻿@page "{slug}"
 @model PostModel
+
+@inject downr.Services.PostService postService
+
 @{
     ViewData["Title"] = Model.Article.Title;
 
-    var prevNext = Model.GetPreviousAndNextPosts(Model.Article.Slug);
+    var prevNext = this.postService.GetPreviousAndNextPosts(Model.Article.Slug);
 }
 
 <article class="ui raised segment">
