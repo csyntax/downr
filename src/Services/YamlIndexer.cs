@@ -7,33 +7,24 @@
     using System.Globalization;
     using System.Collections.Generic;
 
-    using Microsoft.Extensions.Logging;
-
     using YamlDotNet.Serialization;
 
     using downr.Models;
 
     public class YamlIndexer : IYamlIndexer
     {
-        private readonly ILogger<YamlIndexer> logger;
         private readonly IMarkdownContentLoader contentLoader;
 
         public ICollection<Document> Documents { get; private set; }
 
-        public YamlIndexer(ILogger<YamlIndexer> logger, IMarkdownContentLoader contentLoader)
+        public YamlIndexer(IMarkdownContentLoader contentLoader)
         {
-            this.logger = logger;
             this.contentLoader = contentLoader;
             this.Documents = new List<Document>();
         }
 
         public void IndexContentFiles(string contentPath)
         {
-            //this.Documents = LoadMetadata(contentPath);
-
-            this.logger.LogInformation($"Content path: '{contentPath}'");
-            this.logger.LogInformation("Loading post content...");
-
             Func<string, Document> parseMetadata = delegate (string indexFile)
             {
                 using (var reader = new StreamReader(indexFile, Encoding.UTF8))
@@ -86,18 +77,8 @@
                 .Select(dir => Path.Combine(dir, "index.md"))
                 .Select(parseMetadata)
                 .Where(m => m != null)
-                .Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0)
                 .OrderByDescending(x => x.Date)
                 .ToList();
         }
-
-       /* private IList<Document> LoadMetadata(string contentPath)
-        {
-         
-
-            //var list = 
-
-            return list;
-        }*/
     }
 }

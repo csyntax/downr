@@ -5,13 +5,13 @@
     using Microsoft.AspNetCore.Mvc;
 
     using downr.Models;
-    using downr.Services;
+    using downr.Services.Posts;
 
     public class IndexModel : PaginationModel
     {
-        private readonly PostService postService;
+        private readonly IPostService postService;
 
-        public IndexModel(PostService postService)
+        public IndexModel(IPostService postService)
         {
             this.postService = postService;
         }

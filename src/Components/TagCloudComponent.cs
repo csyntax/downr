@@ -1,30 +1,23 @@
 ﻿namespace downr.Components
 {
-    using System.Linq;
-
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ViewComponents;
 
-    using downr.Services;
+    using downr.Services.Posts;
 
     [ViewComponent(Name = "TagCloud")]
     public class TagCloudComponent : ViewComponent
     {
-        private readonly IYamlIndexer yamlIndexer;
+        private readonly IPostService postService;
 
-        public TagCloudComponent(IYamlIndexer yamlIndexer)
+        public TagCloudComponent(IPostService postService)
         {
-            this.yamlIndexer = yamlIndexer;
+            this.postService = postService;
         }
 
         public ViewViewComponentResult Invoke()
         {
-            string[] tags = this.yamlIndexer
-                    .Documents
-                    .SelectMany(c => c.Categories)
-                    .GroupBy(c => c)
-                    .Select(c => c.Key)
-                    .ToArray();
+            string[] tags = this.postService.GetCategories();
 
             return this.View(tags);
         }

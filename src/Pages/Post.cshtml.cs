@@ -8,13 +8,14 @@ namespace downr.Pages
 
     using downr.Models;
     using downr.Services;
+    using downr.Services.Posts;
 
     public class PostModel : PageModel
     {
         private readonly IYamlIndexer yamlIndexer;
-        private readonly PostService postService;
+        private readonly IPostService postService;
         
-        public PostModel(IYamlIndexer yamlIndexer, PostService postService)
+        public PostModel(IYamlIndexer yamlIndexer, IPostService postService)
         {
             this.yamlIndexer = yamlIndexer;
             this.postService = postService;

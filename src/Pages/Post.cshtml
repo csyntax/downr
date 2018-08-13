@@ -1,12 +1,12 @@
 ﻿@page "{slug}"
 @model PostModel
 
-@inject downr.Services.PostService postService
+@inject downr.Services.Posts.IPostService PostService
 
 @{
     ViewData["Title"] = Model.Article.Title;
 
-    var prevNext = this.postService.GetPreviousAndNextPosts(Model.Article.Slug);
+    var prevNext = this.PostService.GetPreviousAndNextPosts(Model.Article.Slug);
 }
 
 <article class="ui raised segment">
@@ -18,7 +18,7 @@
             <div class="ui segment">
                 <a asp-page="./Post" asp-route-slug="@Model.Article.Slug" class="ui left floated green button">
                     <i class="calendar outline icon"></i>
-                    @Model.Article.Date.ToLocalTime().ToString("dd MMMM yyyy")
+                    @Model.Article.Date.ToLocalTime().ToString("d MMMM yyyy")
                 </a>
                 @foreach (var category in Model.Article.Categories)
                 {
