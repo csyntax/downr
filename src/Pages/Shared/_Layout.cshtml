@@ -25,7 +25,7 @@
                 </a>
                 <a asp-page="./Index" class="item">Publications</a>
 
-                <cache>@Component.InvokeAsync("TagCloud")</cache>
+                @await Component.InvokeAsync("TagCloud")
             </div>
         </nav>
 
