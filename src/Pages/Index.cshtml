@@ -7,18 +7,30 @@
 <section class="ui raised segment">
     @foreach (var post in Model.Posts)
     {
-        <div class="ui padded vertical segment">
-            <a asp-page="./Post" asp-route-slug="@post.Slug">
-                <h3>@post.Title</h3>
-            </a>
-            <br>
-            <div class="ui left floated">
-                <time datetime="@post.Date">@post.Date.ToLocalTime().ToString("d MMMM yyyy")</time>
-            </div>
-            <div class="ui left floated">
-                
+    <div class="ui padded vertical segment">
+        <a asp-page="./Post" asp-route-slug="@post.Slug">
+            <h3>@post.Title</h3>
+        </a>
+
+        <p>
+            @post.GetHtmlSnippet()
+        </p>
+      
+        <div class="ui horizontal secondary segments">
+            <div class="ui segment">
+                <a asp-page="./Post" asp-route-slug="@post.Slug" class="ui left floated green button">
+                    <i class="calendar outline icon"></i>
+                    @post.Date.ToLocalTime().ToString("d MMMM yyyy")
+                </a>
+                @foreach (var category in post.Categories)
+                {
+                    <a asp-page="./Category" asp-route-name="@category" class="ui right floated blue button">
+                        <i class="right chevron icon"></i> @category
+                    </a>
+                }
             </div>
         </div>
+    </div>
     }
 
     @if (Model.PagesCount > 0)

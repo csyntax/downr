@@ -18,13 +18,15 @@
 
         public List<Document> Posts { get; private set; }
 
-        public void OnGet([FromQuery(Name = "page")] int page = 1)
+        public IActionResult OnGet([FromQuery(Name = "page")] int page = 1)
         {
             var pagedPosts = this.postService.GetPagedList(page);
 
             this.Posts = pagedPosts.posts;
             this.CurrentPage = pagedPosts.currentPage;
             this.PagesCount = pagedPosts.pagesCount;
+
+            return this.Page();
         }
     }
 }
