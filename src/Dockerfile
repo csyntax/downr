@@ -1,19 +1,13 @@
-FROM microsoft/dotnet:2.1-runtime AS base
-WORKDIR /app
-#ENV ASPNETCORE_URLS http://+:80
-EXPOSE 80
-
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
-COPY downr.csproj src/
-RUN dotnet restore src/downr.csproj
+COPY downr.csproj .
+RUN dotnet restore downr.csproj
 COPY . .
-RUN dotnet build downr.csproj -c Release -o /app
+RUN dotnet publish downr.csproj -c Release -r linux-x64 -o /app
 
-FROM build AS publish
-RUN dotnet publish downr.csproj -c Release -o /app
-
-FROM base AS final
+FROM microsoft/dotnet:2.1-runtime-deps
+ENV ASPNETCORE_URLS http://+:80
 WORKDIR /app
-COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "downr.dll"]
+COPY --from=build /app .
+EXPOSE 80
+ENTRYPOINT ["./downr"]
