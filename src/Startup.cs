@@ -35,13 +35,8 @@ namespace downr
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(this.config.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             app.UseMvc();
-            app.UseStaticFiles();
-            app.UseResponseCompression();
-            app.UseDownr(env);
+            app.UseDownr(this.config, env, loggerFactory);
         }
     }
 }

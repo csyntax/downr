@@ -12,6 +12,7 @@
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.AspNetCore.ResponseCompression;
 
+    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.WebEncoders;
     using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Configuration;
@@ -57,8 +58,14 @@
             services.AddScoped<IPostService, PostService>();
         }
 
-        public static void UseDownr(this IApplicationBuilder app, IHostingEnvironment env)
+        public static void UseDownr(this IApplicationBuilder app,
+            IConfiguration config,
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(config.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {
                 env.WebRootPath = Constants.WebRootPath;
@@ -90,6 +97,8 @@
                 }
             };
 
+            app.UseStaticFiles();
+            app.UseResponseCompression();
             app.UseStaticFiles(staticFileOptions);         
 
             using (var serviceScope = app.ApplicationServices.CreateScope())

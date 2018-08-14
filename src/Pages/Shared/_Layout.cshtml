@@ -21,11 +21,11 @@
             <div class="ui container">
                 <a href="/" class="header item">
                     <img class="logo" src="~/images/logo.svg">
-                    @downrOptions.Value.Title
+                    <cache>@downrOptions.Value.Title</cache>
                 </a>
                 <a asp-page="./Index" class="item">Publications</a>
 
-                @await Component.InvokeAsync("TagCloud")
+                <cache>@Component.InvokeAsync("TagCloud")</cache>
             </div>
         </nav>
 
