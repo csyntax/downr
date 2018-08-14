@@ -49,19 +49,24 @@
                         }
 
                         var yaml = stringBuilder.ToString();
-                        var result = deserializer.Deserialize<IDictionary<string, string>>(new StringReader(yaml));
+                        var stringReader = new StringReader(yaml);
+                        var result = deserializer.Deserialize<IDictionary<string, string>>(stringReader);
+            
+                        var categories = result[Constants.Publication.Categories]
+                            .Split(',')
+                            .Select(c => c.Trim())
+                            .ToArray();
 
                         var metadata = new Document
                         {
                             Slug = slug,
                             Title = result[Constants.Publication.Title],
                             Date = DateTime.ParseExact(result[Constants.Publication.Date], "dd-MM-yyyy", CultureInfo.InvariantCulture),
-                            Categories = result[Constants.Publication.Categories]?
-                                        .Split(',')
-                                        .Select(c => c.Trim())
-                                        .ToArray() ?? new string[0],
+                            Categories = categories,
                             Content = this.contentLoader.RenderContent(indexFile, slug)
                         };
+
+                        stringReader.Close();
 
                         reader.Close();
 
