@@ -40,7 +40,17 @@
             return (currentPage: page, posts: posts, pagesCount: pagesCount);
         }
 
-        public int PostsCount() => this.indexer.Documents.Count();
+        public int PostsCount(string category = null)
+        {
+            int count = this.GetPostsList().Count();
+
+            if (category != null)
+            {
+                count = this.GetPostsList(category).Count();
+            }
+
+            return count;
+        }
 
         public Document GetBySlug(string slug) => this.GetPosts().FirstOrDefault(x => x.Slug == slug);
 

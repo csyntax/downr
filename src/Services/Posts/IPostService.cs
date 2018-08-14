@@ -10,7 +10,7 @@
 
         (int currentPage, List<Document> posts, int pagesCount) GetPagedList(int page, int perPage = 5);
 
-        int PostsCount();
+        int PostsCount(string category = null);
 
         Document GetBySlug(string slug);
 
