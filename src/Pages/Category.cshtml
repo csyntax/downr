@@ -1,9 +1,14 @@
 ﻿@page "{name}"
 @model CategoryModel
+
+@using downr.Services.Posts
+
+@inject IPostService postService;
+
 @{
     ViewData["Title"] = Model.Tag;
 
-    int count = Model.Posts.Count;
+    int count = this.postService.PostsCount(Model.Tag);
 }
 
 <div class="ui raised segment">
