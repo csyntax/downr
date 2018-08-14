@@ -11,24 +11,36 @@ namespace downr
 
     public class Startup
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration config;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration config)
         {
-            this.configuration = configuration;
+            this.config = config;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(this.configuration);
-            services.AddDownr();
+            services
+                .AddMvc()
+                .AddMvcLocalization()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AddPageRoute("/Index", "/Posts");
+                    options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
+                    options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
+                });
+            
+            services.AddDownr(config);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(this.configuration.GetSection("Logging"));
+            loggerFactory.AddConsole(this.config.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseMvc();
+            app.UseStaticFiles();
+            app.UseResponseCompression();
             app.UseDownr(env);
         }
     }

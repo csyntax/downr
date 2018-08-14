@@ -14,41 +14,34 @@
 
     using Microsoft.Extensions.WebEncoders;
     using Microsoft.Extensions.FileProviders;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     using downr.Services;
     using downr.Services.Posts;
 
     public static class DownrMiddleware
-    {
-        private static string[] mimeTypes = new string[]
+    {        
+        public static void AddDownr(this IServiceCollection services, IConfiguration config)
         {
-            "text/plain",
-            "text/css",
-            "text/html",
-            "image/svg+xml",
-            "application/javascript"
-        };
-        
-        public static void AddDownr(this IServiceCollection services)
-        {
-            services
-              .AddMvc()
-              .AddMvcLocalization()
-              .AddRazorPagesOptions(options =>
-              {
-                  options.Conventions.AddPageRoute("/Index", "/Posts");
-                  options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
-                  options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
-              });
+            var mimeTypes = new string[]
+            {
+                "text/plain",
+                "text/css",
+                "text/html",
+                "image/svg+xml",
+                "application/javascript"
+            };
 
             var textEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+
+            services.AddOptions();
 
             services.AddResponseCompression(options =>
             {
                 options.Providers.Add<GzipCompressionProvider>();
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(mimeTypes);
-            });
+            });            
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
 
@@ -56,6 +49,9 @@
 
             services.Configure<WebEncoderOptions>(options => options.TextEncoderSettings = textEncoderSettings);
 
+            services.Configure<DownrOptions>(config.GetSection("Downr"));
+
+            services.AddSingleton(config);
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
@@ -93,10 +89,6 @@
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
                 }
             };
-
-            app.UseMvc();
-            app.UseStaticFiles();
-            app.UseResponseCompression();
 
             app.UseStaticFiles(staticFileOptions);         
 
