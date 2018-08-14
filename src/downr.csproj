@@ -28,6 +28,11 @@
     <Content Include="wwwroot\**\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
