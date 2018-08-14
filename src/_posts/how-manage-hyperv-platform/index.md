@@ -1,5 +1,5 @@
 ---
-title: Как управлявам Hyper-V платформата
+title: Как управлявам Hyper-V платформата?
 slug: how-manage-hyperv-platform
 date: 09-07-2015
 categories: .NET, Windows
