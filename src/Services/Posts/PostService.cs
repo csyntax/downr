@@ -77,14 +77,14 @@
 
         public string[] GetCategories()
         {
-            var categories = this.GetTags().ToArray();
+            var categories = this.GetTags().ToArray(); // #7
 
             return categories;
         }
 
         public string GetCategory(string name)
         {
-            var category = this.GetTags().FirstOrDefault(c => c.ToLower() == name.ToLower());
+            var category = this.GetTags().FirstOrDefault(c => c.ToLower() == name.ToLower()); // use str compare
 
             return category;
         }
@@ -93,7 +93,7 @@
         {
             return this.indexer
                 .Documents
-                .Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0);
+                .Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0); // #7
         }
 
         private IEnumerable<string> GetTags()
