@@ -2,6 +2,18 @@
 
 Dirt-simple markdown blog system built using *ASP.NET Core* and *Razor Pages*.
 
+## Blogging with downr
+
+Blogging with downr is deliberately very simple: you basically just write Markdown. If you want to customize the style or HTML layout, you have 3 files to edit. Obviously, you can customize it all you want, but if you're simply into blogging with Markdown you never need to look at the source code.
+
+Here are the basic conventions of blogging with downr:
+
+* The Markdown and media assets for each post are stored in individual folders named according to the posts' slugs
+* Each post must have a YAML header containing post metadata
+* Each post's content is authored in an individual Markdown file named `index.md`
+* Images and other media are stored in the `media` subfolder for each post's folder
+* All posts' content are stored in the top-most `_posts` folder in the repository
+
 ## Metadata
 
 The top section of each Markdown file must contain a YAML header with some simple metadata elements. All of these elements are required. The YAML below demonstrates this convention.
@@ -43,4 +55,4 @@ Downr supported Docker and you can built your project image.
 
 Run downr docker image localy:
 
-`docker run -d -p 80:8080 <your username>/downr` if you want to run on port 8080.
+`docker run -d -p 80:80 <your username>/downr` if you want to run.
