@@ -15,7 +15,7 @@
     {
         private readonly IMarkdownContentLoader contentLoader;
 
-        public ICollection<Document> Documents { get; private set; }
+        public List<Document> Documents { get; private set; }
 
         public YamlIndexer(IMarkdownContentLoader contentLoader)
         {
@@ -26,21 +26,21 @@
         public void IndexContentFiles(string contentPath)
         {
             Func<string, Document> parseMetadata = delegate (string indexFile)
-            {
+            { 
                 using (var reader = new StreamReader(indexFile, Encoding.UTF8))
                 {
                     var deserializer = new Deserializer();
-                    var line = reader.ReadLine();
 
+                    string line = reader.ReadLine();
                     string slug = Path.GetFileName(Path.GetDirectoryName(indexFile));
 
-                    if (line == "---")
+                    if (line.Equals("---"))
                     {
                         line = reader.ReadLine();
 
                         var stringBuilder = new StringBuilder();
 
-                        while (line != "---")
+                        while (!line.Equals("---"))
                         {
                             stringBuilder.Append(line);
                             stringBuilder.Append("\n");
@@ -51,7 +51,7 @@
                         var yaml = stringBuilder.ToString();
                         var stringReader = new StringReader(yaml);
                         var result = deserializer.Deserialize<IDictionary<string, string>>(stringReader);
-            
+
                         var categories = result[Constants.Publication.Categories]
                             .Split(',')
                             .Select(c => c.Trim())
@@ -72,9 +72,9 @@
 
                         return metadata;
                     }
-                }
 
-                return null;
+                    return null;
+                }
             };
 
             this.Documents = Directory

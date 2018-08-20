@@ -101,7 +101,8 @@
             return this.GetPosts()
                 .SelectMany(c => c.Categories)
                 .GroupBy(c => c)
-                .Select(c => c.Key);
+                .Select(c => c.Key)
+                .OrderBy(c => c);
         }
     }
 }

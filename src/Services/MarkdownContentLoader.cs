@@ -10,40 +10,57 @@
     {
         public string RenderContent(string path, string slug)
         {
-            using (var reader = new StreamReader(path, Encoding.UTF8))
+            string content = string.Empty;
+
+            using (FileStream file = File.OpenRead(path))
             {
-                var pipeline = new MarkdownPipelineBuilder()
-                    .UseYamlFrontMatter()
-                    .Build();
-
-                var content = reader
-                    .ReadToEnd()
-                    .TrimStart('\r', '\n', '\t', ' ');
-                
-                var html = Markdown.ToHtml(content, pipeline);
-                var htmlDoc = new HtmlDocument();
-
-                htmlDoc.LoadHtml(html);
-
-                var nodes = htmlDoc.DocumentNode.SelectNodes("//img[@src]");
-
-                if (nodes != null)
+                using (var reader = new StreamReader(file, Encoding.Default))
                 {
-                    foreach (var node in nodes)
-                    {
-                        var src = node.Attributes["src"].Value.Replace("media/", $"/posts/{slug}/media/");
+                    content = reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' ');
 
-                        node.SetAttributeValue("src", src);
-                        node.SetAttributeValue("class", "ui image");
-                    }
+                    reader.Close();
                 }
 
-                html = htmlDoc.DocumentNode.OuterHtml;
+                file.Close();
+            }
+
+            var pipeline = new MarkdownPipelineBuilder().UseYamlFrontMatter().Build();
+            var html = Markdown.ToHtml(content, pipeline);
+            var htmlDoc = new HtmlDocument();
+
+            htmlDoc.LoadHtml(html);
+
+            var nodes = htmlDoc.DocumentNode.SelectNodes("//img[@src]");
+
+            if (nodes != null)
+            {
+                foreach (var node in nodes)
+                {
+                    var src = node.Attributes["src"].Value.Replace("media/", $"/posts/{slug}/media/");
+
+                    node.SetAttributeValue("src", src);
+                    node.SetAttributeValue("class", "ui image");
+                }
+            }
+
+            return htmlDoc.DocumentNode.OuterHtml;
+
+            /*using (var reader = new StreamReader(path, Encoding.UTF8))
+            {
+                
+
+                
+
+                
+
+                
+
+                
 
                 reader.Close();
 
-                return html;
-            }
+                return htmlDoc.DocumentNode.OuterHtml;
+            }*/
         }
     }
 }
