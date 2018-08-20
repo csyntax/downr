@@ -1,8 +1,6 @@
 ﻿namespace downr.Models
 {
-    using Microsoft.AspNetCore.Mvc.RazorPages;
-
-    public class PaginationModel : PageModel
+    public abstract class PaginationModel : BaseModel
     {
         public int CurrentPage { get; internal set; }
 
