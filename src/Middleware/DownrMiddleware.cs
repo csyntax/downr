@@ -22,7 +22,7 @@
     using downr.Services.Posts;
 
     public static class DownrMiddleware
-    {        
+    {
         public static void AddDownr(this IServiceCollection services, IConfiguration config)
         {
             var mimeTypes = new string[]

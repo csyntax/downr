@@ -6,7 +6,7 @@ namespace downr.Pages
     using downr.Models;
     using downr.Services.Posts;
 
-    public class PostModel : PageModel
+    public class PostModel : BaseModel
     {
         private readonly IPostService postService;
         

@@ -1,7 +1,7 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home";
+    this.ViewData["Title"] = "Home";
 }
 
 <section class="ui raised segment">
@@ -12,9 +12,7 @@
             <h3>@post.Title</h3>
         </a>
 
-        <p>
-            @post.GetHtmlSnippet()
-        </p>
+        <p>@post.GetHtmlSnippet()</p>
       
         <div class="ui horizontal secondary segments">
             <div class="ui segment">
@@ -22,6 +20,7 @@
                     <i class="calendar outline icon"></i>
                     @post.Date.ToLocalTime().ToString("d MMMM yyyy")
                 </a>
+
                 @foreach (var category in post.Categories)
                 {
                     <a asp-page="./Category" asp-route-name="@category" class="ui right floated blue button">
@@ -35,26 +34,26 @@
 
     @if (Model.PagesCount > 0)
     {
-        <div class="ui pagination menu">
-            <a href="/?page=@Model.PreviousPage" class="item">
-                <i class="chevron circle left icon"></i>
-            </a>
+    <div class="ui pagination menu">
+        <a href="/posts?page=@Model.PreviousPage" class="item">
+            <i class="chevron circle left icon"></i>
+        </a>
 
-            @for (int i = 1; i <= Model.PagesCount; i++)
+        @for (int i = 1; i <= Model.PagesCount; i++)
+        {
+            if (i == Model.CurrentPage)
             {
-                if (i == Model.CurrentPage)
-                {
-                    <a href="/?page=@i" class="active item">@i</a>
-                }
-                else
-                {
-                    <a href="/?page=@i" class="item">@i</a>
-                }
+                <a href="/posts?page=@i" class="active item">@i</a>
             }
+            else
+            {
+                <a href="/posts?page=@i" class="item">@i</a>
+            }
+        }
 
-            <a href="/?page=@Model.NextPage" class="item">
-                <i class="chevron circle right icon"></i>
-            </a>
-        </div>
+        <a href="/posts?page=@Model.NextPage" class="item">
+            <i class="chevron circle right icon"></i>
+        </a>
+    </div>
     }
 </section>

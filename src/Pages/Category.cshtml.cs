@@ -8,7 +8,7 @@ namespace downr.Pages
     using downr.Models;
     using downr.Services.Posts;
 
-    public class CategoryModel : PageModel
+    public class CategoryModel : BaseModel
     {
         private readonly IPostService postService;
 
