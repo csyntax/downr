@@ -22,7 +22,6 @@ namespace downr
         {
             services
                 .AddMvc()
-                .AddMvcLocalization()
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AddPageRoute("/Index", "/Posts");
@@ -30,7 +29,7 @@ namespace downr
                     options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
                 });
             
-            services.AddDownr(config);
+            services.AddDownr(this.config);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

@@ -34,7 +34,17 @@
                 @RenderBody()
             </div>
             <div class="four wide column">
-                @await Component.InvokeAsync("Sidebar")
+                <div class="ui card">
+                    <div class="image">
+                        <img src="~/images/man.svg">
+                    </div>
+                    <div class="content">
+                        <h4 class="header">Ivan Ivanov</h4>
+                        <a class="twitter-follow-button" href="https://twitter.com/csyntaxdev" target="_blank">
+                            Follow @@csyntaxdev
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -55,6 +65,25 @@
                 });
             });
         </script>
+
+        <script>
+        window.twttr = (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function (f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));
+    </script>
 
         @RenderSection("Scripts", required: false)
     </body>
