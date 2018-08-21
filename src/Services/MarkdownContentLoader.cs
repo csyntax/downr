@@ -10,20 +10,7 @@
     {
         public string RenderContent(string path, string slug)
         {
-            string content;
-
-            using (FileStream file = File.OpenRead(path))
-            {
-                using (var reader = new StreamReader(file, Encoding.UTF8))
-                {
-                    content = reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' ');
-
-                    reader.Close();
-                }
-
-                file.Close();
-            }
-
+            var content = this.ReadContent(path);
             var pipeline = new MarkdownPipelineBuilder().UseYamlFrontMatter().Build();
             var html = Markdown.ToHtml(content, pipeline);
             var htmlDoc = new HtmlDocument();
@@ -44,6 +31,25 @@
             }
 
             return htmlDoc.DocumentNode.OuterHtml;
+        }
+
+        private string ReadContent(string path)
+        {
+            string content;
+
+            using (FileStream file = File.OpenRead(path))
+            {
+                using (var reader = new StreamReader(file, Encoding.UTF8))
+                {
+                    content = reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' ');
+
+                    reader.Close();
+                }
+
+                file.Close();
+            }
+
+            return content;
         }
     }
 }

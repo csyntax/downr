@@ -16,7 +16,7 @@
             get => Path.Combine(Directory.GetCurrentDirectory(), "_posts");
         }
 
-        internal static class Publication
+        internal static class Metadata
         {
             public static string Title
             {

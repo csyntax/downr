@@ -26,11 +26,10 @@
         public void IndexContentFiles(string contentPath)
         {
             Func<string, Document> parseMetadata = delegate (string indexFile)
-            { 
+            {
                 using (var reader = new StreamReader(indexFile, Encoding.UTF8))
                 {
                     var deserializer = new Deserializer();
-
                     string line = reader.ReadLine();
                     string slug = Path.GetFileName(Path.GetDirectoryName(indexFile));
 
@@ -49,27 +48,22 @@
                         }
 
                         var yaml = stringBuilder.ToString();
-                        var stringReader = new StringReader(yaml);
-                        var result = deserializer.Deserialize<IDictionary<string, string>>(stringReader);
-
-                        var categories = result[Constants.Publication.Categories]
-                            .Split(',')
-                            .Select(c => c.Trim())
-                            .ToArray();
+                        var result = deserializer.Deserialize<IDictionary<string, string>>(yaml);
 
                         var metadata = new Document
                         {
                             Slug = slug,
-                            Title = result[Constants.Publication.Title],
-                            Date = DateTime.ParseExact(result[Constants.Publication.Date], "dd-MM-yyyy", CultureInfo.InvariantCulture),
-                            Categories = categories,
+                            Title = result[Constants.Metadata.Title],
+                            Date = DateTime.ParseExact(result[Constants.Metadata.Date], "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                            Categories = result[Constants.Metadata.Categories]
+                                .Split(',')
+                                .Select(c => c.Trim())
+                                .ToArray(),
                             Content = this.contentLoader.RenderContent(indexFile, slug)
                         };
 
-                        stringReader.Close();
-
                         reader.Close();
-
+                    
                         return metadata;
                     }
 
