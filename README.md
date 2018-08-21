@@ -1,4 +1,4 @@
-# downr2
+# downr3
 
 Dirt-simple markdown blog system built using *ASP.NET Core* and *Razor Pages*.
 
@@ -20,7 +20,7 @@ The top section of each Markdown file must contain a YAML header with some simpl
 
 ```yaml
 ---
-title: Introducing downr2
+title: Introducing downr3
 date: 09-08-2018
 categories: downr
 ---
@@ -55,4 +55,4 @@ Downr supported Docker and you can built your project image.
 
 Run downr docker image localy:
 
-`docker run -d -p 80:80 <your username>/downr` if you want to run.
+`docker run -d -p 80:80 <your username>/downr` to run Docker image localy.
