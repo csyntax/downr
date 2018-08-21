@@ -10,11 +10,11 @@
     {
         public string RenderContent(string path, string slug)
         {
-            string content = string.Empty;
+            string content;
 
             using (FileStream file = File.OpenRead(path))
             {
-                using (var reader = new StreamReader(file, Encoding.Default))
+                using (var reader = new StreamReader(file, Encoding.UTF8))
                 {
                     content = reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' ');
 
@@ -44,23 +44,6 @@
             }
 
             return htmlDoc.DocumentNode.OuterHtml;
-
-            /*using (var reader = new StreamReader(path, Encoding.UTF8))
-            {
-                
-
-                
-
-                
-
-                
-
-                
-
-                reader.Close();
-
-                return htmlDoc.DocumentNode.OuterHtml;
-            }*/
         }
     }
 }

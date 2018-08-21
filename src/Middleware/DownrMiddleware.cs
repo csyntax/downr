@@ -44,11 +44,20 @@
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(mimeTypes);
             });            
 
-            services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Fastest;
+            });
 
-            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+            services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+            });
 
-            services.Configure<WebEncoderOptions>(options => options.TextEncoderSettings = textEncoderSettings);
+            services.Configure<WebEncoderOptions>(options =>
+            {
+                options.TextEncoderSettings = textEncoderSettings;
+            });
 
             services.Configure<DownrOptions>(config.GetSection("Downr"));
 
