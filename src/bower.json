@@ -1,11 +1,7 @@
 {
   "name": "downr",
   "description": "Dirt-simple markdown blog system built using ASP.NET Core",
-  "main": "",
-  "authors": [
-    "Ivan Ivanov",
-    "Brady Gaster"
-  ],
+  "authors": ["Ivan Ivanov", "Brady Gaster"],
   "license": "Apache-2.0",
   "homepage": "https://github.com/csyntax/downr",
   "private": true,
