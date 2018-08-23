@@ -23,7 +23,7 @@
 
     public static class DownrMiddleware
     {
-        public static void AddDownr(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddDownr(this IServiceCollection services, IConfiguration config)
         {
             var mimeTypes = new string[]
             {
@@ -65,9 +65,11 @@
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
+
+            return services;
         }
 
-        public static void UseDownr(this IApplicationBuilder app,
+        public static IApplicationBuilder UseDownr(this IApplicationBuilder app,
             IConfiguration config,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory)
@@ -108,15 +110,14 @@
 
             app.UseStaticFiles();
             app.UseResponseCompression();
-            app.UseStaticFiles(staticFileOptions);         
+            app.UseStaticFiles(staticFileOptions);
 
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                serviceScope
-                    .ServiceProvider
-                    .GetRequiredService<IYamlIndexer>()
-                    .IndexContentFiles(Constants.ContentPath);
-            }
+            app
+                .ApplicationServices
+                .GetRequiredService<IYamlIndexer>()
+                .IndexContentFiles(Constants.ContentPath);
+
+            return app;
         }
     }
 }

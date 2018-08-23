@@ -25,3 +25,12 @@ img.ui.image {
     padding: 5em 0em;
     background-color: rgb(243, 243, 236);
 }
+
+.ui.footer p {
+    font-weight: bold !important;
+    font-size: 1.95em !important;
+}
+
+.ui.footer .icon {
+    font-size: 2.5em;
+}

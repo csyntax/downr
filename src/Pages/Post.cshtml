@@ -38,19 +38,27 @@
         <div class="ui segment">
             @if (prevNext.previous != null)
             {
-            <a asp-page="./Post" asp-route-slug="@prevNext.previous.Slug" class="ui left floated blue button">
-                <i class="arrow left icon"></i>
-                @prevNext.previous.Title
-            </a>
+                <a asp-page="./Post" asp-route-slug="@prevNext.previous.Slug" class="ui left floated blue button">
+                    <i class="arrow left icon"></i>
+                    @prevNext.previous.Title
+                </a>
             }
 
             @if (prevNext.next != null)
             {
-            <a asp-page="./Post" asp-route-slug="@prevNext.next.Slug" class="ui right floated blue button">
-                @prevNext.next.Title
-                <i class="arrow right icon"></i>
-            </a>
+                <a asp-page="./Post" asp-route-slug="@prevNext.next.Slug" class="ui right floated blue button">
+                    @prevNext.next.Title
+                    <i class="arrow right icon"></i>
+                </a>
             }
         </div>
     </div>
 </article>
+
+@section scripts {
+    <script>
+        $(document).ready(() => {
+            $('pre code').each((i, block) => hljs.highlightBlock(block));
+        });
+    </script>
+}
