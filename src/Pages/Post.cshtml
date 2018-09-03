@@ -6,52 +6,49 @@
 @inject IPostService postService
 
 @{
-    ViewData["Title"] = Model.Article.Title;
+    this.ViewData["Title"] = Model.Article.Title;
 
     var prevNext = this.postService.GetPreviousAndNextPosts(Model.Article.Slug);
 }
 
-<article class="ui raised segment">
-    <header class="ui raised segments">
-        <div class="ui blue inverted segment">
-            <h1>@Model.Article.Title</h1>
-        </div>
-        <div class="ui horizontal secondary segments">
-            <div class="ui segment">
-                <a asp-page="./Post" asp-route-slug="@Model.Article.Slug" class="ui left floated green button">
-                    <i class="calendar outline icon"></i>
-                    @Model.Article.Date.ToLocalTime().ToString("d MMMM yyyy")
+
+
+<article>
+    <header>
+        <h1>@Model.Article.Title</h1>
+        <div class="clearfix">
+            <a asp-page="./Post" asp-route-slug="@Model.Article.Slug" class="btn btn-sm btn-secondary float-left">
+                <i class="calendar outline icon"></i>
+                @Model.Article.Date.ToLocalTime().ToString("d MMMM yyyy")
+            </a>
+
+            @foreach (var category in Model.Article.Categories)
+            {
+                <a asp-page="./Category" asp-route-name="@category" class="btn btn-sm btn-secondary float-right">
+                    <i class="right chevron icon"></i> @category
                 </a>
-                @foreach (var category in Model.Article.Categories)
-                {
-                    <a asp-page="./Category" asp-route-name="@category" class="ui right floated blue button">
-                        <i class="right chevron icon"></i> @category
-                    </a>
-                }
-            </div>
+            }
         </div>
     </header>
 
     @Html.Raw(Model.Article.Content)
 
-    <div class="ui horizontal secondary segments">
-        <div class="ui segment">
-            @if (prevNext.previous != null)
-            {
-                <a asp-page="./Post" asp-route-slug="@prevNext.previous.Slug" class="ui left floated blue button">
-                    <i class="arrow left icon"></i>
-                    @prevNext.previous.Title
-                </a>
-            }
+    <div class="clearfix">
+        @if (prevNext.previous != null)
+        {
+            <a asp-page="./Post" asp-route-slug="@prevNext.previous.Slug" class="btn btn-secondary float-left">
+                <i class="arrow left icon"></i>
+                @prevNext.previous.Title
+            </a>
+        }
 
-            @if (prevNext.next != null)
-            {
-                <a asp-page="./Post" asp-route-slug="@prevNext.next.Slug" class="ui right floated blue button">
-                    @prevNext.next.Title
-                    <i class="arrow right icon"></i>
-                </a>
-            }
-        </div>
+        @if (prevNext.next != null)
+        {
+            <a asp-page="./Post" asp-route-slug="@prevNext.next.Slug" class="btn btn-secondary float-right">
+                @prevNext.next.Title
+                <i class="arrow right icon"></i>
+            </a>
+        }
     </div>
 </article>
 

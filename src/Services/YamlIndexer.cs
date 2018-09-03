@@ -9,17 +9,21 @@
 
     using YamlDotNet.Serialization;
 
+    using Microsoft.Extensions.Logging;
+
     using downr.Models;
 
     public class YamlIndexer : IYamlIndexer
     {
+        private readonly ILogger logger;
         private readonly IMarkdownContentLoader contentLoader;
 
         public List<Document> Documents { get; private set; }
 
-        public YamlIndexer(IMarkdownContentLoader contentLoader)
+        public YamlIndexer(IMarkdownContentLoader contentLoader, ILogger<YamlIndexer> logger)
         {
             this.contentLoader = contentLoader;
+            this.logger = logger;
             this.Documents = new List<Document>();
         }
 
@@ -71,6 +75,8 @@
                 }
             };
 
+            this.logger.LogInformation("Loading post content...");
+
             this.Documents = Directory
                 .GetDirectories(contentPath)
                 .Select(dir => Path.Combine(dir, "index.md"))
@@ -78,6 +84,8 @@
                 .Where(m => m != null)
                 .OrderByDescending(x => x.Date)
                 .ToList();
+
+            this.logger.LogInformation($"Loaded {this.Documents.Count} posts");
         }
     }
 }

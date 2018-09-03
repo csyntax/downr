@@ -13,3 +13,5 @@ bld/
 .vs/
 node_modules/
 bower_components/
+wwwroot/lib
+package-lock.json

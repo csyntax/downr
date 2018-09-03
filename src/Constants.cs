@@ -4,39 +4,21 @@
 
     using downr.Models;
 
-    public static class Constants
+    internal static class Constants
     {
-        public static string WebRootPath
-        {
-            get => Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-        }
+        internal static string WebRootPath => Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 
-        public static string ContentPath
-        {
-            get => Path.Combine(Directory.GetCurrentDirectory(), "_posts");
-        }
+        internal static string ContentPath => Path.Combine(Directory.GetCurrentDirectory(), "_posts");
 
         internal static class Metadata
         {
-            public static string Title
-            {
-                get => nameof(Document.Title).ToLower();
-            }
+            internal static string Title => nameof(Document.Title).ToLower();
 
-            public static string Slug
-            {
-                get => nameof(Document.Slug).ToLower();
-            }
+            internal static string Slug => nameof(Document.Slug).ToLower();
 
-            public static string Date
-            {
-                get => nameof(Document.Date).ToLower();
-            }
+            internal static string Date => nameof(Document.Date).ToLower();
 
-            public static string Categories
-            {
-                get => nameof(Document.Categories).ToLower();
-            }
+            internal static string Categories => nameof(Document.Categories).ToLower();
         }
     }
 }

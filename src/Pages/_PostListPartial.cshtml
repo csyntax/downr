@@ -1,0 +1,25 @@
+﻿@model IEnumerable<downr.Models.Document>
+
+@foreach (var post in Model)
+{
+    <li class="list-group-item">
+        <a asp-page="./Post" asp-route-slug="@post.Slug">
+            <h3>@post.Title</h3>
+        </a>
+
+        @Html.Truncate(post.Content)
+
+        <div class="clearfix">
+            <a asp-page="./Post" asp-route-slug="@post.Slug" class="btn btn-sm btn-secondary float-left">
+                @post.Date.ToLocalTime().ToString("d MMMM yyyy")
+            </a>
+
+            @foreach (var category in post.Categories)
+            {
+                <a asp-page="./Category" asp-route-name="@category" class="btn btn-sm btn-secondary float-right">
+                    <i class="right chevron icon"></i> @category
+                </a>
+            }
+        </div>
+    </li>
+}

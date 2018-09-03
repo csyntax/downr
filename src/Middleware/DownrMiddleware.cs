@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Routing;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Rewrite;
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.AspNetCore.ResponseCompression;
 
@@ -18,9 +19,10 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
+    using downr.Rules;
     using downr.Services;
     using downr.Services.Posts;
-
+    
     public static class DownrMiddleware
     {
         public static IServiceCollection AddDownr(this IServiceCollection services, IConfiguration config)
@@ -66,6 +68,25 @@
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
 
+            services
+                .AddMvcCore()
+                .AddAuthorization()
+                .AddRazorPages(options =>
+                {
+                    options.Conventions.AddPageRoute("/Index", "/Posts");
+                    options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
+                    options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
+                });
+
+            /*services
+               .AddMvc()
+               .AddRazorPagesOptions(options =>
+               {
+                   options.Conventions.AddPageRoute("/Index", "/Posts");
+                   options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
+                   options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
+               });*/
+
             return services;
         }
 
@@ -108,9 +129,16 @@
                 }
             };
 
+            var rewriteOptions = new RewriteOptions();
+
+            rewriteOptions.Add(new RedirectRequests());
+            rewriteOptions.Add(new RewriteRequests());
+
             app.UseStaticFiles();
             app.UseResponseCompression();
             app.UseStaticFiles(staticFileOptions);
+            app.UseRewriter(rewriteOptions);
+            app.UseMvc();
 
             app
                 .ApplicationServices

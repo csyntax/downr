@@ -26,7 +26,7 @@
                     var src = node.Attributes["src"].Value.Replace("media/", $"/posts/{slug}/media/");
 
                     node.SetAttributeValue("src", src);
-                    node.SetAttributeValue("class", "ui image");
+                    node.SetAttributeValue("class", "img-fluid");
                 }
             }
 

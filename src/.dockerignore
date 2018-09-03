@@ -3,3 +3,4 @@ obj/
 appsettings.Development.json
 bower.json
 package.json
+package-lock.json

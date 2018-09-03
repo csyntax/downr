@@ -3,7 +3,6 @@ namespace downr.Pages
     using System.Collections.Generic;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
 
     using downr.Models;
     using downr.Services.Posts;

@@ -4,56 +4,44 @@
     this.ViewData["Title"] = "Home";
 }
 
-<section class="ui raised segment">
-    @foreach (var post in Model.Posts)
-    {
-    <div class="ui padded vertical segment">
-        <a asp-page="./Post" asp-route-slug="@post.Slug">
-            <h3>@post.Title</h3>
-        </a>
+<ul class="list-group list-group-flush">
+    <partial name="_PostListPartial" for="Posts" />
+</ul>
 
-        <p>@post.GetHtmlSnippet()</p>
-      
-        <div class="ui horizontal secondary segments">
-            <div class="ui segment">
-                <a asp-page="./Post" asp-route-slug="@post.Slug" class="ui left floated green button">
-                    <i class="calendar outline icon"></i>
-                    @post.Date.ToLocalTime().ToString("d MMMM yyyy")
+@if (Model.PagesCount > 0)
+{
+    <nav aria-label="Page navigation." class="pagination">
+        <ul class="pagination">
+            <li class="page-item">
+                <a href="/posts.html?page=@Model.PreviousPage" class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
                 </a>
+            </li>
 
-                @foreach (var category in post.Categories)
+            @for (int i = 1; i <= Model.PagesCount; i++)
+            {
+
+                @if (Model.CurrentPage == i)
                 {
-                    <a asp-page="./Category" asp-route-name="@category" class="ui right floated blue button">
-                        <i class="right chevron icon"></i> @category
-                    </a>
+                    <li class="page-item active">
+                        <a href="/posts.html?page=@i" class="page-link">@i</a>
+                    </li>
                 }
-            </div>
-        </div>
-    </div>
-    }
-
-    @if (Model.PagesCount > 0)
-    {
-    <div class="ui pagination menu">
-        <a href="/posts?page=@Model.PreviousPage" class="item">
-            <i class="chevron circle left icon"></i>
-        </a>
-
-        @for (int i = 1; i <= Model.PagesCount; i++)
-        {
-            if (i == Model.CurrentPage)
-            {
-                <a href="/posts?page=@i" class="active item">@i</a>
+                else
+                {
+                    <li class="page-item">
+                        <a href="/posts.html?page=@i" class="page-link">@i</a>
+                    </li>
+                }
             }
-            else
-            {
-                <a href="/posts?page=@i" class="item">@i</a>
-            }
-        }
 
-        <a href="/posts?page=@Model.NextPage" class="item">
-            <i class="chevron circle right icon"></i>
-        </a>
-    </div>
-    }
-</section>
+            <li class="page-item">
+                <a href="/posts.html?page=@Model.NextPage" class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

@@ -1,35 +1,25 @@
 ﻿@page "{name}"
 @model CategoryModel
 
-@using downr.Services.Posts
-
 @inject IPostService postService;
 
 @{
-    ViewData["Title"] = Model.Tag;
+    this.ViewData["Title"] = this.Model.Tag;
 
     int count = this.postService.PostsCount(Model.Tag);
 }
 
-<div class="ui raised segment">
-    <div class="ui raised segments">
-        <div class="ui blue inverted segment">
-            @if (count == 1)
-            {
-                <h2>@count Post tagged with @Model.Tag</h2>
-            }
-            else
-            {
-                <h2>@count Posts tagged with @Model.Tag</h2>
-            }
-        </div>
-        @foreach (var post in Model.Posts)
+<ul class="list-group category-list">
+    <li class="list-group-item active">
+        @if (count == 1)
         {
-            <div class="ui red padded raised segment">
-                <a asp-page="./Post" asp-route-slug="@post.Slug">
-                    <h3>@post.Title</h3>
-                </a>
-            </div>
+            <h2>@count Post tagged with @Model.Tag</h2>
         }
-    </div>
-</div>
+        else
+        {
+            <h2>@count Posts tagged with @Model.Tag</h2>
+        }
+    </li>
+
+    <partial name="_PostListPartial" for="Posts" />
+</ul>
