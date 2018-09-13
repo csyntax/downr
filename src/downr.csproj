@@ -8,7 +8,6 @@
     <PackageId>downr</PackageId>
     <RootNamespace>downr</RootNamespace>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <RuntimeIdentifiers>linux-x64;win10-x64</RuntimeIdentifiers>
     <RazorCompileOnBuild>True</RazorCompileOnBuild>
     <RazorCompileOnPublish>True</RazorCompileOnPublish>
   </PropertyGroup>
