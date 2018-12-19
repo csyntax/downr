@@ -38,6 +38,8 @@
 
             var textEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
 
+            services.AddMemoryCache();
+
             services.AddOptions();
 
             services.AddResponseCompression(options =>

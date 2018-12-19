@@ -4,6 +4,6 @@
 
     public abstract class BaseModel : PageModel
     {
-        
+      //  public abstract string Title { get; internal set; }
     }
 }

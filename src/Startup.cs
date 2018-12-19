@@ -15,7 +15,9 @@ namespace downr
         private readonly IHostingEnvironment env;
         private readonly ILoggerFactory loggerFactory;
 
-        public Startup(IConfiguration config, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public Startup(IConfiguration config, 
+            IHostingEnvironment env, 
+            ILoggerFactory loggerFactory)
         {
             this.config = config;
             this.env = env;
