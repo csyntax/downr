@@ -19,10 +19,11 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
-    using downr.Rules;
     using downr.Services;
     using downr.Services.Posts;
-    
+
+    using downr.Middleware.Rules;
+
     public static class DownrMiddleware
     {
         public static IServiceCollection AddDownr(this IServiceCollection services, IConfiguration config)
@@ -65,6 +66,8 @@
 
             services.Configure<DownrOptions>(config.GetSection("Downr"));
 
+            services.AddHttpContextAccessor();
+
             services.AddSingleton(config);
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
@@ -94,11 +97,11 @@
 
         public static IApplicationBuilder UseDownr(this IApplicationBuilder app,
             IConfiguration config,
-            IHostingEnvironment env,
-            ILoggerFactory loggerFactory)
+            IHostingEnvironment env//,
+            /*ILoggerFactory loggerFactory*/)
         {
-            loggerFactory.AddConsole(config.GetSection("Logging"));
-            loggerFactory.AddDebug();
+          /*  loggerFactory.AddConsole(config.GetSection("Logging"));
+            loggerFactory.AddDebug();*/
 
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {

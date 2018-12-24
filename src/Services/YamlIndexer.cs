@@ -9,9 +9,12 @@
 
     using YamlDotNet.Serialization;
 
+    using Microsoft.AspNetCore.Http;
+
     using Microsoft.Extensions.Logging;
 
     using downr.Models;
+    using downr.Middleware.Extensions;
 
     public class YamlIndexer : IYamlIndexer
     {
@@ -24,6 +27,7 @@
         {
             this.contentLoader = contentLoader;
             this.logger = logger;
+
             this.Documents = new List<Document>();
         }
 
@@ -34,8 +38,8 @@
                 using (var reader = new StreamReader(indexFile, Encoding.UTF8))
                 {
                     var deserializer = new Deserializer();
-                    string line = reader.ReadLine();
-                    string slug = Path.GetFileName(Path.GetDirectoryName(indexFile));
+                    var line = reader.ReadLine();
+                    var slug = Path.GetFileName(Path.GetDirectoryName(indexFile));
 
                     if (line.Equals("---"))
                     {

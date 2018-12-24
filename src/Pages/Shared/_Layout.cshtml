@@ -42,7 +42,7 @@
                     <li class="nav-item">
                         <a asp-page="./Index" class="nav-link">Publications</a>
                     </li>
-                    <vc:category></vc:category>
+                    <vc:category component-type="Navbar"></vc:category>
                 </ul>
             </div>
         </nav>
@@ -53,14 +53,14 @@
                     @RenderBody()
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="card">
+                    <div class="card me">
                         <img class="card-img-top" src="~/images/man.svg" alt="Man">
                         <div class="card-body">
                             <h5 class="card-title">Ivan Ivanov</h5>
                             <p class="card-text about-me-text">
                                 I have many years experience of technical backhround as
                                 web developer with solid experience with .NET Platform and Node.js Stack.
-                                I develop my interests in Back-End development with ASP.NET Stack and DevOps 
+                                I develop my interests in Back-End development with ASP.NET Stack and DevOps
                                 development using Docker and Kubernetes, usually I using Linux for my
                                 development wokstation.
                             </p>
@@ -70,18 +70,21 @@
                             </a>
                         </div>
                     </div>
+
+                    <vc:category component-type="Sidebar"></vc:category>
                 </div>
             </div>
         </div>
 
-        <footer class="container">
-            <p>(c) @DateTime.Now.Year @opt.Author</p>
-            <p>
-                <a href="@downrOptions.Value.Twitter" target="_blank" rel="me">Twitter</a>
-                <a href="@downrOptions.Value.GitHub" target="_blank" rel="me">GitHub</a>
-                <a href="@downrOptions.Value.LinkedIn" target="_blank" rel="me">LinkedIn</a>
-            </p>
-        </footer>
+            <footer class="container">
+                <p>(c) @DateTime.Now.Year @opt.Author</p>
+                <p>
+                    <a href="@downrOptions.Value.Twitter" target="_blank" rel="me">Twitter</a>
+                    <a href="@downrOptions.Value.GitHub" target="_blank" rel="me">GitHub</a>
+                    <a href="@downrOptions.Value.LinkedIn" target="_blank" rel="me">LinkedIn</a>
+                </p>
+            </footer>
+   
 
         <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>

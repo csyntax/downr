@@ -19,19 +19,7 @@
             this.postService = postService;
         }
 
-        /*public IViewComponentResult Invoke()
-        {
-            string[] categories = this.memoryCache.GetOrCreate("Categories", entry =>
-            {
-                entry.SetSlidingExpiration(TimeSpan.FromDays(1));
-
-                return this.postService.GetCategories();
-            });
-
-            return this.View(categories);
-        }*/
-
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(ComponentType componentType)
         {
             string[] categories = await this.memoryCache.GetOrCreateAsync("Categories", entry =>
             {

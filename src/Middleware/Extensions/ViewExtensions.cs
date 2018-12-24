@@ -1,6 +1,5 @@
-﻿namespace downr
+﻿namespace downr.Middleware.Extensions
 {
-    using System;
     using System.Linq;
 
     using HtmlAgilityPack;
@@ -28,8 +27,6 @@
             
             return helper.Raw(content);
         }
-
-        
 
         private static string RemoveHtmlTags(this string markup)
         {

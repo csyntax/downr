@@ -119,6 +119,10 @@ header {
     border-color: var(--red);
 }
 
+.me {
+    margin-bottom: 1em;
+}
+
 footer {
     text-align: center;
 }

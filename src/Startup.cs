@@ -13,15 +13,15 @@ namespace downr
     {
         private readonly IConfiguration config;
         private readonly IHostingEnvironment env;
-        private readonly ILoggerFactory loggerFactory;
+       //private readonly ILoggerFactory loggerFactory;
 
         public Startup(IConfiguration config, 
-            IHostingEnvironment env, 
-            ILoggerFactory loggerFactory)
+            IHostingEnvironment env/*, 
+            ILoggerFactory loggerFactory*/)
         {
             this.config = config;
             this.env = env;
-            this.loggerFactory = loggerFactory;
+            //this.loggerFactory = loggerFactory;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -31,7 +31,9 @@ namespace downr
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseDownr(this.config, this.env, this.loggerFactory);
+            //app.UseDownr(this.config, this.env, this.loggerFactory);
+
+            app.UseDownr(this.config, this.env);
         }
     }
 }

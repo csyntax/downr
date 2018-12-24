@@ -4,6 +4,8 @@
 
     using downr.Models;
 
+    using Microsoft.AspNetCore.Http;
+
     public interface IYamlIndexer
     {
         List<Document> Documents { get; }

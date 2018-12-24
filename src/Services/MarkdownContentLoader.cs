@@ -44,12 +44,11 @@
                     content = reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' ');
 
                     reader.Close();
+                    file.Close();
+
+                    return content;
                 }
-
-                file.Close();
-            }
-
-            return content;
+            }            
         }
     }
 }
