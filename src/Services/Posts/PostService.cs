@@ -4,21 +4,18 @@
     using System.Linq;
     using System.Collections.Generic;
 
-    using downr.Models;
     using Microsoft.AspNetCore.Http;
+
+    using downr.Models;
 
     public class PostService : IPostService
     {
-        private readonly IYamlIndexer indexer;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public PostService(IYamlIndexer indexer, IHttpContextAccessor httpContextAccessor)
-        {
-            this.indexer = indexer;
-            this.httpContextAccessor = httpContextAccessor;
-        }
+        public PostService(IHttpContextAccessor httpContextAccessor) => this.httpContextAccessor = httpContextAccessor;
 
-        private List<Document> Documents {
+        private List<Document> Documents
+        {
             get
             {
                 object lockObj = new object();
@@ -92,36 +89,22 @@
             return result;
         }
 
-        public string[] GetCategories()
-        {
-            var categories = this.GetTags().ToArray(); // #7
+        public string[] GetCategories() => this.GetTags().ToArray();
 
-            return categories;
-        }
 
-        public string GetCategory(string name)
-        {
-            var category = this.GetTags().FirstOrDefault(c => c.ToLower() == name.ToLower()); // use str compare
+        public string GetCategory(string name) => 
+            this.GetTags()
+                .FirstOrDefault(c => string.Compare(c.ToLower(), name.ToLower(), true) == 0);
 
-            return category;
-        }
 
-        private IEnumerable<Document> GetPosts()
-        {
-            /*return this.indexer
-                .Documents
-                .Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0); // #7*/
+        private IEnumerable<Document> GetPosts() => 
+            this.Documents.Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0);
 
-            return this.Documents.Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0);
-        }
-
-        private IEnumerable<string> GetTags()
-        {
-            return this.GetPosts()
+        private IEnumerable<string> GetTags() => 
+            this.GetPosts()
                 .SelectMany(c => c.Categories)
                 .GroupBy(c => c)
                 .Select(c => c.Key)
                 .OrderBy(c => c);
-        }
     }
 }

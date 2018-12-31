@@ -26,9 +26,8 @@
 
                     config
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
-
-                    config.AddEnvironmentVariables();
+                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                        .AddEnvironmentVariables();
                 })
                 .ConfigureLogging((hostingContext, logging) =>
                 {
@@ -47,6 +46,7 @@
                     options.Limits.MinResponseDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
                 })
                 .UseStartup<Startup>()
+                .Use
                 .Build();
      }
 }

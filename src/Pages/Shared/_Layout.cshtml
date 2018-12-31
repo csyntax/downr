@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card me">
-                        <img class="card-img-top" src="~/images/man.svg" alt="Man">
+                        <img class="card-img-top" src="~/images/man.jpg" alt="Ivan Ivanov profile picture" />
                         <div class="card-body">
                             <h5 class="card-title">Ivan Ivanov</h5>
                             <p class="card-text about-me-text">
@@ -64,28 +64,24 @@
                                 development using Docker and Kubernetes, usually I using Linux for my
                                 development wokstation.
                             </p>
-
                             <a class="twitter-follow-button" href="https://twitter.com/csyntaxdev" target="_blank">
                                 Follow @@csyntaxdev
                             </a>
                         </div>
                     </div>
-
-                    <vc:category component-type="Sidebar"></vc:category>
                 </div>
             </div>
         </div>
 
-            <footer class="container">
-                <p>(c) @DateTime.Now.Year @opt.Author</p>
-                <p>
-                    <a href="@downrOptions.Value.Twitter" target="_blank" rel="me">Twitter</a>
-                    <a href="@downrOptions.Value.GitHub" target="_blank" rel="me">GitHub</a>
-                    <a href="@downrOptions.Value.LinkedIn" target="_blank" rel="me">LinkedIn</a>
-                </p>
-            </footer>
+        <footer class="container">
+            <p>(c) @DateTime.Now.Year @opt.Author</p>
+            <p>
+                <a href="@downrOptions.Value.Twitter" target="_blank" rel="me">Twitter</a>
+                <a href="@downrOptions.Value.GitHub" target="_blank" rel="me">GitHub</a>
+                <a href="@downrOptions.Value.LinkedIn" target="_blank" rel="me">LinkedIn</a>
+            </p>
+        </footer>
    
-
         <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
         <script src="~/lib/highlightjs/highlight.pack.js"></script>

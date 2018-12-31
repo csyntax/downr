@@ -7,48 +7,46 @@
     using System.Globalization;
     using System.Collections.Generic;
 
-    using YamlDotNet.Serialization;
-
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
 
+    using YamlDotNet.Serialization;
+
     using downr.Models;
-    using Microsoft.AspNetCore.Http;
+    using downr.Middleware.Extensions;
 
     public class YamlIndexer : IYamlIndexer
     {
         private readonly ILogger logger;
         private readonly IMarkdownContentLoader contentLoader;
-        private List<Document> documents;
 
-        private static object theLocker = new object();
+        private List<Document> documents = new List<Document>();
 
-        public virtual ICollection<Document> Documents
+        private object Documents
         {
             get
             {
+                object theLocker = new object();
+
                 lock (theLocker)
                 {
-                    return this.documents;
-                }                
+                    return this.documents as object;
+                }
             }
         }
 
         public YamlIndexer(IMarkdownContentLoader contentLoader, ILogger<YamlIndexer> logger)
         {
-            this.contentLoader = contentLoader;
             this.logger = logger;
-
-            this.documents = new List<Document>();
+            this.contentLoader = contentLoader;
         }
 
         public void IndexContentFiles(string contentPath, HttpContext httpContext)
         {
             Func<string, Document> parseMetadata = delegate (string indexFile)
             {
-                using (var reader = new StreamReader(indexFile, Encoding.UTF8))
+                using (var reader = new StreamReader(indexFile, Encoding.UTF8).RegisterForDispose(httpContext))
                 {
-                    httpContext.Response.RegisterForDispose(reader);
-
                     var deserializer = new Deserializer();
                     var line = reader.ReadLine();
                     var slug = Path.GetFileName(Path.GetDirectoryName(indexFile));
@@ -102,6 +100,8 @@
                 .ToList();
 
             this.logger.LogInformation($"Loaded {this.documents.Count} posts");
+
+            httpContext.Items["Posts"] = this.Documents;
         }
     }
 }

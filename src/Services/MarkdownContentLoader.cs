@@ -8,7 +8,7 @@
 
     public class MarkdownContentLoader : IMarkdownContentLoader
     {
-        public string RenderContent(string path, string slug)
+        public string ContentRender(string path, string slug)
         {
             var content = this.ReadContent(path);
             var pipeline = new MarkdownPipelineBuilder().UseYamlFrontMatter().Build();
@@ -35,19 +35,14 @@
 
         private string ReadContent(string path)
         {
-            string content = string.Empty;
-
             using (var reader = new StreamReader(path, Encoding.UTF8))
             {
-                while (!reader.EndOfStream)
-                {
-                   content = reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' ');
-                }
+                var content = reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' ');
 
                 reader.Close();
-            }
 
-            return content;
+                return content;
+            }            
         }
     }
 }

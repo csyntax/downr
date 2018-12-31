@@ -13,15 +13,14 @@
 
         public DownrContentMiddleware(RequestDelegate requestDelegate, IYamlIndexer yamlIndexer)
         {
-            this.requestDelegate = requestDelegate;
             this.yamlIndexer = yamlIndexer;
+            this.requestDelegate = requestDelegate;
+            
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
             this.yamlIndexer.IndexContentFiles(Constants.ContentPath, httpContext);
-
-            httpContext.Items["Posts"] = (object) this.yamlIndexer.Documents as object;
 
             await this.requestDelegate.Invoke(httpContext);
         }
