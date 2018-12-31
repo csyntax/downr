@@ -1,7 +1,6 @@
 namespace downr.Pages
 {
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
 
     using downr.Models;
     using downr.Services.Posts;
@@ -10,11 +9,9 @@ namespace downr.Pages
     {
         private readonly IPostService postService;
         
-        public PostModel(IPostService postService)
-        {
-            this.postService = postService;
-        }
+        public PostModel(IPostService postService) => this.postService = postService;
 
+        [BindProperty]
         public Document Article { get; private set; }
 
         public IActionResult OnGet(string slug)

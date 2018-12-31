@@ -13,15 +13,14 @@
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.AspNetCore.ResponseCompression;
 
-    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.WebEncoders;
     using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
 
     using downr.Services;
     using downr.Services.Posts;
-
     using downr.Middleware.Rules;
 
     public static class DownrMiddleware
@@ -40,7 +39,6 @@
             var textEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
 
             services.AddMemoryCache();
-
             services.AddOptions();
 
             services.AddResponseCompression(options =>
@@ -49,24 +47,13 @@
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(mimeTypes);
             });            
 
-            services.Configure<GzipCompressionProviderOptions>(options =>
-            {
-                options.Level = CompressionLevel.Fastest;
-            });
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
 
-            services.Configure<RouteOptions>(options =>
-            {
-                options.LowercaseUrls = true;
-            });
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
-            services.Configure<WebEncoderOptions>(options =>
-            {
-                options.TextEncoderSettings = textEncoderSettings;
-            });
+            services.Configure<WebEncoderOptions>(options => options.TextEncoderSettings = textEncoderSettings);
 
             services.Configure<DownrOptions>(config.GetSection("Downr"));
-
-            services.AddHttpContextAccessor();
 
             services.AddSingleton(config);
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
@@ -74,46 +61,42 @@
             services.AddScoped<IPostService, PostService>();
 
             services
-                .AddMvcCore()
-                .AddAuthorization()
-                .AddRazorPages(options =>
+                .AddMvc()
+                .AddMvcLocalization()
+                .AddViewComponentsAsServices()
+                .AddViewOptions(options =>
                 {
+                     options.SuppressTempDataAttributePrefix = true;
+                })
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.Clear();
                     options.Conventions.AddPageRoute("/Index", "/Posts");
                     options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
                     options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
                 });
 
-            /*services
-               .AddMvc()
-               .AddRazorPagesOptions(options =>
-               {
-                   options.Conventions.AddPageRoute("/Index", "/Posts");
-                   options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
-                   options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
-               });*/
+            services.AddHttpContextAccessor();
 
             return services;
         }
 
-        public static IApplicationBuilder UseDownr(this IApplicationBuilder app,
-            IConfiguration config,
-            IHostingEnvironment env//,
-            /*ILoggerFactory loggerFactory*/)
+        public static IApplicationBuilder UseDownr(this IApplicationBuilder app, 
+            IConfiguration config, 
+            IHostingEnvironment hostingEnvironment)
         {
-          /*  loggerFactory.AddConsole(config.GetSection("Logging"));
-            loggerFactory.AddDebug();*/
-
-            if (string.IsNullOrWhiteSpace(env.WebRootPath))
+            if (string.IsNullOrWhiteSpace(hostingEnvironment.WebRootPath))
             {
-                env.WebRootPath = Constants.WebRootPath;
+                hostingEnvironment.WebRootPath = Constants.WebRootPath;
             }
 
-            if (env.IsDevelopment())
+            if (hostingEnvironment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                app.UseHsts();
                 app.UseExceptionHandler("/Error");
             }
 
@@ -139,16 +122,13 @@
             rewriteOptions.Add(new RedirectRequests());
             rewriteOptions.Add(new RewriteRequests());
 
+            app.UseMiddleware<DownrContentMiddleware>();
+
             app.UseStaticFiles();
             app.UseResponseCompression();
             app.UseStaticFiles(staticFileOptions);
             app.UseRewriter(rewriteOptions);
             app.UseMvc();
-
-            app
-                .ApplicationServices
-                .GetRequiredService<IYamlIndexer>()
-                .IndexContentFiles(Constants.ContentPath);
 
             return app;
         }

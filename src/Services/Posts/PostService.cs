@@ -5,14 +5,31 @@
     using System.Collections.Generic;
 
     using downr.Models;
+    using Microsoft.AspNetCore.Http;
 
     public class PostService : IPostService
     {
         private readonly IYamlIndexer indexer;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public PostService(IYamlIndexer indexer)
+        public PostService(IYamlIndexer indexer, IHttpContextAccessor httpContextAccessor)
         {
             this.indexer = indexer;
+            this.httpContextAccessor = httpContextAccessor;
+        }
+
+        private List<Document> Documents {
+            get
+            {
+                object lockObj = new object();
+
+                lock (lockObj)
+                {
+                    var documents = this.httpContextAccessor.HttpContext.Items["Posts"] as List<Document>;
+
+                    return documents;
+                }
+            }
         }
 
         public List<Document> GetPostsList(string category = null)
@@ -91,9 +108,11 @@
 
         private IEnumerable<Document> GetPosts()
         {
-            return this.indexer
+            /*return this.indexer
                 .Documents
-                .Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0); // #7
+                .Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0); // #7*/
+
+            return this.Documents.Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0);
         }
 
         private IEnumerable<string> GetTags()

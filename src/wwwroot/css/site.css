@@ -14,12 +14,6 @@
     background: var(--red);
 }
 
-/*
-.navbar-light .navbar-brand {
-    background: var(--smoke);
-    padding: 0.25em;
-}*/
-
 .navbar-light .navbar-brand {
     padding: 0.25em;
 }

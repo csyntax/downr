@@ -1,33 +1,21 @@
 ﻿namespace downr
 {
+    using System;
     using System.IO;
-    using System.Net;
     using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore;
 
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
 
+    using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Server.Kestrel.Core;
 
     public class Program
     {
         public static async Task Main(string[] args) => await BuildWebHost(args).RunAsync();
 
         private static IWebHost BuildWebHost(string[] args) =>
-            /*  OLD
- *  WebHost
-     .CreateDefaultBuilder(args)
-     .UseStartup<Startup>()
-     .UseKestrel(options => {
-         options.Limits.MaxConcurrentConnections = 100;
-         options.Limits.MaxConcurrentUpgradedConnections = 100;
-         options.Limits.MaxRequestBodySize = 10 * 1024;
-         options.Listen(IPAddress.Loopback, 5000);
-     })
-     .Build();*/
-
             WebHost
                 .CreateDefaultBuilder(args)
                 .UseKestrel()
@@ -49,6 +37,14 @@
                     logging.AddConsole();
                     logging.AddDebug();
                     logging.AddEventSourceLogger();
+                })
+                .ConfigureKestrel((hostingContext, options) =>
+                {
+                    options.Limits.MaxConcurrentConnections = 100;
+                    options.Limits.MaxConcurrentUpgradedConnections = 100;
+                    options.Limits.MaxRequestBodySize = 10 * 1024;
+                    options.Limits.MinRequestBodyDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
+                    options.Limits.MinResponseDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
                 })
                 .UseStartup<Startup>()
                 .Build();

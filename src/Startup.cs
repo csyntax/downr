@@ -3,7 +3,6 @@ namespace downr
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
 
-    using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -11,29 +10,17 @@ namespace downr
 
     public class Startup
     {
-        private readonly IConfiguration config;
-        private readonly IHostingEnvironment env;
-       //private readonly ILoggerFactory loggerFactory;
+        private readonly IConfiguration configuration;
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public Startup(IConfiguration config, 
-            IHostingEnvironment env/*, 
-            ILoggerFactory loggerFactory*/)
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
-            this.config = config;
-            this.env = env;
-            //this.loggerFactory = loggerFactory;
+            this.configuration = configuration;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
-        public void ConfigureServices(IServiceCollection services)
-        {            
-            services.AddDownr(this.config);
-        }
+        public void ConfigureServices(IServiceCollection services) => services.AddDownr(this.configuration);
 
-        public void Configure(IApplicationBuilder app)
-        {
-            //app.UseDownr(this.config, this.env, this.loggerFactory);
-
-            app.UseDownr(this.config, this.env);
-        }
+        public void Configure(IApplicationBuilder app) => app.UseDownr(this.configuration, this.hostingEnvironment);
     }
 }

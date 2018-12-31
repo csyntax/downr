@@ -11,13 +11,15 @@
     var prevNext = this.postService.GetPreviousAndNextPosts(Model.Article.Slug);
 }
 
-<article>
+<article id="article-@Model.Article.Slug">
     <header>
         <h1>@Model.Article.Title</h1>
         <div class="clearfix">
             <a asp-page="./Post" asp-route-slug="@Model.Article.Slug" class="btn btn-sm btn-secondary float-left">
                 <i class="calendar outline icon"></i>
-                @Model.Article.Date.ToLocalTime().ToString("d MMMM yyyy")
+                <time datetime="@Model.Article.Date.ToLocalTime().ToString("d-MM-yyyy")">
+                    @Model.Article.Date.ToLocalTime().ToString("d MMMM yyyy")
+                </time>
             </a>
 
             @foreach (var category in Model.Article.Categories)

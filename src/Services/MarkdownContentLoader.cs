@@ -35,20 +35,19 @@
 
         private string ReadContent(string path)
         {
-            string content;
+            string content = string.Empty;
 
-            using (FileStream file = File.OpenRead(path))
+            using (var reader = new StreamReader(path, Encoding.UTF8))
             {
-                using (var reader = new StreamReader(file, Encoding.UTF8))
+                while (!reader.EndOfStream)
                 {
-                    content = reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' ');
-
-                    reader.Close();
-                    file.Close();
-
-                    return content;
+                   content = reader.ReadToEnd().TrimStart('\r', '\n', '\t', ' ');
                 }
-            }            
+
+                reader.Close();
+            }
+
+            return content;
         }
     }
 }

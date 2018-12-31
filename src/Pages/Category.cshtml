@@ -1,23 +1,19 @@
 ﻿@page "{name}"
 @model CategoryModel
 
-@inject IPostService postService;
-
 @{
     this.ViewData["Title"] = this.Model.Tag;
-
-    int count = this.postService.PostsCount(Model.Tag);
 }
 
 <ul class="list-group category-list">
     <li class="list-group-item active">
-        @if (count == 1)
+        @if (this.Model.Count == 1)
         {
-            <h2>@count Post tagged with @Model.Tag</h2>
+            <h2>@this.Model.Count Post tagged with @Model.Tag</h2>
         }
         else
         {
-            <h2>@count Posts tagged with @Model.Tag</h2>
+            <h2>@this.Model.Count Posts tagged with @Model.Tag</h2>
         }
     </li>
 

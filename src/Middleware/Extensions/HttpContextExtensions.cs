@@ -6,10 +6,10 @@
 
     public static class HttpContextExtensions
     {
-        public static T RegisterForDispose<T>(this T disposable, HttpContext context) 
+        public static T RegisterForDispose<T>(this T disposable, IHttpContextAccessor httpContextAccessor) 
             where T : IDisposable
         {
-            context.Response.RegisterForDispose(disposable);
+            httpContextAccessor.HttpContext.Response.RegisterForDispose(disposable);
 
             return disposable;
         }

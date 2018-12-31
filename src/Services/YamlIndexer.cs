@@ -9,34 +9,46 @@
 
     using YamlDotNet.Serialization;
 
-    using Microsoft.AspNetCore.Http;
-
     using Microsoft.Extensions.Logging;
 
     using downr.Models;
-    using downr.Middleware.Extensions;
+    using Microsoft.AspNetCore.Http;
 
     public class YamlIndexer : IYamlIndexer
     {
         private readonly ILogger logger;
         private readonly IMarkdownContentLoader contentLoader;
+        private List<Document> documents;
 
-        public List<Document> Documents { get; private set; }
+        private static object theLocker = new object();
+
+        public virtual ICollection<Document> Documents
+        {
+            get
+            {
+                lock (theLocker)
+                {
+                    return this.documents;
+                }                
+            }
+        }
 
         public YamlIndexer(IMarkdownContentLoader contentLoader, ILogger<YamlIndexer> logger)
         {
             this.contentLoader = contentLoader;
             this.logger = logger;
 
-            this.Documents = new List<Document>();
+            this.documents = new List<Document>();
         }
 
-        public void IndexContentFiles(string contentPath)
+        public void IndexContentFiles(string contentPath, HttpContext httpContext)
         {
             Func<string, Document> parseMetadata = delegate (string indexFile)
             {
                 using (var reader = new StreamReader(indexFile, Encoding.UTF8))
                 {
+                    httpContext.Response.RegisterForDispose(reader);
+
                     var deserializer = new Deserializer();
                     var line = reader.ReadLine();
                     var slug = Path.GetFileName(Path.GetDirectoryName(indexFile));
@@ -81,7 +93,7 @@
 
             this.logger.LogInformation("Loading post content...");
 
-            this.Documents = Directory
+            this.documents = Directory
                 .GetDirectories(contentPath)
                 .Select(dir => Path.Combine(dir, "index.md"))
                 .Select(parseMetadata)
@@ -89,7 +101,7 @@
                 .OrderByDescending(x => x.Date)
                 .ToList();
 
-            this.logger.LogInformation($"Loaded {this.Documents.Count} posts");
+            this.logger.LogInformation($"Loaded {this.documents.Count} posts");
         }
     }
 }

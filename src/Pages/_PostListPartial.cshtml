@@ -11,7 +11,9 @@
 
         <div class="clearfix">
             <a asp-page="./Post" asp-route-slug="@post.Slug" class="btn btn-sm btn-secondary float-left">
-                @post.Date.ToLocalTime().ToString("d MMMM yyyy")
+                <time datetime="@post.Date.ToLocalTime().ToString("d-MM-yyyy")">
+                    @post.Date.ToLocalTime().ToString("d MMMM yyyy")
+                </time>
             </a>
 
             @foreach (var category in post.Categories)
