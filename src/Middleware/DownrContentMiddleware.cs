@@ -15,7 +15,6 @@
         {
             this.yamlIndexer = yamlIndexer;
             this.requestDelegate = requestDelegate;
-            
         }
 
         public async Task InvokeAsync(HttpContext httpContext)

@@ -66,7 +66,7 @@
                 .AddViewComponentsAsServices()
                 .AddViewOptions(options =>
                 {
-                     options.SuppressTempDataAttributePrefix = true;
+                    options.SuppressTempDataAttributePrefix = true;
                 })
                 .AddRazorPagesOptions(options =>
                 {
@@ -96,7 +96,7 @@
             }
             else
             {
-                app.UseHsts();
+               // app.UseHsts();
                 app.UseExceptionHandler("/Error");
             }
 

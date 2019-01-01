@@ -77,7 +77,7 @@
                                 .Split(',')
                                 .Select(c => c.Trim())
                                 .ToArray(),
-                            Content = this.contentLoader.RenderContent(indexFile, slug)
+                            Content = this.contentLoader.ContentRender(indexFile, slug)
                         };
 
                         reader.Close();

@@ -46,7 +46,6 @@
                     options.Limits.MinResponseDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
                 })
                 .UseStartup<Startup>()
-                .Use
                 .Build();
      }
 }
