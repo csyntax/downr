@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
         // ...
     }
 
-    updateTodo(paper: any, newPaper: string): void {
+    updatePaper(paper: any, newPaper: string): void {
         // ...
     }
 }
@@ -75,7 +75,7 @@ Simply declare a class property of type FirebaseListObservable and get the */pap
 papers: Observable<any[]>;
 
 ngOnInit() {
-    this.papers = this.af.list('/todos').valueChanges();
+    this.papers = this.af.list('/papers').valueChanges();
 }
 ```
 
