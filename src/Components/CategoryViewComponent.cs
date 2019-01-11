@@ -20,7 +20,7 @@
             this.postService = postService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(ComponentType componentType)
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             string[] categories = await this.memoryCache.GetOrCreateAsync("Categories", entry =>
             {

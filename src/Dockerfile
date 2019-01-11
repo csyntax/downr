@@ -3,11 +3,11 @@ WORKDIR /src
 COPY downr.csproj .
 RUN dotnet restore downr.csproj
 COPY . .
-RUN dotnet publish downr.csproj -c Release -r linux-arm -o /app --self-contained
+RUN dotnet publish downr.csproj -c Release -o /app
 
-FROM microsoft/dotnet:runtime-deps
-ENV ASPNETCORE_URLS http://+:5000
+FROM microsoft/dotnet:runtime
+ENV ASPNETCORE_URLS http://0.0.0.0:5000
 WORKDIR /app
 COPY --from=build /app .
 EXPOSE 5000
-ENTRYPOINT ["./downr"]
+ENTRYPOINT ["dotnet", "./downr.dll"]
