@@ -1,8 +1,6 @@
 ﻿namespace downr
 {
-    using System;
     using System.IO;
-     using System.Net;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore;
@@ -37,10 +35,8 @@
                     config.Limits.MaxConcurrentUpgradedConnections = 100;
                     config.Limits.MaxRequestBodySize = 10 * 1024;
 
-                    config.UseSystemd();
                     config.ListenAnyIP(5000);
                 })
-                .UseDefaultServiceProvider(config => config.ValidateScopes = true)
                 .UseKestrel()
                 .UseStartup<Startup>();
      }
