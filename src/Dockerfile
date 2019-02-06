@@ -6,7 +6,6 @@ COPY . .
 RUN dotnet publish downr.csproj -c Release -o /app
 
 FROM microsoft/dotnet:runtime
-ENV ASPNETCORE_URLS http://0.0.0.0:5000
 WORKDIR /app
 COPY --from=build /app .
 EXPOSE 5000

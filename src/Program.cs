@@ -2,52 +2,46 @@
 {
     using System;
     using System.IO;
+     using System.Net;
     using System.Threading.Tasks;
-
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Logging;
 
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Server.Kestrel.Core;
-    using System.Net;
+
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Configuration;
 
     public class Program
-    {
-        public static async Task Main(string[] args) => await BuildWebHost(args).RunAsync();
+    {   
+        public static async Task Main(string[] args) => await CreateWebHostBuilder(args).Build().RunAsync();
 
-        private static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost
                 .CreateDefaultBuilder(args)
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    var env = hostingContext.HostingEnvironment;
+                    config.SetBasePath(Directory.GetCurrentDirectory());
+                    config.AddJsonFile("appsettings.json", optional: false);
+                    config.AddCommandLine(args);
+                })
+                .ConfigureLogging((hostingContext, config) =>
+                {
+                    config.ClearProviders();
+                    config.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    config.AddConsole();
+                    config.AddDebug();
+                })
+                .ConfigureKestrel((hostingContext, config) =>
+                {
+                    config.Limits.MaxConcurrentConnections = 100;
+                    config.Limits.MaxConcurrentUpgradedConnections = 100;
+                    config.Limits.MaxRequestBodySize = 10 * 1024;
 
-                    config
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                        .AddEnvironmentVariables();
+                    config.UseSystemd();
+                    config.ListenAnyIP(5000);
                 })
-                .ConfigureLogging((hostingContext, logging) =>
-                {
-                    logging.ClearProviders();
-                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    logging.AddConsole();
-                    logging.AddDebug();
-                    logging.AddEventSourceLogger();
-                })
-                .ConfigureKestrel((hostingContext, options) =>
-                {
-                    options.Limits.MaxConcurrentConnections = 100;
-                    options.Limits.MaxConcurrentUpgradedConnections = 100;
-                    options.Limits.MaxRequestBodySize = 10 * 1024;
-                    options.Limits.MinRequestBodyDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
-                    options.Limits.MinResponseDataRate = new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
-                    options.Listen(IPAddress.Any, 7000);
-                })
-                .UseStartup<Startup>()
-                .Build();
+                .UseDefaultServiceProvider(config => config.ValidateScopes = true)
+                .UseKestrel()
+                .UseStartup<Startup>();
      }
 }

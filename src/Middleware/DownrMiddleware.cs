@@ -1,8 +1,8 @@
 ﻿namespace downr.Middleware
 {
     using System.Linq;
-    using System.IO.Compression;
     using System.Text.Unicode;
+    using System.IO.Compression;
     using System.Text.Encodings.Web;
 
     using Microsoft.AspNetCore.Http;
@@ -11,6 +11,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Rewrite;
     using Microsoft.AspNetCore.StaticFiles;
+    using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.AspNetCore.ResponseCompression;
 
     using Microsoft.Extensions.WebEncoders;
@@ -37,15 +38,16 @@
             };
 
             var textEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
-
-            services.AddMemoryCache();
+            
             services.AddOptions();
-
+            services.AddMemoryCache();
+            services.AddHttpContextAccessor();
+        
             services.AddResponseCompression(options =>
             {
                 options.Providers.Add<GzipCompressionProvider>();
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(mimeTypes);
-            });            
+            });
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
 
@@ -55,16 +57,21 @@
 
             services.Configure<DownrOptions>(config.GetSection("Downr"));
 
-            services.AddSingleton(config);
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
 
             services
-                .AddMvc()
-                .AddMvcLocalization()
-                .AddViewComponentsAsServices()
-                .AddViewOptions(options =>
+                .AddMvcCore()
+                .AddAuthorization()
+                .AddRazorPages(options => 
+                {
+                    options.Conventions.Clear();
+                    options.Conventions.AddPageRoute("/Index", "/Posts");
+                    options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
+                    options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
+                });
+                /*.AddViewOptions(options =>
                 {
                     options.SuppressTempDataAttributePrefix = true;
                 })
@@ -74,9 +81,7 @@
                     options.Conventions.AddPageRoute("/Index", "/Posts");
                     options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
                     options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
-                });
-
-            services.AddHttpContextAccessor();
+                });*/
 
             return services;
         }
@@ -96,7 +101,6 @@
             }
             else
             {
-               // app.UseHsts();
                 app.UseExceptionHandler("/Error");
             }
 
@@ -121,6 +125,11 @@
 
             rewriteOptions.Add(new RedirectRequests());
             rewriteOptions.Add(new RewriteRequests());
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             app.UseMiddleware<DownrContentMiddleware>();
 
