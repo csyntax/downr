@@ -8,5 +8,5 @@ RUN dotnet publish downr.csproj -c Release -o /app
 FROM microsoft/dotnet:runtime
 WORKDIR /app
 COPY --from=build /app .
-EXPOSE 5000
+EXPOSE 7000
 ENTRYPOINT ["dotnet", "./downr.dll"]
