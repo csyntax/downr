@@ -5,8 +5,8 @@ RUN dotnet restore downr.csproj
 COPY . .
 RUN dotnet publish downr.csproj -c Release -o /app
 
-FROM microsoft/dotnet:2.2-runtime-deps
+FROM microsoft/dotnet:2.2-runtime
 WORKDIR /app
 COPY --from=build /app .
 EXPOSE 5000
-ENTRYPOINT ["./downr"]
+ENTRYPOINT ["dotnet", "./downr.dll"]
