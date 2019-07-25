@@ -1,9 +1,13 @@
 ﻿namespace downr.Services
 {
-    using Microsoft.AspNetCore.Http;
+    using System.Collections.Generic;
+
+    using downr.Models;
 
     public interface IYamlIndexer
     {
-        void IndexContentFiles(string contentPath, HttpContext httpContext);
+        List<Document> Documents { get; set; }
+
+        void IndexContentFiles(string contentPath);
     }
 }

@@ -7,33 +7,16 @@
     using System.Globalization;
     using System.Collections.Generic;
 
-    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
 
     using YamlDotNet.Serialization;
 
     using downr.Models;
-    using downr.Middleware.Extensions;
 
     public class YamlIndexer : IYamlIndexer
     {
         private readonly ILogger logger;
         private readonly IMarkdownContentLoader contentLoader;
-
-        private List<Document> documents = new List<Document>();
-
-        private object Documents
-        {
-            get
-            {
-                object theLocker = new object();
-
-                lock (theLocker)
-                {
-                    return this.documents as object;
-                }
-            }
-        }
 
         public YamlIndexer(IMarkdownContentLoader contentLoader, ILogger<YamlIndexer> logger)
         {
@@ -41,11 +24,13 @@
             this.contentLoader = contentLoader;
         }
 
-        public void IndexContentFiles(string contentPath, HttpContext httpContext)
+        public List<Document> Documents { get; set; }
+
+        public void IndexContentFiles(string contentPath)
         {
             Func<string, Document> parseMetadata = delegate (string indexFile)
             {
-                using (var reader = new StreamReader(indexFile, Encoding.UTF8).RegisterForDispose(httpContext))
+                using (var reader = new StreamReader(indexFile, Encoding.UTF8))
                 {
                     var deserializer = new Deserializer();
                     var line = reader.ReadLine();
@@ -91,7 +76,7 @@
 
             this.logger.LogInformation("Loading post content...");
 
-            this.documents = Directory
+            this.Documents = Directory
                 .GetDirectories(contentPath)
                 .Select(dir => Path.Combine(dir, "index.md"))
                 .Select(parseMetadata)
@@ -99,9 +84,7 @@
                 .OrderByDescending(x => x.Date)
                 .ToList();
 
-            this.logger.LogInformation($"Loaded {this.documents.Count} posts");
-
-            httpContext.Items["Posts"] = this.Documents;
+            this.logger.LogInformation($"Loaded {this.Documents.Count} posts");
         }
     }
 }

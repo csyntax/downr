@@ -10,24 +10,10 @@
 
     public class PostService : IPostService
     {
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IYamlIndexer yamlIndexer;
 
-        public PostService(IHttpContextAccessor httpContextAccessor) => this.httpContextAccessor = httpContextAccessor;
-
-        private List<Document> Documents
-        {
-            get
-            {
-                object lockObj = new object();
-
-                lock (lockObj)
-                {
-                    var documents = this.httpContextAccessor.HttpContext.Items["Posts"] as List<Document>;
-
-                    return documents;
-                }
-            }
-        }
+        public PostService(IYamlIndexer yamlIndexer)
+            => this.yamlIndexer = yamlIndexer;
 
         public List<Document> GetPostsList(string category = null)
         {
@@ -98,7 +84,7 @@
 
 
         private IEnumerable<Document> GetPosts() => 
-            this.Documents.Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0);
+            this.yamlIndexer.Documents.Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0);
 
         private IEnumerable<string> GetTags() => 
             this.GetPosts()
