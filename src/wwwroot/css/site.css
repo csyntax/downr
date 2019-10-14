@@ -120,3 +120,7 @@ header {
 footer {
     text-align: center;
 }
+
+.nav-pills a.nav-link {
+    color: var(--red) !important;
+}
