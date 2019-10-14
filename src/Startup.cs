@@ -6,14 +6,16 @@ namespace downr
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
+    using Microsoft.Extensions.Hosting;
+
     using downr.Middleware;
 
     public class Startup
     {
         private readonly IConfiguration configuration;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             this.configuration = configuration;
             this.hostingEnvironment = hostingEnvironment;

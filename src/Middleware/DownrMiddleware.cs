@@ -20,9 +20,10 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
+    using Microsoft.Extensions.Hosting;
+
     using downr.Services;
     using downr.Services.Posts;
-    using downr.Services.Youtube;
 
     using downr.Middleware.Rules;
 
@@ -62,25 +63,31 @@
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
 
-            services.AddScoped<YouTubeApiChannel>();
+            /* services
+                 .AddMvcCore()
+                 .AddAuthorization()
+                 .AddRazorPages(options => 
+                 {
+                     options.Conventions.Clear();
+                     options.Conventions.AddPageRoute("/Index", "/Posts");
+                     options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
+                     options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
+                 });*/
 
-            services
-                .AddMvcCore()
-                .AddAuthorization()
-                .AddRazorPages(options => 
-                {
-                    options.Conventions.Clear();
-                    options.Conventions.AddPageRoute("/Index", "/Posts");
-                    options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
-                    options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
-                });
+            services.AddRazorPages(config =>
+            {
+                config.Conventions.AddPageRoute("/Index", "/Posts");
+                config.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
+                config.Conventions.AddPageRoute("/Category", "/Categories/{name}");
+            });
+
 
             return services;
         }
 
         public static IApplicationBuilder UseDownr(this IApplicationBuilder app, 
             IConfiguration config, 
-            IHostingEnvironment hostingEnvironment)
+            IWebHostEnvironment hostingEnvironment)
         { 
 
             if (string.IsNullOrWhiteSpace(hostingEnvironment.WebRootPath))
@@ -132,7 +139,14 @@
             app.UseResponseCompression();
             app.UseStaticFiles(staticFileOptions);
             app.UseRewriter(rewriteOptions);
-            app.UseMvc();
+            //app.UseMvc();
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+            });
 
             return app;
         }
