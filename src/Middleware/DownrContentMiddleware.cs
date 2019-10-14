@@ -6,7 +6,7 @@
 
     using downr.Services;
 
-    internal sealed class DownrContentMiddleware
+    internal class DownrContentMiddleware
     {
         private readonly RequestDelegate requestDelegate;
         private readonly IYamlIndexer yamlIndexer;

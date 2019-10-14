@@ -69,12 +69,14 @@
                             </a>
                         </div>
                     </div>
+
+                    @await Component.InvokeAsync("YouTube")
                 </div>
             </div>
         </div>
 
         <footer class="container">
-            <p>(c) @DateTime.Now.Year @opt.Author</p>
+            <p>(c) 2015 - @DateTime.Now.Year @opt.Author</p>
             <p>
                 <a href="@downrOptions.Value.Twitter" target="_blank" rel="me">Twitter</a>
                 <a href="@downrOptions.Value.GitHub" target="_blank" rel="me">GitHub</a>

@@ -22,6 +22,8 @@
 
     using downr.Services;
     using downr.Services.Posts;
+    using downr.Services.Youtube;
+
     using downr.Middleware.Rules;
 
     public static class DownrMiddleware
@@ -41,7 +43,6 @@
             
             services.AddOptions();
             services.AddMemoryCache();
-            services.AddHttpContextAccessor();
         
             services.AddResponseCompression(options =>
             {
@@ -61,6 +62,8 @@
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
 
+            services.AddScoped<YouTubeApiChannel>();
+
             services
                 .AddMvcCore()
                 .AddAuthorization()
@@ -71,17 +74,6 @@
                     options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
                     options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
                 });
-                /*.AddViewOptions(options =>
-                {
-                    options.SuppressTempDataAttributePrefix = true;
-                })
-                .AddRazorPagesOptions(options =>
-                {
-                    options.Conventions.Clear();
-                    options.Conventions.AddPageRoute("/Index", "/Posts");
-                    options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
-                    options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
-                });*/
 
             return services;
         }
@@ -89,11 +81,17 @@
         public static IApplicationBuilder UseDownr(this IApplicationBuilder app, 
             IConfiguration config, 
             IHostingEnvironment hostingEnvironment)
-        {
+        { 
+
             if (string.IsNullOrWhiteSpace(hostingEnvironment.WebRootPath))
             {
                 hostingEnvironment.WebRootPath = Constants.WebRootPath;
             }
+
+            var rewriteOptions = new RewriteOptions();
+
+            rewriteOptions.Add(new RedirectRequests());
+            rewriteOptions.Add(new RewriteRequests());
 
             if (hostingEnvironment.IsDevelopment())
             {
@@ -101,6 +99,8 @@
             }
             else
             {
+                rewriteOptions.AddRedirectToWww();
+
                 app.UseExceptionHandler("/Error");
             }
 
@@ -120,11 +120,6 @@
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=600");
                 }
             };
-
-            var rewriteOptions = new RewriteOptions();
-
-            rewriteOptions.Add(new RedirectRequests());
-            rewriteOptions.Add(new RewriteRequests());
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
