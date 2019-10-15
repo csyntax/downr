@@ -6,23 +6,23 @@ namespace downr
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
-    using Microsoft.Extensions.Hosting;
-
     using downr.Middleware;
 
     public class Startup
     {
-        private readonly IConfiguration configuration;
-        private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly IConfiguration config;
+        private readonly IWebHostEnvironment env;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public Startup(IConfiguration config, IWebHostEnvironment env)
         {
-            this.configuration = configuration;
-            this.hostingEnvironment = hostingEnvironment;
+            this.env = env;
+            this.config = config;
         }
 
-        public void ConfigureServices(IServiceCollection services) => services.AddDownr(this.configuration);
+        public void ConfigureServices(IServiceCollection services) 
+            => services.AddDownr(this.config);
 
-        public void Configure(IApplicationBuilder app) => app.UseDownr(this.configuration, this.hostingEnvironment);
+        public void Configure(IApplicationBuilder app) 
+            => app.UseDownr(this.config, this.env);
     }
 }

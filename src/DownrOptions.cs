@@ -1,6 +1,6 @@
 ﻿namespace downr
 {
-    public sealed class DownrOptions
+    public class DownrOptions
     {
         public string Title { get; set; }
 

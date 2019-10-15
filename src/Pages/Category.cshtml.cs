@@ -11,7 +11,8 @@ namespace downr.Pages
     {
         private readonly IPostService postService;
 
-        public CategoryModel(IPostService postService) => this.postService = postService;
+        public CategoryModel(IPostService postService) 
+            => this.postService = postService;
 
         [BindProperty]
         public List<Document> Posts { get; private set; }

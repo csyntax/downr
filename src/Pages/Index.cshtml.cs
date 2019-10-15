@@ -11,7 +11,8 @@
     {
         private readonly IPostService postService;
 
-        public IndexModel(IPostService postService) => this.postService = postService;
+        public IndexModel(IPostService postService) 
+            => this.postService = postService;
 
         [BindProperty]
         public List<Document> Posts { get; private set; }

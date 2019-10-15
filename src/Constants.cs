@@ -6,9 +6,11 @@
 
     internal static class Constants
     { 
-        internal static string WebRootPath => Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+        internal static string WebRootPath 
+            => Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 
-        internal static string ContentPath => Path.Combine(Directory.GetCurrentDirectory(), "Posts");
+        internal static string ContentPath 
+            => Path.Combine(Directory.GetCurrentDirectory(), "Posts");
 
         internal static class Metadata
         {

@@ -4,8 +4,6 @@
     using System.Linq;
     using System.Collections.Generic;
 
-    using Microsoft.AspNetCore.Http;
-
     using downr.Models;
 
     public class PostService : IPostService

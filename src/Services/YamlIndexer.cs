@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Globalization;
+    using System.Threading.Tasks;
     using System.Collections.Generic;
 
     using Microsoft.Extensions.Logging;
@@ -85,6 +86,14 @@
                 .ToList();
 
             this.logger.LogInformation($"Loaded {this.Documents.Count} posts");
+        }
+
+        public Task IndexContentFilesAsync(string contentPath)
+        {
+            return Task.Run(() =>
+            {
+                this.IndexContentFiles(contentPath);
+            });
         }
     }
 }

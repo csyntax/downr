@@ -22,7 +22,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            string[] categories = await this.memoryCache.GetOrCreateAsync("Categories", entry =>
+            var categories = await this.memoryCache.GetOrCreateAsync("Categories", entry =>
             {
                 entry.SetSlidingExpiration(TimeSpan.FromDays(1));
 

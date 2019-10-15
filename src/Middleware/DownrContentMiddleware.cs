@@ -19,8 +19,7 @@
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            this.yamlIndexer.IndexContentFiles(Constants.ContentPath);
-
+            await this.yamlIndexer.IndexContentFilesAsync(Constants.ContentPath);
             await this.requestDelegate.Invoke(httpContext);
         }
     }

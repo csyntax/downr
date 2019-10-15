@@ -14,17 +14,15 @@
     using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.AspNetCore.ResponseCompression;
 
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.WebEncoders;
     using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
-    using Microsoft.Extensions.Hosting;
-
     using downr.Services;
     using downr.Services.Posts;
-
     using downr.Middleware.Rules;
 
     public static class DownrMiddleware
@@ -63,36 +61,24 @@
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
 
-            /* services
-                 .AddMvcCore()
-                 .AddAuthorization()
-                 .AddRazorPages(options => 
-                 {
-                     options.Conventions.Clear();
-                     options.Conventions.AddPageRoute("/Index", "/Posts");
-                     options.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
-                     options.Conventions.AddPageRoute("/Category", "/Categories/{name}");
-                 });*/
-
             services.AddRazorPages(config =>
             {
+                config.Conventions.Clear();
                 config.Conventions.AddPageRoute("/Index", "/Posts");
                 config.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
                 config.Conventions.AddPageRoute("/Category", "/Categories/{name}");
             });
 
-
             return services;
         }
 
         public static IApplicationBuilder UseDownr(this IApplicationBuilder app, 
-            IConfiguration config, 
-            IWebHostEnvironment hostingEnvironment)
+            IConfiguration config, IWebHostEnvironment env)
         { 
 
-            if (string.IsNullOrWhiteSpace(hostingEnvironment.WebRootPath))
+            if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {
-                hostingEnvironment.WebRootPath = Constants.WebRootPath;
+                env.WebRootPath = Constants.WebRootPath;
             }
 
             var rewriteOptions = new RewriteOptions();
@@ -100,7 +86,7 @@
             rewriteOptions.Add(new RedirectRequests());
             rewriteOptions.Add(new RewriteRequests());
 
-            if (hostingEnvironment.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -136,11 +122,9 @@
             app.UseMiddleware<DownrContentMiddleware>();
 
             app.UseStaticFiles();
-            app.UseResponseCompression();
             app.UseStaticFiles(staticFileOptions);
             app.UseRewriter(rewriteOptions);
-            //app.UseMvc();
-
+            app.UseResponseCompression();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

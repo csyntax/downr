@@ -6,23 +6,23 @@
 @inject IPostService postService
 
 @{
-    this.ViewData["Title"] = Model.Article.Title;
+    this.ViewData["Title"] = Model.Post.Title;
 
-    var prevNext = this.postService.GetPreviousAndNextPosts(Model.Article.Slug);
+    var prevNext = this.postService.GetPreviousAndNextPosts(Model.Post.Slug);
 }
 
-<article id="article-@Model.Article.Slug">
+<article id="article-@Model.Post.Slug">
     <header>
-        <h1>@Model.Article.Title</h1>
+        <h1>@Model.Post.Title</h1>
         <div class="clearfix">
-            <a asp-page="./Post" asp-route-slug="@Model.Article.Slug" class="btn btn-sm btn-secondary float-left">
+            <a asp-page="./Post" asp-route-slug="@Model.Post.Slug" class="btn btn-sm btn-secondary float-left">
                 <i class="calendar outline icon"></i>
-                <time datetime="@Model.Article.Date.ToLocalTime().ToString("d-MM-yyyy")">
-                    @Model.Article.Date.ToLocalTime().ToString("d MMMM yyyy")
+                <time datetime="@Model.Post.Date.ToLocalTime().ToString("d-MM-yyyy")">
+                    @Model.Post.Date.ToLocalTime().ToString("d MMMM yyyy")
                 </time>
             </a>
 
-            @foreach (var category in Model.Article.Categories)
+            @foreach (var category in Model.Post.Categories)
             {
                 <a asp-page="./Category" asp-route-name="@category" class="btn btn-sm btn-secondary float-right">
                     <i class="right chevron icon"></i> @category
@@ -31,7 +31,7 @@
         </div>
     </header>
 
-    @Html.Raw(Model.Article.Content)
+    @Html.Raw(Model.Post.Content)
 
     <div class="clearfix">
         @if (prevNext.previous != null)

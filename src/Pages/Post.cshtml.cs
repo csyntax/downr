@@ -9,16 +9,17 @@ namespace downr.Pages
     {
         private readonly IPostService postService;
         
-        public PostModel(IPostService postService) => this.postService = postService;
+        public PostModel(IPostService postService) 
+            => this.postService = postService;
 
         [BindProperty]
-        public Document Article { get; private set; }
+        public Document Post { get; private set; }
 
         public IActionResult OnGet(string slug)
         {
-            this.Article = this.postService.GetBySlug(slug);
+            this.Post = this.postService.GetBySlug(slug);
 
-            if (this.Article == null)
+            if (this.Post == null)
             {
                 return this.RedirectToPage("./Index");
             }

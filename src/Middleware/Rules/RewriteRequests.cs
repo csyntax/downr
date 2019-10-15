@@ -12,7 +12,7 @@
 
             if (request.Path.Value.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
             {
-                context.HttpContext.Request.Path = context.HttpContext.Request.Path.Value.Replace(".html", String.Empty);
+                context.HttpContext.Request.Path = context.HttpContext.Request.Path.Value.Replace(".html", string.Empty);
             }
         }
     }
