@@ -9,8 +9,6 @@
     {
         List<Document> Documents { get; set; }
 
-        void IndexContentFiles(string contentPath);
-
-        Task IndexContentFilesAsync(string contentPath);
+        Task IndexContentFiles(string contentPath);
     }
 }

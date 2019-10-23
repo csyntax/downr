@@ -27,73 +27,63 @@
 
         public List<Document> Documents { get; set; }
 
-        public void IndexContentFiles(string contentPath)
-        {
-            Func<string, Document> parseMetadata = delegate (string indexFile)
+        public Task IndexContentFiles(string contentPath) 
+            => Task.Run(() => 
             {
-                using (var reader = new StreamReader(indexFile, Encoding.UTF8))
+                this.logger.LogInformation("Loading post content...");
+                this.Documents = Directory
+                    .GetDirectories(contentPath)
+                    .Select(dir => Path.Combine(dir, "index.md"))
+                    .Select(this.ParseMetadata)
+                    .Select(m => m.Result)
+                    .Where(m => m != null)
+                    .OrderByDescending(x => x.Date)
+                    .ToList();
+                this.logger.LogInformation($"Loaded {this.Documents.Count} posts");
+            });
+
+        private async Task<Document> ParseMetadata(string indexFile)
+        {
+            using (var reader = new StreamReader(indexFile, Encoding.UTF8))
+            {
+                var deserializer = new Deserializer();
+                var line = await reader.ReadLineAsync();
+                var slug = Path.GetFileName(Path.GetDirectoryName(indexFile));
+
+                if (line.Equals("---"))
                 {
-                    var deserializer = new Deserializer();
-                    var line = reader.ReadLine();
-                    var slug = Path.GetFileName(Path.GetDirectoryName(indexFile));
+                    line = await reader.ReadLineAsync();
 
-                    if (line.Equals("---"))
+                    var stringBuilder = new StringBuilder();
+
+                    while (!line.Equals("---"))
                     {
+                        stringBuilder.Append(line);
+                        stringBuilder.Append('\n');
+
                         line = reader.ReadLine();
-
-                        var stringBuilder = new StringBuilder();
-
-                        while (!line.Equals("---"))
-                        {
-                            stringBuilder.Append(line);
-                            stringBuilder.Append("\n");
-
-                            line = reader.ReadLine();
-                        }
-
-                        var yaml = stringBuilder.ToString();
-                        var result = deserializer.Deserialize<IDictionary<string, string>>(yaml);
-
-                        var metadata = new Document
-                        {
-                            Slug = slug,
-                            Title = result[Constants.Metadata.Title],
-                            Date = DateTime.ParseExact(result[Constants.Metadata.Date], "dd-MM-yyyy", CultureInfo.InvariantCulture),
-                            Categories = result[Constants.Metadata.Categories]
-                                .Split(',')
-                                .Select(c => c.Trim())
-                                .ToArray(),
-                            Content = this.contentLoader.ContentRender(indexFile, slug)
-                        };
-
-                        reader.Close();
-                    
-                        return metadata;
                     }
 
-                    return null;
+                    var yaml = stringBuilder.ToString();
+                    var result = deserializer.Deserialize<IDictionary<string, string>>(yaml);
+
+                    var metadata = new Document
+                    {
+                        Slug = slug,
+                        Title = result[Constants.Metadata.Title],
+                        Date = DateTime.ParseExact(result[Constants.Metadata.Date], "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        Categories = result[Constants.Metadata.Categories]
+                            .Split(',')
+                            .Select(c => c.Trim())
+                            .ToArray(),
+                        Content = await this.contentLoader.ContentRender(indexFile, slug)
+                    };
+
+                    return metadata;
                 }
-            };
 
-            this.logger.LogInformation("Loading post content...");
-
-            this.Documents = Directory
-                .GetDirectories(contentPath)
-                .Select(dir => Path.Combine(dir, "index.md"))
-                .Select(parseMetadata)
-                .Where(m => m != null)
-                .OrderByDescending(x => x.Date)
-                .ToList();
-
-            this.logger.LogInformation($"Loaded {this.Documents.Count} posts");
-        }
-
-        public Task IndexContentFilesAsync(string contentPath)
-        {
-            return Task.Run(() =>
-            {
-                this.IndexContentFiles(contentPath);
-            });
+                return null;
+            }
         }
     }
 }

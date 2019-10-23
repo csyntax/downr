@@ -1,7 +1,9 @@
 ﻿namespace downr.Services
 {
+    using System.Threading.Tasks;
+
     public interface IMarkdownContentLoader
     {
-        string ContentRender(string path, string slug);
+        Task<string> ContentRender(string path, string slug);
     }
 }
