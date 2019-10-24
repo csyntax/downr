@@ -25,7 +25,7 @@
             this.contentLoader = contentLoader;
         }
 
-        public List<Document> Documents { get; set; }
+        public IList<Document> Documents { get; private set; }
 
         public Task IndexContentFiles(string contentPath) 
             => Task.Run(() => 

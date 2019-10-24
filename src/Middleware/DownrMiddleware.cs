@@ -24,6 +24,8 @@
     using downr.Services;
     using downr.Services.Posts;
     using downr.Middleware.Rules;
+    using Markdig;
+    using downr.Middleware.Extensions;
 
     public static class DownrMiddleware
     {
@@ -60,6 +62,8 @@
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
+
+            services.AddSingleton(s => s.GetInstance<MarkdownPipelineBuilder>().UseYamlFrontMatter().Build());
 
             services.AddRazorPages(config =>
             {

@@ -7,7 +7,7 @@
 
     public interface IYamlIndexer
     {
-        List<Document> Documents { get; set; }
+        IList<Document> Documents { get; }
 
         Task IndexContentFiles(string contentPath);
     }
