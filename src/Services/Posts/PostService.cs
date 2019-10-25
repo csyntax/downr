@@ -13,29 +13,29 @@
         public PostService(IYamlIndexer yamlIndexer)
             => this.yamlIndexer = yamlIndexer;
 
-        public List<Document> GetPostsList(string category = null)
+        public ICollection<Document> GetPostsList(string category = null)
         {
-            var posts = this.GetPosts().ToList();
+            var posts = this.Posts.ToList();
 
             if (category != null)
             {
-                posts = this.GetPosts().Where(p => p.Categories.Contains(category)).ToList();
+                posts = this.Posts.Where(p => p.Metadata.Categories.Contains(category)).ToList();
             }
 
             return posts; 
         }
 
-        public (int currentPage, List<Document> posts, int pagesCount) 
+        public (int currentPage, ICollection<Document> posts, int pagesCount) 
             GetPagedList(int page = 1, int perPage = 5)
         {
             int pagesCount = (int) Math.Ceiling(this.PostsCount() / (decimal) perPage);
 
-            var posts = this.GetPosts()
+            var posts = this.Posts
                 .Skip(perPage * (page - 1))
                 .Take(perPage)
                 .ToList();
 
-            return (currentPage: page, posts: posts, pagesCount: pagesCount);
+            return (currentPage: page, posts, pagesCount);
         }
 
         public int PostsCount(string category = null)
@@ -50,15 +50,16 @@
             return count;
         }
 
-        public Document GetBySlug(string slug) => this.GetPosts().FirstOrDefault(x => x.Slug == slug);
+        public Document GetBySlug(string slug) => 
+            this.Posts.FirstOrDefault(x => string.Compare(x.Metadata.Slug.ToLower(), slug.ToLower()) == 0);
 
-        public (Document previous, Document next) GetPreviousAndNextPosts(string slug)
+        public (Metadata previous, Metadata next) GetPreviousAndNextPosts(string slug)
         {
-            (Document previous, Document next) result = (null, null);
+            (Metadata previous, Metadata next) result = (null, null);
 
-            var metadataArray = this.GetPosts().ToArray();
+            var metadataArray = this.Metadata.ToArray();
 
-            int index = Array.FindIndex(metadataArray, x => x.Slug == slug);
+            int index = Array.FindIndex(metadataArray, x => string.Compare(x.Slug, slug) == 0);
 
             if (index != 0)
             {
@@ -73,19 +74,18 @@
             return result;
         }
 
-        public string[] GetCategories() => this.GetTags().ToArray();
+        public string[] GetTags() => this.Tags.ToArray();
 
+        public string GetTag(string name) =>
+            this.Tags.FirstOrDefault(c => string.Compare(c.ToLower(), name.ToLower(), true) == 0);
 
-        public string GetCategory(string name) => 
-            this.GetTags()
-                .FirstOrDefault(c => string.Compare(c.ToLower(), name.ToLower(), true) == 0);
+        private IEnumerable<Document> Posts =>
+            this.yamlIndexer.Documents.Where(m => DateTime.Compare(m.Metadata.Date, DateTime.Now) <= 0);
 
+        private IEnumerable<Metadata> Metadata => this.Posts.AsParallel().Select(s => s.Metadata);
 
-        private IEnumerable<Document> GetPosts() => 
-            this.yamlIndexer.Documents.Where(m => DateTime.Compare(m.Date, DateTime.Now) <= 0);
-
-        private IEnumerable<string> GetTags() => 
-            this.GetPosts()
+        private IEnumerable<string> Tags => 
+            this.Metadata
                 .SelectMany(c => c.Categories)
                 .GroupBy(c => c)
                 .Select(c => c.Key)

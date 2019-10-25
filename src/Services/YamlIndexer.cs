@@ -25,9 +25,9 @@
             this.contentLoader = contentLoader;
         }
 
-        public IList<Document> Documents { get; private set; }
+        public ICollection<Document> Documents { get; private set; }
 
-        public Task IndexContentFiles(string contentPath) 
+        public Task IndexContentFiles(string contentPath)
             => Task.Run(() => 
             {
                 this.logger.LogInformation("Loading post content...");
@@ -37,7 +37,7 @@
                     .Select(this.ParseMetadata)
                     .Select(m => m.Result)
                     .Where(m => m != null)
-                    .OrderByDescending(x => x.Date)
+                    .OrderByDescending(x => x.Metadata.Date)
                     .ToList();
                 this.logger.LogInformation($"Loaded {this.Documents.Count} posts");
             });
@@ -67,19 +67,24 @@
                     var yaml = stringBuilder.ToString();
                     var result = deserializer.Deserialize<IDictionary<string, string>>(yaml);
 
-                    var metadata = new Document
+                    var metadata = new Metadata
                     {
                         Slug = slug,
-                        Title = result[Constants.Metadata.Title],
-                        Date = DateTime.ParseExact(result[Constants.Metadata.Date], "dd-MM-yyyy", CultureInfo.InvariantCulture),
-                        Categories = result[Constants.Metadata.Categories]
+                        Title = result[Constants.Meta.Title],
+                        Date = DateTime.ParseExact(result[Constants.Meta.Date], "dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        Categories = result[Constants.Meta.Categories]
                             .Split(',')
                             .Select(c => c.Trim())
                             .ToArray(),
+                    };
+
+                    var document = new Document
+                    {
+                        Metadata = metadata,
                         Content = await this.contentLoader.ContentRender(indexFile, slug)
                     };
 
-                    return metadata;
+                    return document;
                 }
 
                 return null;

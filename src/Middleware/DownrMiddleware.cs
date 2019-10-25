@@ -21,10 +21,11 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
+    using Markdig;
+
     using downr.Services;
     using downr.Services.Posts;
     using downr.Middleware.Rules;
-    using Markdig;
     using downr.Middleware.Extensions;
 
     public static class DownrMiddleware
@@ -79,7 +80,6 @@
         public static IApplicationBuilder UseDownr(this IApplicationBuilder app, 
             IConfiguration config, IWebHostEnvironment env)
         { 
-
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {
                 env.WebRootPath = Constants.WebRootPath;

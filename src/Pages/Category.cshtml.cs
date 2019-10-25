@@ -15,7 +15,7 @@ namespace downr.Pages
             => this.postService = postService;
 
         [BindProperty]
-        public List<Document> Posts { get; private set; }
+        public ICollection<Document> Posts { get; private set; }
 
         [BindProperty]
         public int Count { get;  private set; }
@@ -25,9 +25,9 @@ namespace downr.Pages
 
         public IActionResult OnGet(string name)
         {
-            this.Tag = this.postService.GetCategory(name);
+            this.Tag = this.postService.GetTag(name);
                 
-            if (this.Tag == null)
+            if (string.IsNullOrEmpty(this.Tag))
             {
                 return this.RedirectToPage("./Index");
             }

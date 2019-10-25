@@ -3,20 +3,22 @@
 @foreach (var post in Model)
 {
     <li class="list-group-item">
-        <a asp-page="./Post" asp-route-slug="@post.Slug">
-            <h3>@post.Title</h3>
+        <a asp-page="./Post" asp-route-slug="@post.Metadata.Slug">
+            <h3>@post.Metadata.Title</h3>
         </a>
 
-        @Html.Truncate(post.Content)
+        <cache expires-after="TimeSpan.FromDays(1)">
+            @Html.Truncate(post.Content)
+        </cache>
 
         <div class="clearfix">
-            <a asp-page="./Post" asp-route-slug="@post.Slug" class="btn btn-sm btn-secondary float-left">
-                <time datetime="@post.Date.ToLocalTime().ToString("d-MM-yyyy")">
-                    @post.Date.ToLocalTime().ToString("d MMMM yyyy")
+            <a asp-page="./Post" asp-route-slug="@post.Metadata.Slug" class="btn btn-sm btn-secondary float-left">
+                <time datetime="@post.Metadata.Date.ToLocalTime().ToString("d-MM-yyyy")">
+                    @post.Metadata.Date.ToLocalTime().ToString("d MMMM yyyy")
                 </time>
             </a>
 
-            @foreach (var category in post.Categories)
+            @foreach (var category in post.Metadata.Categories)
             {
                 <a asp-page="./Category" asp-route-name="@category" class="btn btn-sm btn-secondary float-right">
                     <i class="right chevron icon"></i> @category

@@ -6,23 +6,23 @@
 @inject IPostService postService
 
 @{
-    this.ViewData["Title"] = Model.Post.Title;
+    this.ViewData["Title"] = Model.Post.Metadata.Title;
 
-    var prevNext = this.postService.GetPreviousAndNextPosts(Model.Post.Slug);
+    var prevNext = this.postService.GetPreviousAndNextPosts(Model.Post.Metadata.Slug);
 }
 
-<article id="article-@Model.Post.Slug">
+<article id="article-@Model.Post.Metadata.Slug">
     <header>
-        <h1>@Model.Post.Title</h1>
+        <h1>@Model.Post.Metadata.Title</h1>
         <div class="clearfix">
-            <a asp-page="./Post" asp-route-slug="@Model.Post.Slug" class="btn btn-sm btn-secondary float-left">
+            <a asp-page="./Post" asp-route-slug="@Model.Post.Metadata.Slug" class="btn btn-sm btn-secondary float-left">
                 <i class="calendar outline icon"></i>
-                <time datetime="@Model.Post.Date.ToLocalTime().ToString("d-MM-yyyy")">
-                    @Model.Post.Date.ToLocalTime().ToString("d MMMM yyyy")
+                <time datetime="@Model.Post.Metadata.Date.ToLocalTime().ToString("d-MM-yyyy")">
+                    @Model.Post.Metadata.Date.ToLocalTime().ToString("d MMMM yyyy")
                 </time>
             </a>
 
-            @foreach (var category in Model.Post.Categories)
+            @foreach (var category in Model.Post.Metadata.Categories)
             {
                 <a asp-page="./Category" asp-route-name="@category" class="btn btn-sm btn-secondary float-right">
                     <i class="right chevron icon"></i> @category

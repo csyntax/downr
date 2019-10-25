@@ -1,10 +1,11 @@
 ﻿namespace downr.Middleware
 {
     using System.Threading.Tasks;
-    
+
     using Microsoft.AspNetCore.Http;
 
     using downr.Services;
+
 
     internal class DownrContentMiddleware
     {

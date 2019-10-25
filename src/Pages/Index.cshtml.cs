@@ -15,7 +15,7 @@
             => this.postService = postService;
 
         [BindProperty]
-        public List<Document> Posts { get; private set; }
+        public ICollection<Document> Posts { get; private set; }
 
         public IActionResult OnGet([FromQuery(Name = "page")] int page = 1)
         {

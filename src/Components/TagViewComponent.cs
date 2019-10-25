@@ -9,12 +9,12 @@
 
     using downr.Services.Posts;
 
-    public class CategoryViewComponent : ViewComponent
+    public class TagsViewComponent : ViewComponent
     {
         private readonly IPostService postService;
         private readonly IMemoryCache memoryCache;
 
-        public CategoryViewComponent(IMemoryCache memoryCache, IPostService postService)
+        public TagsViewComponent(IMemoryCache memoryCache, IPostService postService)
         {
             this.memoryCache = memoryCache;
             this.postService = postService;
@@ -22,11 +22,11 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var categories = await this.memoryCache.GetOrCreateAsync("Categories", entry =>
+            var categories = await this.memoryCache.GetOrCreateAsync("Tags", entry =>
             {
                 entry.SetSlidingExpiration(TimeSpan.FromDays(1));
 
-                return Task.FromResult(this.postService.GetCategories());
+                return Task.FromResult(this.postService.GetTags());
             });
 
             return this.View(categories);

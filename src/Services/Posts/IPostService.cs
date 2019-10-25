@@ -6,18 +6,18 @@
 
     public interface IPostService
     {
-        List<Document> GetPostsList(string category = null);
+        ICollection<Document> GetPostsList(string category = null);
 
-        (int currentPage, List<Document> posts, int pagesCount) GetPagedList(int page, int perPage = 5);
+        (int currentPage, ICollection<Document> posts, int pagesCount) GetPagedList(int page, int perPage = 5);
 
         int PostsCount(string category = null);
 
         Document GetBySlug(string slug);
 
-        (Document previous, Document next) GetPreviousAndNextPosts(string slug);
+        (Metadata previous, Metadata next) GetPreviousAndNextPosts(string slug);
 
-        string[] GetCategories();
+        public string[] GetTags();
 
-        string GetCategory(string name);
+        public string GetTag(string name);
     }
 }
