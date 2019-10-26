@@ -1,8 +1,7 @@
 ﻿namespace downr.Services.Posts
 {
-    using System.Collections.Generic;
-
     using downr.Models;
+    using System.Collections.Generic;
 
     public interface IPostService
     {

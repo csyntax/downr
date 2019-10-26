@@ -1,12 +1,10 @@
 namespace downr
 {
+    using downr.Middleware;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-
-    using downr.Middleware;
 
     public class Startup
     {
@@ -19,10 +17,10 @@ namespace downr
             this.config = config;
         }
 
-        public void ConfigureServices(IServiceCollection services) 
+        public void ConfigureServices(IServiceCollection services)
             => services.AddDownr(this.config);
 
-        public void Configure(IApplicationBuilder app) 
+        public void Configure(IApplicationBuilder app)
             => app.UseDownr(this.config, this.env);
     }
 }

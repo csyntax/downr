@@ -1,12 +1,10 @@
 ﻿namespace downr.Middleware.Extensions
 {
-    using System.Linq;
-
     using HtmlAgilityPack;
-
     using Microsoft.AspNetCore.Html;
     using Microsoft.AspNetCore.Mvc.Rendering;
-  
+    using System.Linq;
+
     public static class ViewExtensions
     {
         public static IHtmlContent Truncate(this IHtmlHelper helper, string content, int snippetLength = 250)
@@ -24,7 +22,7 @@
 
                 content = content.Substring(0, index).TrimEnd();
             }
-            
+
             return helper.Raw(content);
         }
 

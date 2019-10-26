@@ -1,18 +1,17 @@
 ﻿namespace downr.Services
 {
+    using downr.Models;
+    using Microsoft.Extensions.Logging;
+   
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Text;
-    using System.Globalization;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
-
-    using Microsoft.Extensions.Logging;
-
+    
     using YamlDotNet.Serialization;
-
-    using downr.Models;
 
     public class YamlIndexer : IYamlIndexer
     {
@@ -28,13 +27,13 @@
         public ICollection<Document> Documents { get; private set; }
 
         public Task IndexContentFiles(string contentPath)
-            => Task.Run(() => 
+            => Task.Run(async () =>
             {
                 this.logger.LogInformation("Loading post content...");
                 this.Documents = Directory
                     .GetDirectories(contentPath)
                     .Select(dir => Path.Combine(dir, "index.md"))
-                    .Select(this.ParseMetadata)
+                    .Select(async m => await this.ParseMetadata(m))
                     .Select(m => m.Result)
                     .Where(m => m != null)
                     .OrderByDescending(x => x.Metadata.Date)

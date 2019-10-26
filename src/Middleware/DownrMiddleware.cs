@@ -1,32 +1,28 @@
 ﻿namespace downr.Middleware
 {
-    using System.Linq;
-    using System.Text.Unicode;
-    using System.IO.Compression;
-    using System.Text.Encodings.Web;
-
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Routing;
+    using downr.Middleware.Extensions;
+    using downr.Middleware.Rules;
+    using downr.Services;
+    using downr.Services.Posts;
+    using Markdig;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Rewrite;
-    using Microsoft.AspNetCore.StaticFiles;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.AspNetCore.ResponseCompression;
-
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.WebEncoders;
-    using Microsoft.Extensions.FileProviders;
+    using Microsoft.AspNetCore.Rewrite;
+    using Microsoft.AspNetCore.Routing;
+    using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
-
-    using Markdig;
-
-    using downr.Services;
-    using downr.Services.Posts;
-    using downr.Middleware.Rules;
-    using downr.Middleware.Extensions;
+    using Microsoft.Extensions.FileProviders;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.WebEncoders;
+    using System.IO.Compression;
+    using System.Linq;
+    using System.Text.Encodings.Web;
+    using System.Text.Unicode;
 
     public static class DownrMiddleware
     {
@@ -42,10 +38,10 @@
             };
 
             var textEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
-            
+
             services.AddOptions();
             services.AddMemoryCache();
-        
+
             services.AddResponseCompression(options =>
             {
                 options.Providers.Add<GzipCompressionProvider>();
@@ -64,7 +60,8 @@
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
 
-            services.AddSingleton(s => s.GetInstance<MarkdownPipelineBuilder>().UseYamlFrontMatter().Build());
+            services.TryAddSingleton(s => s.GetInstance<MarkdownPipelineBuilder>().UseYamlFrontMatter().Build());
+
 
             services.AddRazorPages(config =>
             {
@@ -77,9 +74,9 @@
             return services;
         }
 
-        public static IApplicationBuilder UseDownr(this IApplicationBuilder app, 
+        public static IApplicationBuilder UseDownr(this IApplicationBuilder app,
             IConfiguration config, IWebHostEnvironment env)
-        { 
+        {
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {
                 env.WebRootPath = Constants.WebRootPath;

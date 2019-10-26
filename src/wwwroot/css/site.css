@@ -16,6 +16,7 @@
 
 .navbar-light .navbar-brand {
     padding: 0.25em;
+    background: var(--smoke);
 }
 
 a.nav-link {
@@ -122,5 +123,6 @@ footer {
 }
 
 .nav-pills a.nav-link {
+    padding: 0;
     color: var(--red) !important;
 }

@@ -1,17 +1,15 @@
 ﻿namespace downr.Pages
 {
-    using System.Collections.Generic;
-
-    using Microsoft.AspNetCore.Mvc;
-
     using downr.Models;
     using downr.Services.Posts;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
 
     public class IndexModel : PaginationModel
     {
         private readonly IPostService postService;
 
-        public IndexModel(IPostService postService) 
+        public IndexModel(IPostService postService)
             => this.postService = postService;
 
         [BindProperty]

@@ -1,15 +1,14 @@
 ﻿namespace downr
 {
+    using downr.Models;
     using System.IO;
 
-    using downr.Models;
-
     internal static class Constants
-    { 
-        internal static string WebRootPath 
+    {
+        internal static string WebRootPath
             => Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 
-        internal static string ContentPath 
+        internal static string ContentPath
             => Path.Combine(Directory.GetCurrentDirectory(), "Posts");
 
         internal static class Meta

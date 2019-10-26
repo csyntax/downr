@@ -1,13 +1,10 @@
 ﻿namespace downr.Components
 {
+    using downr.Services.Posts;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
     using System;
     using System.Threading.Tasks;
-
-    using Microsoft.AspNetCore.Mvc;
-
-    using Microsoft.Extensions.Caching.Memory;
-
-    using downr.Services.Posts;
 
     public class TagsViewComponent : ViewComponent
     {

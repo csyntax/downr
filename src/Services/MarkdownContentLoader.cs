@@ -1,17 +1,20 @@
 ﻿namespace downr.Services
 {
+    using System;
     using System.IO;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
     using Markdig;
+
     using HtmlAgilityPack;
 
     public class MarkdownContentLoader : IMarkdownContentLoader
     {
         private readonly MarkdownPipeline markdownPipeline;
 
-        public MarkdownContentLoader(MarkdownPipeline markdownPipeline) 
+        public MarkdownContentLoader(MarkdownPipeline markdownPipeline)
             => this.markdownPipeline = markdownPipeline;
 
         public async Task<string> ContentRender(string path, string slug)
@@ -29,7 +32,22 @@
 
                 var nodes = htmlDoc.DocumentNode.SelectNodes("//img[@src]");
 
-                if (nodes != null)
+                try
+                {
+                    nodes.AsParallel().ForAll(node =>
+                    {
+                        var src = node.Attributes["src"].Value.Replace("media/", $"/posts/{slug}/media/");
+
+                        node.SetAttributeValue("src", src);
+                        node.SetAttributeValue("class", "img-fluid");
+                    });
+                } 
+                catch (ArgumentNullException)
+                {
+
+                }
+
+                /*if (nodes != null)
                 {
                     Parallel.ForEach(nodes, (node) =>
                     {
@@ -38,7 +56,7 @@
                         node.SetAttributeValue("src", src);
                         node.SetAttributeValue("class", "img-fluid");
                     });
-                }
+                }*/
 
                 return htmlDoc.DocumentNode.OuterHtml;
             }

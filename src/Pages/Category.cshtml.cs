@@ -1,24 +1,22 @@
 namespace downr.Pages
 {
-    using System.Collections.Generic;
-
-    using Microsoft.AspNetCore.Mvc;
-
     using downr.Models;
     using downr.Services.Posts;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
 
     public class CategoryModel : BaseModel
     {
         private readonly IPostService postService;
 
-        public CategoryModel(IPostService postService) 
+        public CategoryModel(IPostService postService)
             => this.postService = postService;
 
         [BindProperty]
         public ICollection<Document> Posts { get; private set; }
 
         [BindProperty]
-        public int Count { get;  private set; }
+        public int Count { get; private set; }
 
         [BindProperty]
         public string Tag { get; private set; }
@@ -26,7 +24,7 @@ namespace downr.Pages
         public IActionResult OnGet(string name)
         {
             this.Tag = this.postService.GetTag(name);
-                
+
             if (string.IsNullOrEmpty(this.Tag))
             {
                 return this.RedirectToPage("./Index");

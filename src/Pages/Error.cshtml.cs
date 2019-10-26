@@ -1,8 +1,7 @@
 namespace downr.Pages
 {
-    using System.Diagnostics;
-    
     using Microsoft.AspNetCore.Mvc.RazorPages;
+    using System.Diagnostics;
 
     public class ErrorModel : PageModel
     {
@@ -10,7 +9,7 @@ namespace downr.Pages
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        public void OnGet() 
+        public void OnGet()
             => RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
     }
 }

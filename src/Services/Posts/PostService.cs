@@ -1,10 +1,9 @@
 ﻿namespace downr.Services.Posts
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     using downr.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class PostService : IPostService
     {
@@ -22,13 +21,13 @@
                 posts = this.Posts.Where(p => p.Metadata.Categories.Contains(category)).ToList();
             }
 
-            return posts; 
+            return posts;
         }
 
-        public (int currentPage, ICollection<Document> posts, int pagesCount) 
+        public (int currentPage, ICollection<Document> posts, int pagesCount)
             GetPagedList(int page = 1, int perPage = 5)
         {
-            int pagesCount = (int) Math.Ceiling(this.PostsCount() / (decimal) perPage);
+            int pagesCount = (int)Math.Ceiling(this.PostsCount() / (decimal)perPage);
 
             var posts = this.Posts
                 .Skip(perPage * (page - 1))
@@ -50,7 +49,7 @@
             return count;
         }
 
-        public Document GetBySlug(string slug) => 
+        public Document GetBySlug(string slug) =>
             this.Posts.FirstOrDefault(x => string.Compare(x.Metadata.Slug.ToLower(), slug.ToLower()) == 0);
 
         public (Metadata previous, Metadata next) GetPreviousAndNextPosts(string slug)
@@ -84,11 +83,13 @@
 
         private IEnumerable<Metadata> Metadata => this.Posts.AsParallel().Select(s => s.Metadata);
 
-        private IEnumerable<string> Tags => 
+        private IEnumerable<string> Tags =>
             this.Metadata
                 .SelectMany(c => c.Categories)
-                .GroupBy(c => c)
+                .OrderBy(c => c)
+                .ToHashSet();
+                /*.GroupBy(c => c)
                 .Select(c => c.Key)
-                .OrderBy(c => c);
+                .OrderBy(c => c);*/
     }
 }
