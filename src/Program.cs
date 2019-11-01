@@ -8,6 +8,7 @@
     using Microsoft.Extensions.Configuration;
 
     using Microsoft.AspNetCore.Hosting;
+    using System;
 
     public class Program
     {
@@ -22,8 +23,8 @@
                          appOptions.SetBasePath(Directory.GetCurrentDirectory());
                          appOptions.AddJsonFile("appsettings.json", optional: false);
                          appOptions.AddCommandLine(args);
+                         appOptions.AddEnvironmentVariables();
                      });
-
 
                      webBuilder.ConfigureLogging((hostingContext, loggerOptions) =>
                      {
@@ -41,9 +42,26 @@
                          serverOptions.Limits.MaxConcurrentUpgradedConnections = 100;
                          serverOptions.Limits.MaxRequestBodySize = 10 * 1024;
 
-                         serverOptions.ListenAnyIP(5000);
+                         serverOptions.ListenAnyIP(Port);
                      })
                      .UseStartup<Startup>();
                  });
+
+        private static int Port
+        {
+            get
+            {
+                try
+                {
+                    string port = Environment.GetEnvironmentVariable("PORT");
+
+                    return int.Parse(port);
+                }
+                catch (ArgumentNullException)
+                {
+                    return 5000;
+                }
+            }
+        }
     }
 }
