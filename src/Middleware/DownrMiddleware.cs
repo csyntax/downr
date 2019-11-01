@@ -1,28 +1,33 @@
 ﻿namespace downr.Middleware
 {
-    using downr.Middleware.Extensions;
-    using downr.Middleware.Rules;
-    using downr.Services;
-    using downr.Services.Posts;
-    using Markdig;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.HttpOverrides;
-    using Microsoft.AspNetCore.ResponseCompression;
-    using Microsoft.AspNetCore.Rewrite;
-    using Microsoft.AspNetCore.Routing;
-    using Microsoft.AspNetCore.StaticFiles;
+    using System.Linq;
+    using System.Text.Unicode;
+    using System.IO.Compression;
+    using System.Text.Encodings.Web;
+
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.WebEncoders;
+    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
-    using Microsoft.Extensions.FileProviders;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.WebEncoders;
-    using System.IO.Compression;
-    using System.Linq;
-    using System.Text.Encodings.Web;
-    using System.Text.Unicode;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Rewrite;
+    using Microsoft.AspNetCore.Routing;
+    using Microsoft.AspNetCore.StaticFiles;
+    using Microsoft.AspNetCore.HttpOverrides;
+    using Microsoft.AspNetCore.ResponseCompression;
+
+    using downr.Services;
+    using downr.Services.Posts;
+
+    using Markdig;
+
+    using downr.Middleware.Rules;
+    using downr.Middleware.Extensions;
 
     public static class DownrMiddleware
     {

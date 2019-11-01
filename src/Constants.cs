@@ -1,7 +1,8 @@
 ﻿namespace downr
 {
-    using downr.Models;
     using System.IO;
+
+    using downr.Models;
 
     internal static class Constants
     {

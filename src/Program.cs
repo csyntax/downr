@@ -1,18 +1,19 @@
 ﻿namespace downr
 {
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
     using System.IO;
     using System.Threading.Tasks;
 
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Configuration;
+
+    using Microsoft.AspNetCore.Hosting;
+
     public class Program
     {
-        public static async Task Main(string[] args)
-            => await CreateHostBuilder(args).RunConsoleAsync();
+        public static async Task Main(string[] args) => await CreateHostBuilder(args).RunConsoleAsync();
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
+        private static IHostBuilder CreateHostBuilder(string[] args)
             => Host.CreateDefaultBuilder(args)
                  .ConfigureWebHostDefaults(webBuilder =>
                  {

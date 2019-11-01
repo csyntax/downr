@@ -1,7 +1,8 @@
 ﻿namespace downr.Middleware.Rules
 {
-    using Microsoft.AspNetCore.Rewrite;
     using System;
+
+    using Microsoft.AspNetCore.Rewrite;
 
     internal class RedirectRequests : IRule
     {

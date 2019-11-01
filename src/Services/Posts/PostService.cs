@@ -1,16 +1,16 @@
 ﻿namespace downr.Services.Posts
 {
-    using downr.Models;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
+    using System.Collections.Generic;
+
+    using downr.Models;
 
     public class PostService : IPostService
     {
         private readonly IYamlIndexer yamlIndexer;
 
-        public PostService(IYamlIndexer yamlIndexer)
-            => this.yamlIndexer = yamlIndexer;
+        public PostService(IYamlIndexer yamlIndexer) => this.yamlIndexer = yamlIndexer;
 
         public ICollection<Document> GetPostsList(string category = null)
         {

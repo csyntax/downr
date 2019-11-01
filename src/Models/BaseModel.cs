@@ -4,6 +4,6 @@
 
     public abstract class BaseModel : PageModel
     {
-
+       
     }
 }
