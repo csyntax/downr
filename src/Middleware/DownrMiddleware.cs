@@ -98,7 +98,7 @@
             }
             else
             {
-                rewriteOptions.AddRedirectToWww();
+                //rewriteOptions.AddRedirectToWww();
 
                 app.UseExceptionHandler("/Error");
             }
