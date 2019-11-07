@@ -1,5 +1,6 @@
 ﻿namespace downr.Middleware
 {
+    using System;
     using System.Linq;
     using System.Text.Unicode;
     using System.IO.Compression;
@@ -46,6 +47,7 @@
 
             services.AddOptions();
             services.AddMemoryCache();
+            services.AddHttpClient();
 
             services.AddResponseCompression(options =>
             {
@@ -66,7 +68,6 @@
             services.AddScoped<IPostService, PostService>();
 
             services.TryAddSingleton(s => s.GetInstance<MarkdownPipelineBuilder>().UseYamlFrontMatter().Build());
-
 
             services.AddRazorPages(config =>
             {
@@ -136,6 +137,7 @@
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
 
             return app;

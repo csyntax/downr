@@ -6,6 +6,8 @@ namespace downr
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
 
+    using System.Text;
+
     using downr.Middleware;
 
     public class Startup
@@ -22,7 +24,21 @@ namespace downr
         public void ConfigureServices(IServiceCollection services)
             => services.AddDownr(this.config);
 
-        public void Configure(IApplicationBuilder app)
-            => app.UseDownr(this.config, this.env);
+        public void Configure(IApplicationBuilder app) 
+        {
+            app.Use(async (contenxt, next) => 
+            {
+                string githubIndexRaw = $"https://raw.githubusercontent.com/YanaSlavcheva/OnlineCv/master/index.html";
+
+                if (contenxt.Request.Path == "/cv")
+                {
+                    await contenxt.Response.BodyWriter.WriteAsync(Encoding.UTF8.GetBytes("CV"));
+                }
+ 
+                await next.Invoke();
+            });
+
+            app.UseDownr(this.config, this.env);
+        }
     }
 }
