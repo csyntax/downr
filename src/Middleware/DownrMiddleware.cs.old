@@ -6,6 +6,7 @@
     using System.IO.Compression;
     using System.Text.Encodings.Web;
 
+    using Microsoft.Extensions.Options;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.WebEncoders;
     using Microsoft.Extensions.FileProviders;
@@ -22,10 +23,10 @@
     using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.AspNetCore.ResponseCompression;
 
+    using Markdig;
+
     using downr.Services;
     using downr.Services.Posts;
-
-    using Markdig;
 
     using downr.Middleware.Rules;
     using downr.Middleware.Extensions;
@@ -45,6 +46,7 @@
 
             var textEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
 
+<<<<<<< HEAD
             services.AddOptions();
             services.AddMemoryCache();
             services.AddHttpClient();
@@ -55,6 +57,8 @@
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(mimeTypes);
             });
 
+=======
+>>>>>>> small changes improve perfomance
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
@@ -63,15 +67,28 @@
 
             services.Configure<DownrOptions>(config.GetSection("Downr"));
 
+            services.AddSingleton<DownrOptions>(s => s.GetRequiredService< IOptions<DownrOptions>>().Value);
+
             services.AddSingleton<IMarkdownContentLoader, MarkdownContentLoader>();
             services.AddSingleton<IYamlIndexer, YamlIndexer>();
             services.AddScoped<IPostService, PostService>();
 
             services.TryAddSingleton(s => s.GetInstance<MarkdownPipelineBuilder>().UseYamlFrontMatter().Build());
 
+<<<<<<< HEAD
+=======
+            services.AddOptions();
+            services.AddMemoryCache();
+
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(mimeTypes);
+            });
+
+>>>>>>> small changes improve perfomance
             services.AddRazorPages(config =>
             {
-                config.Conventions.Clear();
                 config.Conventions.AddPageRoute("/Index", "/Posts");
                 config.Conventions.AddPageRoute("/Post", "/Posts/{slug}");
                 config.Conventions.AddPageRoute("/Category", "/Categories/{name}");
@@ -80,8 +97,7 @@
             return services;
         }
 
-        public static IApplicationBuilder UseDownr(this IApplicationBuilder app,
-            IConfiguration config, IWebHostEnvironment env)
+        public static IApplicationBuilder UseDownr(this IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (string.IsNullOrWhiteSpace(env.WebRootPath))
             {

@@ -1,8 +1,4 @@
-﻿@inject IOptions<DownrOptions> downrOptions
-
-@{ 
-    var opt = this.downrOptions.Value;
-}
+﻿@inject DownrOptions opt
 
 <!doctype html>
 <html>
@@ -120,9 +116,9 @@
         <footer class="container">
             <p>(c) 2015 - @DateTime.Now.Year @opt.Author</p>
             <p>
-                <a href="@downrOptions.Value.Twitter" target="_blank" rel="me">Twitter</a>
-                <a href="@downrOptions.Value.GitHub" target="_blank" rel="me">GitHub</a>
-                <a href="@downrOptions.Value.LinkedIn" target="_blank" rel="me">LinkedIn</a>
+                <a href="@opt.Twitter" target="_blank" rel="me">Twitter</a>
+                <a href="@opt.GitHub" target="_blank" rel="me">GitHub</a>
+                <a href="@opt.LinkedIn" target="_blank" rel="me">LinkedIn</a>
             </p>
         </footer>
 
