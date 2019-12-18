@@ -99,7 +99,7 @@
             }
             else
             {
-                //rewriteOptions.AddRedirectToWww();
+                rewriteOptions.AddRedirectToWww();
 
                 app.UseExceptionHandler("/Error");
             }
@@ -137,7 +137,6 @@
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapControllers();
             });
 
             return app;
