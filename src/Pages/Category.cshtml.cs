@@ -1,9 +1,11 @@
 namespace downr.Pages
 {
+    using System.Collections.Generic;
+
+    using Microsoft.AspNetCore.Mvc;
+
     using downr.Models;
     using downr.Services.Posts;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
 
     public class CategoryModel : BaseModel
     {
@@ -12,13 +14,10 @@ namespace downr.Pages
         public CategoryModel(IPostService postService)
             => this.postService = postService;
 
-        [BindProperty]
         public ICollection<Document> Posts { get; private set; }
 
-        [BindProperty]
         public int Count { get; private set; }
 
-        [BindProperty]
         public string Tag { get; private set; }
 
         public IActionResult OnGet(string name)
