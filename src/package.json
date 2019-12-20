@@ -1,7 +1,0 @@
-{
-  "name": "downr",
-  "version": "3.0.0",
-  "description": "Dirt-simple markdown blog system built using ASP.NET Core and Razor Pages.",
-  "author": "Ivan Ivanov",
-  "license": "Apache-2.0"
-}

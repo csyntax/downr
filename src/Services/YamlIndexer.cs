@@ -73,10 +73,7 @@
                         Slug = slug,
                         Title = result[Constants.Meta.Title],
                         Date = DateTime.ParseExact(result[Constants.Meta.Date], "dd-MM-yyyy", CultureInfo.InvariantCulture),
-                        Categories = result[Constants.Meta.Categories]
-                            .Split(',')
-                            .Select(c => c.Trim())
-                            .ToArray(),
+                        Tags = result[Constants.Meta.Tags].Split(',').Select(c => c.Trim()).ToArray(),
                     };
 
                     var document = new Document

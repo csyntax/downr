@@ -2,7 +2,7 @@
 title: Microsoft пуска SQL Server за Linux
 slug: microsoft-announcing-sql-server-on-linux
 date: 14-03-2016
-categories: Linux, Docker, ASP.NET, .NET
+tags: Linux, Docker, ASP.NET, .NET
 ---
 
 ![Microsoft пуска SQL Server за Linux](media/header.png)

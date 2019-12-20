@@ -1,8 +1,9 @@
 namespace downr.Pages
 {
+    using Microsoft.AspNetCore.Mvc;
+
     using downr.Models;
     using downr.Services.Posts;
-    using Microsoft.AspNetCore.Mvc;
 
     public class PostModel : BaseModel
     {

@@ -2,7 +2,7 @@
 title: Why NGINX Practically Better Than Apache
 slug: why-nginx-practically-better-than-apache
 date: 20-07-2018
-categories: Nginx
+tags: Nginx
 ---
 
 ![NGINX vs Apache](media/nginx-vs-apache.png)

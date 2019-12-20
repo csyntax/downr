@@ -2,7 +2,7 @@
 title: ASP.NET Core Dependency Injection
 slug: aspnet-core-dependency-injection-overview
 date: 05-09-2018
-categories: .NET, ASP.NET
+tags: .NET, ASP.NET
 ---
 
 ![ASP.NET Core Dependency Injection](media/header.jpg)

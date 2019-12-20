@@ -1,6 +1,5 @@
 ﻿namespace downr.Middleware
 {
-    using System;
     using System.Linq;
     using System.Text.Unicode;
     using System.IO.Compression;
@@ -46,19 +45,6 @@
 
             var textEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
 
-<<<<<<< HEAD
-            services.AddOptions();
-            services.AddMemoryCache();
-            services.AddHttpClient();
-
-            services.AddResponseCompression(options =>
-            {
-                options.Providers.Add<GzipCompressionProvider>();
-                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(mimeTypes);
-            });
-
-=======
->>>>>>> small changes improve perfomance
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Fastest);
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
@@ -75,8 +61,6 @@
 
             services.TryAddSingleton(s => s.GetInstance<MarkdownPipelineBuilder>().UseYamlFrontMatter().Build());
 
-<<<<<<< HEAD
-=======
             services.AddOptions();
             services.AddMemoryCache();
 
@@ -86,7 +70,6 @@
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(mimeTypes);
             });
 
->>>>>>> small changes improve perfomance
             services.AddRazorPages(config =>
             {
                 config.Conventions.AddPageRoute("/Index", "/Posts");
@@ -153,7 +136,6 @@
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapControllers();
             });
 
             return app;

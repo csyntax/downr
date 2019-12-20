@@ -1,5 +1,6 @@
 ﻿namespace downr
 {
+    using System;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -8,11 +9,11 @@
     using Microsoft.Extensions.Configuration;
 
     using Microsoft.AspNetCore.Hosting;
-    using System;
 
     public class Program
     {
-        public static async Task Main(string[] args) => await CreateHostBuilder(args).RunConsoleAsync();
+        public static async Task Main(string[] args) 
+            => await CreateHostBuilder(args).RunConsoleAsync();
 
         private static IHostBuilder CreateHostBuilder(string[] args)
             => Host.CreateDefaultBuilder(args)
@@ -53,7 +54,7 @@
             {
                 try
                 {
-                    string port = Environment.GetEnvironmentVariable("PORT");
+                    var port = Environment.GetEnvironmentVariable("PORT");
 
                     return int.Parse(port);
                 }

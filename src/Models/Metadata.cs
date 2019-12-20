@@ -10,6 +10,6 @@
 
         public DateTime Date { get; set; }
 
-        public string[] Categories { get; set; }
+        public string[] Tags { get; set; }
     }
 }

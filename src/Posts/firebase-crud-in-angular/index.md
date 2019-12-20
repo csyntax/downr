@@ -1,7 +1,7 @@
 ---
 title: Firebase CRUD Operations in Angular
 slug: firebase-crud-in-angular
-categories: Angular, JavaScript
+tags: Angular, JavaScript
 date: 20-08-2018
 ---
 

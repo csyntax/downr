@@ -18,10 +18,10 @@
                 </time>
             </a>
 
-            @foreach (var category in post.Metadata.Categories)
+            @foreach (var tag in post.Metadata.Tags)
             {
-                <a asp-page="./Category" asp-route-name="@category" class="btn btn-sm btn-secondary float-right">
-                    <i class="right chevron icon"></i> @category
+                <a asp-page="./Tag" asp-route-name="@tag" class="btn btn-sm btn-secondary float-right">
+                    <i class="right chevron icon"></i> @tag
                 </a>
             }
         </div>

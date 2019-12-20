@@ -2,7 +2,7 @@
 title: Защо харесвам Go?
 slug: why-i-like-golang
 date: 05-01-2018
-categories: Go
+tags: Go
 ---
 
 ![Защо харесвам Go?](media/header.png)

@@ -2,7 +2,7 @@
 title: Квантови компютри и Q#
 slug: quantum-computing-and-qsharp
 date: 24-01-2018
-categories: .NET, Windows
+tags: .NET, Windows
 ---
 
 ![Квантови компютри и Q#](media/header.png)

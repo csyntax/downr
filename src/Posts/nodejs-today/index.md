@@ -2,7 +2,7 @@
 title: Възходът на Node.js
 slug: nodejs-today
 date: 25-09-2015
-categories: JavaScript
+tags: JavaScript
 ---
 
 ![Node.js today](media/header.jpg)

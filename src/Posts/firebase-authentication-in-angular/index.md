@@ -1,7 +1,7 @@
 ---
 title: Firebase Authentication in Angular
 date: 05-08-2018
-categories: Angular, JavaScript
+tags: Angular, JavaScript
 ---
 
 ![Firebase Authentication in Angular](media/header.png)

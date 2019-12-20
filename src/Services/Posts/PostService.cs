@@ -12,13 +12,13 @@
 
         public PostService(IYamlIndexer yamlIndexer) => this.yamlIndexer = yamlIndexer;
 
-        public ICollection<Document> GetPostsList(string category = null)
+        public ICollection<Document> GetPostsList(string tag = null)
         {
             var posts = this.Posts.ToList();
 
-            if (category != null)
+            if (tag != null)
             {
-                posts = this.Posts.Where(p => p.Metadata.Categories.Contains(category)).ToList();
+                posts = this.Posts.Where(p => p.Metadata.Tags.Contains(tag)).ToList();
             }
 
             return posts;
@@ -83,13 +83,6 @@
 
         private IEnumerable<Metadata> Metadata => this.Posts.AsParallel().Select(s => s.Metadata);
 
-        private IEnumerable<string> Tags =>
-            this.Metadata
-                .SelectMany(c => c.Categories)
-                .OrderBy(c => c)
-                .ToHashSet();
-                /*.GroupBy(c => c)
-                .Select(c => c.Key)
-                .OrderBy(c => c);*/
+        private IEnumerable<string> Tags => this.Metadata.SelectMany(c => c.Tags).OrderBy(c => c).ToHashSet();
     }
 }

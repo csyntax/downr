@@ -2,7 +2,7 @@
 title: Как управлявам Hyper-V платформата?
 slug: how-manage-hyperv-platform
 date: 09-07-2015
-categories: .NET, Windows
+tags: .NET, Windows
 ---
 
 В моята практика понягога ми се налага да използвам както Hyper-V за Windows Phone,

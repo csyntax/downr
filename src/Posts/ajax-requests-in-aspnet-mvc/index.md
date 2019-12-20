@@ -2,7 +2,7 @@
 title: Ajax заявки в ASP.NET MVC
 slug: ajax-requests-in-aspnet-mvc
 date: 15-06-2017
-categories: ASP.NET
+tags: ASP.NET
 ---
 
 Наскоро ми се наложи да правя ASP.NET MVC приложение

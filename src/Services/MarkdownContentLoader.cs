@@ -47,17 +47,6 @@
 
                 }
 
-                /*if (nodes != null)
-                {
-                    Parallel.ForEach(nodes, (node) =>
-                    {
-                        var src = node.Attributes["src"].Value.Replace("media/", $"/posts/{slug}/media/");
-
-                        node.SetAttributeValue("src", src);
-                        node.SetAttributeValue("class", "img-fluid");
-                    });
-                }*/
-
                 return htmlDoc.DocumentNode.OuterHtml;
             }
         }

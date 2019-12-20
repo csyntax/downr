@@ -20,7 +20,7 @@
 
             internal static string Date => nameof(Metadata.Date).ToLower();
 
-            internal static string Categories => nameof(Metadata.Categories).ToLower();
+            internal static string Tags => nameof(Metadata.Tags).ToLower();
         }
     }
 }
