@@ -1,4 +1,4 @@
-# downr3
+# downr5
 
 Dirt-simple markdown blog system built using *ASP.NET Core* and *Razor Pages*.
 
@@ -20,9 +20,9 @@ The top section of each Markdown file must contain a YAML header with some simpl
 
 ```yaml
 ---
-title: Introducing downr3
-date: 09-08-2018
-categories: downr
+title: Introducing downr5
+date: 03-03-2020
+categories: downr, blogging
 ---
 ```
 
