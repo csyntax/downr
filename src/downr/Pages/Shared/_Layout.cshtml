@@ -1,27 +1,23 @@
-﻿@inject DownrOptions opt
-
-<!doctype html>
+﻿<!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
         <meta name="robots" content="index, follow">
+        <meta name="description" content="@GlobalConstants.Description">
 
-        <title>@ViewData["Title"] - @opt.Title</title>
-
-        <meta name="description" content="@opt.Description">
+        <title>@ViewData["Title"] - @GlobalConstants.Title</title>
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:500,700">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/default.min.css">
-        <link rel="stylesheet" href="/static/css/site.css">
+        <link rel="stylesheet" href="/css/site.css">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" asp-page="./Index">
-                <img src="/static/images/logo.svg" alt="Logo" class="logo">
+                <img src="/images/logo.svg" alt="Logo" class="logo">
             </a>
             <button class="navbar-toggler"
                     type="button"
@@ -50,7 +46,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card me">
-                        <img class="card-img-top" src="/static/images/man.jpg" alt="Ivan Ivanov profile picture" />
+                        <img class="card-img-top" src="/images/man.jpg" alt="Ivan Ivanov profile picture" />
                         <div class="card-body">
                             <h5 class="card-title">Ivan Ivanov</h5>
                             <p class="card-text about-me-text">
@@ -70,57 +66,14 @@
                             </p>
                         </div>
                     </div>
-
-                    <div class="card me">
-                        <div class="card-body">
-                            <h5 class="card-title">Useful</h5>
-                            <ul class="nav nav-pills flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="https://www.youtube.com/channel/UCljus-YO63ae0vwuuPWDasA">
-                                        C# in 15 minutes
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="https://www.limbro.io">Limbro Startup</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="https://mytestedasp.net">My Tested ASP.NET</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="https://cryptobook.nakov.com/">
-                                        Practical Cryptography for Developers
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="https://minkov.it/">
-                                        Doncho Minkov
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="http://nikolay.it/">
-                                        Nikolay Kostov
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="https://www.inesivanova.com/">
-                                        Ines Ivanova
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div>
 
-        <footer class="container">
-            <p>(c) 2015 - @DateTime.Now.Year @opt.Author</p>
-            <p>
-                <a href="@opt.Twitter" target="_blank" rel="me">Twitter</a>
-                <a href="@opt.GitHub" target="_blank" rel="me">GitHub</a>
-                <a href="@opt.LinkedIn" target="_blank" rel="me">LinkedIn</a>
-            </p>
-        </footer>
+            <footer>
+                <p>(c) 2015 - @DateTime.Now.Year @GlobalConstants.Author</p>
+                <p>This project build with <a href="https://github.com/csyntax/downr">Downr.</a></p>
+            </footer>
+        </div>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

@@ -41,8 +41,6 @@
                          serverOptions.Limits.MaxConcurrentConnections = 100;
                          serverOptions.Limits.MaxConcurrentUpgradedConnections = 100;
                          serverOptions.Limits.MaxRequestBodySize = 10 * 1024;
-
-                         serverOptions.ListenAnyIP(5000);
                      })
                      .UseStartup<Startup>();
                  });

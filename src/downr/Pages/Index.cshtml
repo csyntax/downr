@@ -13,7 +13,7 @@
     <nav aria-label="Page navigation." class="pagination">
         <ul class="pagination">
             <li class="page-item">
-                <a href="/posts.html?page=@Model.PreviousPage" class="page-link" aria-label="Previous">
+                <a href="/posts?page=@Model.PreviousPage" class="page-link" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                 </a>
@@ -25,19 +25,19 @@
                 @if (Model.CurrentPage == i)
                 {
                     <li class="page-item active">
-                        <a href="/posts.html?page=@i" class="page-link">@i</a>
+                        <a href="/posts?page=@i" class="page-link">@i</a>
                     </li>
                 }
                 else
                 {
                     <li class="page-item">
-                        <a href="/posts.html?page=@i" class="page-link">@i</a>
+                        <a href="/posts?page=@i" class="page-link">@i</a>
                     </li>
                 }
             }
 
             <li class="page-item">
-                <a href="/posts.html?page=@Model.NextPage" class="page-link" aria-label="Next">
+                <a href="/posts?page=@Model.NextPage" class="page-link" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
                 </a>

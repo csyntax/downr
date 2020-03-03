@@ -16,38 +16,31 @@
         public MarkdownContentLoader(MarkdownPipeline markdownPipeline)
             => this.markdownPipeline = markdownPipeline;
 
-        public async Task<string> ContentRender(string path, string slug)
+        public string ContentRender(string rawContent, string slug)
         {
             var htmlDoc = new HtmlDocument();
+            var html = Markdown.ToHtml(rawContent, this.markdownPipeline);
 
-            using (var reader = new StreamReader(path, Encoding.UTF8))
+            htmlDoc.LoadHtml(html);
+
+            var nodes = htmlDoc.DocumentNode.SelectNodes("//img[@src]");
+
+            try
             {
-                var content = await reader.ReadToEndAsync();
-                content = content.TrimStart('\r', '\n', '\t', ' ');
-
-                var html = Markdown.ToHtml(content, this.markdownPipeline);
-
-                htmlDoc.LoadHtml(html);
-
-                var nodes = htmlDoc.DocumentNode.SelectNodes("//img[@src]");
-
-                try
+                nodes.AsParallel().ForAll(node =>
                 {
-                    nodes.AsParallel().ForAll(node =>
-                    {
-                        var src = node.Attributes["src"].Value.Replace("media/", $"/posts/{slug}/media/");
+                    var src = node.Attributes["src"].Value.Replace("media/", $"/posts/{slug}/media/");
 
-                        node.SetAttributeValue("src", src);
-                        node.SetAttributeValue("class", "img-fluid");
-                    });
-                } 
-                catch (ArgumentNullException)
-                {
-
-                }
-
-                return htmlDoc.DocumentNode.OuterHtml;
+                    node.SetAttributeValue("src", src);
+                    node.SetAttributeValue("class", "img-fluid");
+                });
             }
+            catch (ArgumentNullException)
+            {
+
+            }
+
+            return htmlDoc.DocumentNode.OuterHtml;
         }
     }
 }

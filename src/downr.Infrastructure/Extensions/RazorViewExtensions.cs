@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Html;
     using Microsoft.AspNetCore.Mvc.Rendering;
     
-    public static class ViewExtensions
+    public static class RazorViewExtensions
     {
         public static IHtmlContent Truncate(this IHtmlHelper helper, string content, int snippetLength = 250)
         {

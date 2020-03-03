@@ -73,7 +73,7 @@
             return result;
         }
 
-        public string[] GetTags() => this.Tags.ToArray();
+        public string[] GetTags() => this.Tags.ToHashSet().ToArray();
 
         public string GetTag(string name) =>
             this.Tags.FirstOrDefault(c => string.Compare(c.ToLower(), name.ToLower(), true) == 0);

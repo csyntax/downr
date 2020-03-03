@@ -9,12 +9,13 @@
 
     using downr.Services.Posts;
 
-    public class TagsViewComponent : ViewComponent
+    [ViewComponent(Name = "Tags")]
+    public class TagsComponent : ViewComponent
     {
         private readonly IPostService postService;
         private readonly IMemoryCache memoryCache;
 
-        public TagsViewComponent(IMemoryCache memoryCache, IPostService postService)
+        public TagsComponent(IMemoryCache memoryCache, IPostService postService)
         {
             this.memoryCache = memoryCache;
             this.postService = postService;

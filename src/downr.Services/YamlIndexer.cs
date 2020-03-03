@@ -84,7 +84,7 @@
             var document = new Document
             {
                 Metadata = metadata,
-                Content = await this.contentLoader.ContentRender(indexFile, slug)
+                Content = this.contentLoader.ContentRender(rawContent, slug)
             };
 
             return document;
