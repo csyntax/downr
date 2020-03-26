@@ -1,4 +1,4 @@
-﻿namespace downr.Models
+﻿namespace downr.Models.Abstractions
 {
     public abstract class PaginationModel : BaseModel
     {

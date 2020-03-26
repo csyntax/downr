@@ -10,14 +10,15 @@
         <title>@ViewData["Title"] - @GlobalConstants.Title</title>
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:500,700">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/default.min.css">
-        <link rel="stylesheet" href="/css/site.css">
+        
+        <link rel="stylesheet" href="/css/main.css">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" asp-page="./Index">
-                <img src="/images/logo.svg" alt="Logo" class="logo">
+                <img src="~/img/logo.svg" alt="Logo" class="logo">
             </a>
             <button class="navbar-toggler"
                     type="button"
@@ -46,7 +47,7 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card me">
-                        <img class="card-img-top" src="/images/man.jpg" alt="Ivan Ivanov profile picture" />
+                        <img class="card-img-top" src="~/img/man.jpg" alt="Ivan Ivanov profile picture" />
                         <div class="card-body">
                             <h5 class="card-title">Ivan Ivanov</h5>
                             <p class="card-text about-me-text">
@@ -57,7 +58,7 @@
                                 development wokstation.
                             </p>
                             <p class="card-text text-center">
-                                <img class="img-fluid" width="90" src="/static/images/csyntaxnet_nametag.png" alt="Instagram" />
+                                <img class="img-fluid" width="90" src="~/img/csyntaxnet_nametag.png" alt="Instagram" />
                             </p>
                             <p class="card-text text-center">
                                 <a class="twitter-follow-button" href="https://twitter.com/csyntaxdev" target="_blank">
@@ -68,17 +69,55 @@
                     </div>
                 </div>
             </div>
-
-            <footer>
-                <p>(c) 2015 - @DateTime.Now.Year @GlobalConstants.Author</p>
-                <p>This project build with <a href="https://github.com/csyntax/downr">Downr.</a></p>
-            </footer>
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <footer class="pt-4 my-md-5 pt-md-5 border-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <img class="mb-2" src="~/img/man.jpg" alt="" width="90" height="90">
+                        <small class="d-block mb-3 text-muted">&copy; 2015 - @DateTime.Now.Year <br /> @GlobalConstants.Author</small>
+                        <small class="d-block mb-3 text-muted">
+                            This project has running with 
+                            <a href="https://github.com/csyntax/downr">downr-@GlobalConstants.Version</a>
+                        </small>
+                    </div>
+                    <div class="col-6 col-md">
+                        <h5>Links</h5>
+                        <ul class="list-unstyled text-small">
+                            <li><a class="text-muted" href="https://cryptobook.nakov.com/">Practical Cryptography for Developers</a></li>
+                            <li><a class="text-muted" href="https://github.com/ivaylokenov/MyTested.AspNetCore.Mvc">MyTested.AspNetCore.Mvc</a></li>
+                            <li><a class="text-muted" href="https://github.com/ivaylokenov/AspNet.Mvc.TypedRouting">AspNet.Mvc.TypedRouting</a></li>
+                            <li><a class="text-muted" href="https://github.com/The-CSharp-Bridge/MissingFeatures.NET">MissingFeatures.NET</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-md">
+                        <h5>Channels</h5>
+                        <ul class="list-unstyled text-small">
+                            <li><a class="text-muted" href="https://channel9.msdn.com/">Channel9</a></li>
+                            <li><a class="text-muted" href="https://www.youtube.com/channel/UCP5Ons7fK3yKhX6lhc9XcfQ">My Tested ASP NET TV</a></li>
+                            <li><a class="text-muted" href="https://www.youtube.com/channel/UCljus-YO63ae0vwuuPWDasA">C# in 15 minutes</a></li>
+                            <li><a class="text-muted" href="#">Final resource</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-md">
+                        <h5>Some projects</h5>
+                        <ul class="list-unstyled text-small">
+                            <li><a class="text-muted" href="https://github.com/csyntax/dance_radio">Dance Radio</a></li>
+                            <li><a class="text-muted" href="https://github.com/csyntax/downr">downr</a></li>
+                            <li><a class="text-muted" href="https://github.com/csyntax/BlogSystem">BlogSystem</a></li>
+                            <li><a class="text-muted" href="https://github.com/csyntax/TicTacToe">Tic Tac Toe</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+
+        <script src="~/js/main.js"></script>
 
         <script>
             window.twttr = (function (d, s, id) {
@@ -98,7 +137,5 @@
                 return t;
             }(document, "script", "twitter-wjs"));
         </script>
-
-        @RenderSection("Scripts", required: false)
     </body>
 </html>

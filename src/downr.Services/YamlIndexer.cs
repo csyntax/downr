@@ -28,24 +28,10 @@
 
         public List<Document> Documents { get; private set; }
 
-        /* public async Task IndexContentFiles(string contentPath)
-             => await Task.Run(() =>
-             {
-                 this.logger.LogInformation("Loading post content...");
-                 this.Documents = Directory
-                     .GetDirectories(contentPath)
-                     .Select(dir => Path.Combine(dir, "index.md"))
-                     .Select(this.ParseMetadata)
-                     .Select(m => m.Result)
-                     .Where(m => m != null)
-                     .OrderByDescending(x => x.Metadata.Date)
-                     .ToList();
-                 this.logger.LogInformation($"Loaded {this.Documents.Count} posts");
-             });*/
-
         public async Task IndexContentFiles(string contentPath)
         {
-            var documents = await Task.WhenAll(Directory
+            var documents = await Task.WhenAll(
+                Directory
                      .GetDirectories(contentPath)
                      .Select(dir => Path.Combine(dir, "index.md"))
                      .Select(this.ParseMetadata));
@@ -84,7 +70,7 @@
             var document = new Document
             {
                 Metadata = metadata,
-                Content = this.contentLoader.ContentRender(rawContent, slug)
+                Content = await this.contentLoader.ContentRender(rawContent, slug)
             };
 
             return document;

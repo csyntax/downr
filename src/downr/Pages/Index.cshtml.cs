@@ -1,25 +1,28 @@
 ﻿namespace downr.Pages
 {
-    using downr.Models;
-    using downr.Services.Posts;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
 
+    using downr.Models;
+    using downr.Models.Abstractions;
+
+    using downr.Services.Posts;
+    
     public class IndexModel : PaginationModel
     {
         private readonly IPostService postService;
 
-        public IndexModel(IPostService postService)
-            => this.postService = postService;
+        private Document[] posts;
 
-        [BindProperty]
-        public ICollection<Document> Posts { get; private set; }
+        public IndexModel(IPostService postService) => 
+            this.postService = postService;
+
+        public Document[] Posts => this.posts;
 
         public IActionResult OnGet([FromQuery(Name = "page")] int page = 1)
         {
             var pagedPosts = this.postService.GetPagedList(page);
 
-            this.Posts = pagedPosts.posts;
+            this.posts = pagedPosts.posts;
             this.CurrentPage = pagedPosts.currentPage;
             this.PagesCount = pagedPosts.pagesCount;
 

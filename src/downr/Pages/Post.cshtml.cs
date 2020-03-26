@@ -3,6 +3,8 @@ namespace downr.Pages
     using Microsoft.AspNetCore.Mvc;
 
     using downr.Models;
+    using downr.Models.Abstractions;
+
     using downr.Services.Posts;
 
     public class PostModel : BaseModel

@@ -1,4 +1,4 @@
-﻿namespace downr.Models
+﻿namespace downr.Models.Abstractions
 {
     using Microsoft.AspNetCore.Mvc.RazorPages;
 

@@ -6,15 +6,15 @@
 
     public interface IPostService
     {
-        ICollection<Document> GetPostsList(string category = null);
+        Document[] GetPosts(string category = null);
 
-        (int currentPage, ICollection<Document> posts, int pagesCount) GetPagedList(int page, int perPage = 5);
+        (int currentPage, Document[] posts, int pagesCount) GetPagedList(int page, int perPage = 5);
 
         int PostsCount(string category = null);
 
         Document GetBySlug(string slug);
 
-        (Metadata previous, Metadata next) GetPreviousAndNextPosts(string slug);
+        LinkedListNode<Metadata> GetPrevAndNextPosts(string slug);
 
         public string[] GetTags();
 

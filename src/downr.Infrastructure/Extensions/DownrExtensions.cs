@@ -117,14 +117,17 @@
             return app;
         }
 
-        public static IApplicationBuilder UseDownr(this IApplicationBuilder app)
-        {
-            app.UseRouting();
-            app.UseStaticFiles();
-            app.UseDownrStaticFiles();
-
+        public static IApplicationBuilder UseDownrContent(this IApplicationBuilder app) => 
             app.UseMiddleware<DownrContentMiddleware>();
 
+        public static IApplicationBuilder UseDownr(this IApplicationBuilder app)
+        { 
+            app.UseStaticFiles();
+
+            app.UseDownrContent();
+            app.UseDownrStaticFiles();
+
+            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

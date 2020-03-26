@@ -1,39 +1,41 @@
 namespace downr.Pages
-{
-    using System.Collections.Generic;
-    
+{  
     using Microsoft.AspNetCore.Mvc;
 
     using downr.Models;
+    using downr.Models.Abstractions;
+
     using downr.Services.Posts;
 
     public class CategoryModel : BaseModel
     {
         private readonly IPostService postService;
 
-        public CategoryModel(IPostService postService)
-            => this.postService = postService;
+        private int count;
+        private string tag;
+        private Document[] posts;
 
-        [BindProperty]
-        public ICollection<Document> Posts { get; private set; }
+        public CategoryModel(IPostService postService) => 
+            this.postService = postService;
 
-        [BindProperty]
-        public int Count { get; private set; }
+ 
+        public int Count => this.count;
 
-        [BindProperty]
-        public string Tag { get; private set; }
+        public string Tag => this.tag;
+
+        public Document[] Posts => this.posts;
 
         public IActionResult OnGet(string name)
         {
-            this.Tag = this.postService.GetTag(name);
+            this.tag = this.postService.GetTag(name);
 
-            if (string.IsNullOrEmpty(this.Tag))
+            if (string.IsNullOrEmpty(this.tag))
             {
                 return this.RedirectToPage("./Index");
             }
 
-            this.Posts = this.postService.GetPostsList(this.Tag);
-            this.Count = this.postService.PostsCount(this.Tag);
+            this.posts = this.postService.GetPosts(this.tag);
+            this.count = this.postService.PostsCount(this.tag);
 
             return this.Page();
         }

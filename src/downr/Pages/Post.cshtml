@@ -8,7 +8,7 @@
 @{
     this.ViewData["Title"] = Model.Post.Metadata.Title;
 
-    var prevNext = this.postService.GetPreviousAndNextPosts(Model.Post.Metadata.Slug);
+    var prevAndNext = this.postService.GetPrevAndNextPosts(Model.Post.Metadata.Slug);
 }
 
 <article id="article-@Model.Post.Metadata.Slug">
@@ -34,28 +34,24 @@
     @Html.Raw(Model.Post.Content)
 
     <div class="clearfix">
-        @if (prevNext.previous != null)
+        @try
         {
-            <a asp-page="./Post" asp-route-slug="@prevNext.previous.Slug" class="btn btn-secondary float-left">
+            var prev = prevAndNext.Previous.Value;
+            <a asp-page="./Post" asp-route-slug="@prev.Slug" class="btn btn-secondary float-left">
                 <i class="arrow left icon"></i>
-                @prevNext.previous.Title
+                @prev.Title
             </a>
         }
+        catch (NullReferenceException) { }
 
-        @if (prevNext.next != null)
+        @try
         {
-            <a asp-page="./Post" asp-route-slug="@prevNext.next.Slug" class="btn btn-secondary float-right">
-                @prevNext.next.Title
+            var next = prevAndNext.Next.Value;
+            <a asp-page="./Post" asp-route-slug="@next.Slug" class="btn btn-secondary float-right">
+                @next.Title
                 <i class="arrow right icon"></i>
             </a>
         }
+        catch (NullReferenceException) { }
     </div>
 </article>
-
-@section scripts {
-    <script>
-        $(document).ready(() => {
-            $('pre code').each((i, block) => hljs.highlightBlock(block));
-        });
-    </script>
-}

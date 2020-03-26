@@ -1,9 +1,12 @@
 ﻿namespace downr.Infrastructure.Extensions
 {
+    using System;
     using System.Linq;
-
-    using HtmlAgilityPack;
-
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using AngleSharp;
+    using AngleSharp.Html.Parser;
+    
     using Microsoft.AspNetCore.Html;
     using Microsoft.AspNetCore.Mvc.Rendering;
     
@@ -11,11 +14,11 @@
     {
         public static IHtmlContent Truncate(this IHtmlHelper helper, string content, int snippetLength = 250)
         {
-            content = content.RemoveHtmlTags();
+            content = content.StripHtml();
 
             if (snippetLength < content.Length)
             {
-                int index = content.LastIndexOfAny(new char[] { ' ', '\n', 'r', '\t' }, snippetLength);
+                int index = content.LastIndexOfAny(new char[] { '.' }, snippetLength);
 
                 if (index < 0)
                 {
@@ -25,27 +28,39 @@
                 content = content.Substring(0, index).TrimEnd();
             }
 
-            return helper.Raw(content);
+            return helper.Raw($"{content}...");
         }
 
-        private static string RemoveHtmlTags(this string markup)
+        private static string StripHtml(this string markup)
         {
-            if (string.IsNullOrEmpty(markup))
+            markup = Regex.Replace(markup, "\n(?![^<]*</pre>)", string.Empty);
+            markup = Regex.Replace(markup, @"<img\s[^>]*>(?:\s*?</img>)?", string.Empty);
+
+            /*
+             * Regex.Replace(input, "<.*?>", string.Empty);
+             * 
+             */
+
+            /*if (string.IsNullOrEmpty(markup))
             {
-                return string.Empty;
-            }
+                throw new NullReferenceException($"String {nameof(markup)} is null!");
+            }*/
 
-            var document = new HtmlDocument();
+            /*
+             * Scope this to service
+             */
 
-            document.LoadHtml(markup);
+            /* var config = Configuration.Default;
+             var context = BrowsingContext.New(config);
+             var parser = context.GetService<IHtmlParser>();
+             var document = parser.ParseDocument(markup);
 
-            document.DocumentNode
-                .Descendants()
-                .Where(n => n.Name == "pre")
-                .ToList()
-                .ForEach(n => n.Remove());
+            // document.GetElementsByTagName("pre").ToList().ForEach(n => n.Remove());
+            // document.GetElementsByTagName("img").ToList().ForEach(n => n.Remove());
 
-            return document.DocumentNode.InnerText;
+             return document.Body.TextContent;*/
+
+            return Regex.Replace(markup, "<.*?>", string.Empty);
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿namespace downr.Services
 {
-    using System;
-    using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Markdig;
-    using HtmlAgilityPack;
+    using AngleSharp;
+    using AngleSharp.Html.Parser;
 
     public class MarkdownContentLoader : IMarkdownContentLoader
     {
@@ -16,31 +14,24 @@
         public MarkdownContentLoader(MarkdownPipeline markdownPipeline)
             => this.markdownPipeline = markdownPipeline;
 
-        public string ContentRender(string rawContent, string slug)
+        public async Task<string> ContentRender(string rawContent, string slug)
         {
-            var htmlDoc = new HtmlDocument();
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+            var parser = context.GetService<IHtmlParser>();
+
             var html = Markdown.ToHtml(rawContent, this.markdownPipeline);
+            var document = await parser.ParseDocumentAsync(html);
 
-            htmlDoc.LoadHtml(html);
-
-            var nodes = htmlDoc.DocumentNode.SelectNodes("//img[@src]");
-
-            try
+            document.Images.ToList().ForEach(img =>
             {
-                nodes.AsParallel().ForAll(node =>
-                {
-                    var src = node.Attributes["src"].Value.Replace("media/", $"/posts/{slug}/media/");
+                var src = img.GetAttribute("src").Replace("media/", $"/posts/{slug}/media/");
 
-                    node.SetAttributeValue("src", src);
-                    node.SetAttributeValue("class", "img-fluid");
-                });
-            }
-            catch (ArgumentNullException)
-            {
+                img.SetAttribute("src", src);
+                img.SetAttribute("class", "img-fluid");
+            });
 
-            }
-
-            return htmlDoc.DocumentNode.OuterHtml;
+            return document.Body.OuterHtml;
         }
     }
 }

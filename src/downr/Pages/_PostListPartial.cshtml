@@ -7,9 +7,7 @@
             <h3>@post.Metadata.Title</h3>
         </a>
 
-        <cache expires-after="TimeSpan.FromDays(1)">
-            @Html.Truncate(post.Content)
-        </cache>
+        @Html.Truncate(post.Content)
 
         <div class="clearfix">
             <a asp-page="./Post" asp-route-slug="@post.Metadata.Slug" class="btn btn-sm btn-secondary float-left">

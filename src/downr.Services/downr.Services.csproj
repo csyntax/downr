@@ -6,8 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.21" />
-    <PackageReference Include="Markdig" Version="0.18.1" />
+    <PackageReference Include="AngleSharp" Version="0.13.0" />
+    <PackageReference Include="Markdig" Version="0.18.3" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="YamlDotNet" Version="8.1.0" />
   </ItemGroup>
 
